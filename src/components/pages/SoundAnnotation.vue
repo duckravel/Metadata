@@ -49,23 +49,20 @@
                         <div>
                         <p class='h5'>Select the pattern by voice</p>
                         <div class="p-2"> 
-                        <div class="d-flex justify-content-center">
-                            <span v-for='(item,key) in patternlist' :key='key' class="badge badge-secondary mr-2" :class="{'badge-danger':pattern==item}">{{item}}</span></div>
-                        <div class="d-flex justify-content-center my-3"><button class="btn btn-primary rounded-circle"
+                        <div class="d-flex justify-content-center flex-wrap ">
+                            <span v-for='(item,key) in patternlist' :key='key' class="badge badge-secondary mx-2 my-1" :class="{'badge-danger':pattern==item}">{{item}}</span></div>
+                        <div class="d-flex justify-content-center my-3"><button class="btn btn-primary rounded-circle" :class="{'btn-danger':patternmic}"
                             @click="recordcontrol('pattern')">
                             <font-awesome-icon icon="microphone-alt"/>
                         </button></div></div></div>
                         <div class="">
                             <p class='h5' for="content">Please record your intepretion</p>
-                            <div class="card-body bg-light" v-if='isRecord'>
-                                <p class="card-text">{{speechcontent}}</p>
+                            <div class="card-body bg-light">
+                                <p class="card-text" v-if='isRecord'>{{speechcontent}}</p>
+                                <p class="card-text" v-else>{{content}}</p>
                                 <div class="text-right">
-                                <button href="#" class="btn btn-primary rounded-circle" @click="recordcontrol('content')"><font-awesome-icon icon="microphone-alt"/></button></div>
-                            </div>
-                            <div class="card-body bg-light" v-else>
-                                <p class="card-text">{{content}}</p>
-                                <div class="text-right">
-                                <button href="#" class="btn btn-primary rounded-circle" @click="recordcontrol('content')"><font-awesome-icon icon="microphone-alt"/></button></div>
+                                <button href="#" class="btn btn-primary rounded-circle"  :class="{'btn-danger':contentmic}"
+                                @click="recordcontrol('content')"><font-awesome-icon icon="microphone-alt"/></button></div>
                             </div>
                         </div>
                     </div>
@@ -125,7 +122,7 @@ recognition.interimResults=true;
 export default {
     name:'SoundAnnotation',
     data(){return {contenttimelist:[],patterntimelist:[],currentpage:0,annotationdata:source.annotationdata,type:'',patternlist:pattern.pattern,templist:'',drawlist:[[],[],[],[],[]],isAdd:true,itemid:-1,showmodal:false,content:'',pattern:'',isSubmit:false,
-    recorditem:'',totext:'',speechcontent:'',speechresult:[],isRecord:false}},
+    recorditem:'',totext:'',speechcontent:'',speechresult:[],isRecord:false,patternmic:false,contentmic:false,}},
     components:{annoComponent,rowData,rowDisplay},
     methods:{
         ano_pageChange(dir){
@@ -218,8 +215,8 @@ export default {
             if(this.isRecord==false){
                 this.isRecord=true;
                 switch (action){
-                    case 'pattern':{this.patterntimelist.push([new Date()]);this.record();break;}
-                    case 'content':{this.contenttimelist.push([new Date()]);this.record();break;}
+                    case 'pattern':{this.patternmic=true;this.patterntimelist.push([new Date()]);this.record();break;}
+                    case 'content':{this.contentmic=true;this.contenttimelist.push([new Date()]);this.record();break;}
                 }
                 this.recorditem=action;
             }else
@@ -227,14 +224,14 @@ export default {
                 if (this.recorditem!=action){
                     alert(`Recording different items at the same time is not allowed`);
                     recognition.stop();
-                    this.isRecord=false;
+                    this.isRecord=false;this.patternmic=false;this.contentmic=false;
                     this.speechresult=[];this.recorditem='';
                     return
                 }
                 switch (action){
-                    case 'pattern':{this.patterntimelist[this.patterntimelist.length-1].push(new Date());
+                    case 'pattern':{this.patternmic=false;this.patterntimelist[this.patterntimelist.length-1].push(new Date());
                         this.endrecordpattern();break;}
-                    case 'content':{this.contenttimelist[this.contenttimelist.length-1].push(new Date());this.endcontent();break;}
+                    case 'content':{this.contentmic=false;this.contenttimelist[this.contenttimelist.length-1].push(new Date());this.endcontent();break;}
                 }
             }
         },
@@ -248,7 +245,7 @@ export default {
                 });
         },
         endrecordpattern(){
-            recognition.stop();
+            recognition.stop(); let isMatch;
             let word=(this.speechresult[this.speechresult.length-1]);
             if (word==undefined){
                 alert("Did not detect your voice, please record again");
