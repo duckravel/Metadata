@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Welcome from '@/components/Welcome'
 import TypeElement from '@/components/pages/TypeElement'
 import SoundElement from '@/components/pages/SoundElement'
+import TypeAnnotation from '@/components/pages/TypeAnnotation'
 Vue.use(Router)
 
 export default new Router({
@@ -21,6 +22,11 @@ export default new Router({
       path: '/sound_element',
       name: 'sound_element',
       component: SoundElement
+    },
+    {
+      path: '/type_annotation',
+      name: 'type_annotation',
+      component: TypeAnnotation
     },
   ]
 })

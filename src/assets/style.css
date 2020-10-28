@@ -50,7 +50,8 @@ box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1)
 .svgitem{
     position: absolute;
 }
-.cusom-imgbg{
+.custom-imgbg{
+    background-image: url('http://www.bom.gov.au/climate/drought/archive/20200908.drought1.lr.col.gif');
     background-size:auto 100%;
     background-repeat: no-repeat
 }
