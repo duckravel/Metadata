@@ -19,7 +19,6 @@ new Vue({
   el: '#app',
   router,
   components: { App },
-  // data(){return {userid:'123'}},
   template: '<App/>',
   created() {
     
