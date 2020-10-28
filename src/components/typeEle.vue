@@ -1,0 +1,83 @@
+<template>
+    <div>
+        <div  v-for='(element,index) in data' :key='index'> 
+            <div v-if ='index==page'>
+        <div class='row w-100'> 
+            <div class="col-md-4 bg-white mt-2 border-right">
+                <form action="" class="p-2">
+                    <div class="form-group">
+                        <label for="">Place </label>
+                        <input v-model='element.place'  type="text" class="form-control" id='Place' autocomplete="off" @focus="time_in('place')" @blur="time_out('place')" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Altername for place</label>
+                        <input v-model='element.Altername' type="text" class="form-control" id='Altername' autocomplete="off" @focus="time_in('Altername')" @blur="time_out('Altername')">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Category</label>
+                        <input v-model='element.Category' type="text" class="form-control" id='Category' autocomplete="off" @focus="time_in('Category')" @blur="time_out('Category')">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Description</label>
+                        <input v-model='element.Description' type="text" class="form-control" id='Description' autocomplete="off" @focus="time_in('Description')" @blur="time_out('Description')">
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-lg-6 ">
+                            <label for="" >Start time</label>
+                            <input v-model='element.StartTime' type="date" class="form-control" id='StartTime' @focus="time_in('StartTime')" @blur="time_out('StartTime')">
+                        </div>
+                        <div class="col-lg-6 ">
+                        <label for="" >End time</label>
+                        <input v-model='element.EndTime' type="date" class="form-control" id='EndTime' @focus="time_in('EndTime')" @blur="time_out('EndTime')">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-8 no-gutters p-0">
+                <iframe class="w-100 h-100" :src="link(element)"
+                frameborder="0"
+                ></iframe>
+            </div>
+        </div>
+        </div>
+        </div>
+    </div>
+</template>
+
+<script>
+export default {
+    name:'typeEle',
+    props:['element','data','page'],
+    data:function(){
+            return {inputs:'',inpute:'',place_time:0,alter_time:0,Cate_time:0,Cate_acc:0,Desc_time:0,Stime:0,Etime:0,pages:10,currentpage:0,}
+        },
+        methods:{
+            time_in(event){
+                this.inputs=new Date();
+            },
+            time_out(event){            
+                this.inpute=new Date();
+                let timeresult=this.time_esteimator(this.inputs,this.inpute,event);
+                this.$emit('timelistener',timeresult);
+            },
+            time_esteimator(t1,t2,event){
+                const vm=this;
+                let time=0;            
+                let second = t2.getSeconds()-t1.getSeconds();
+                let min= t2.getMinutes()-t1.getMinutes();
+                let hour = t2.getHours()-t1.getHours();
+                let day = t2.getDay()-t1.getDay();
+                time = (day*24*60*60)+(hour*60*60)+(min*60)+second;
+                switch(event){
+                    case 'place':{ vm.place_time+=time; return [vm.place_time,event]}
+                    case 'Altername':{ vm.alter_time+=time; return [vm.alter_time,event];}
+                    case 'Category':{ vm.Cate_time+=time;return [vm.Cate_time,event]}
+                    case 'Description':{vm.Desc_time+=time;return [vm.Desc_time,event]}
+                    case 'StartTime':{vm.Stime+=time;return [ vm.Stime,event]}
+                    case 'EndTime':{vm.Etime+=time;return [ vm.Etime,event]}
+                }
+            },
+            link(element){return `${element.materialLink}`}
+        },
+}
+</script>

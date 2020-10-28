@@ -34,25 +34,32 @@
                 </ul>
               </nav>
         </div>
-        <div class="contentarea">        
-            <typeEle :data='sourcedata' :page='currentpage'
-            v-on:timelistener='timeresult'></typeEle></div>
-        
-        
+        <div class="contentarea">
+        <soundEle v-on:catchdata='store_sounddata' :data="sourcedata" :page='currentpage'
+        ></soundEle>
+        </div>
     </div>
 </template>
-
 <script>
-// import Navbar from './Navbar';
-import typeEle from '../typeEle';
+import soundEle from '../soundEle';
 import source from '../../data/source.json'
-// var sourcedata = source.data
 export default {
-    name:'TypeElement',
-    props:['user'],
-    data(){return{currentpage:0,sourcedata:source.data,place_time:0,alter_time:0,Cate_time:0,Cate_acc:0,Desc_time:0,Stime:0,Etime:0}},
-    components:{typeEle},
+    data(){return {currentpage:0,sourcedata:source.data,place_time:0,alter_time:0,Cate_time:0,Cate_acc:0,Desc_time:0,Stime:0,Etime:0}},
+    components:{soundEle},
     methods:{
+        store_sounddata(result){
+            const vm=this;
+            let page=result.page,element=result.element,data=result.data,eletime=vm.time_cal(result.time[0],result.time[1]);
+            vm.sourcedata[page][element] = data;
+            switch(element){
+                case 'place':{vm.sourcedata[page].place_time+=eletime;break;}
+                case 'Altername':{vm.sourcedata[page].alter_time+=eletime;break;}
+                case 'Category':{vm.sourcedata[page].Cate_time+=eletime;break;}
+                case 'Description':{vm.sourcedata[page].Desc_time+=eletime;break;}
+                case 'StartTime':{ vm.sourcedata[page].Stime+=eletime;break;}
+                case 'EndTime':{vm.sourcedata[page].Etime+=eletime;break;}
+            }
+        },
         pageChange(dir){
                 //pageChange contains three seperate works: check data, store data, and change
                 const vm=this;
@@ -73,29 +80,14 @@ export default {
                 let list = [place,Altername,Category,StartTime,EndTime,Description];  
                 return list.every(ele=>ele.length>0);
             },
-        storeelement(page){
-                const vm=this;
-                vm.sourcedata[page].place_time+=vm.place_time;
-                vm.sourcedata[page].alter_time+=vm.alter_time;
-                vm.sourcedata[page].Cate_time+=vm.Cate_time;
-                vm.sourcedata[page].Desc_time+=vm.Desc_time;
-                vm.sourcedata[page].Stime+=vm.Stime;
-                vm.sourcedata[page].Etime+=vm.Etime;
-                //clear the time variables for the next calculation
-                vm.place_time=0;vm.alter_time=0;vm.Cate_time=0;vm.Desc_time=0;vm.Stime=0;vm.Etime=0;
-                },
-        timeresult(result){
-                const vm=this;
-                let time=result[0]; let field =result[1];
-                switch(field){
-                    case 'place':{vm.place_time=time;break;}
-                    case 'Altername':{vm.alter_time=time;break;}
-                    case 'Category':{vm.Cate_time=time;break;}
-                    case 'Description':{vm.Desc_time=time;break;}
-                    case 'StartTime':{vm.Stime=time;break;}
-                    case 'EndTime':{vm.Etime=time;break;}
-                }
-            },
+        time_cal(t1,t2){
+                let second = t2.getSeconds()-t1.getSeconds();
+                let min= t2.getMinutes()-t1.getMinutes();
+                let hour = t2.getHours()-t1.getHours();
+                let day = t2.getDay()-t1.getDay();
+                let time = (day*24*60*60)+(hour*60*60)+(min*60)+second;
+                return time},
     }
+    
 }
 </script>
