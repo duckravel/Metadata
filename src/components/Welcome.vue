@@ -9,7 +9,9 @@
                 <div class="col-md-8 p-5 bg-light col-6">
                     <p class="mb-5 align-middle">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos maxime at fugiat ut? Laborum, sunt laboriosam corporis accusantium placeat quia repellat, neque soluta quibusdam natus odio ipsum deleniti. Similique, voluptatibus!</p>   
                     <div class='row justify-content-around d-flex'>
-                        <a class="col-5 p-4 d-flex bg-primary align-items-center justify-content-center text-white">Entet the Survey</a>
+                        <a class="col-5 p-4 d-flex bg-primary align-items-center justify-content-center text-white"
+                        href='#' @click.prevent='startSurvey()'>
+                          {{userid}}Entet the Survey</a>
                     </div>
                 </div>
             </div>
@@ -21,8 +23,8 @@
 <script>
 export default {name: 'Welcome',
   methods:{
-  start(){    
-    const vm=this; vm.$router.push('/type_element')}
+  startSurvey(){
+    const vm=this; vm.$router.push(`/${this.$firCase}`)}
   },
 }
 </script>
