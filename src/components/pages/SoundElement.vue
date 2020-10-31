@@ -49,15 +49,15 @@ export default {
     methods:{
         store_sounddata(result){
             const vm=this;
-            let page=result.page,element=result.element,data=result.data,eletime=vm.time_cal(result.time[0],result.time[1]);
+            let page=result.page,element=result.element,data=result.data,eletime=vm.time_cal(result.time[0],result.time[1]),tempAcc = result.acc;
             vm.sourcedata[page][element] = data;
             switch(element){
-                case 'place':{vm.sourcedata[page].place_time+=eletime;break;}
-                case 'Altername':{vm.sourcedata[page].alter_time+=eletime;break;}
-                case 'Category':{vm.sourcedata[page].Cate_time+=eletime;break;}
-                case 'Description':{vm.sourcedata[page].Desc_time+=eletime;break;}
-                case 'StartTime':{ vm.sourcedata[page].Stime+=eletime;break;}
-                case 'EndTime':{vm.sourcedata[page].Etime+=eletime;break;}
+                case 'place':{vm.sourcedata[page].place_time+=eletime; vm.sourcedata[page].place_acc=tempAcc;break;}
+                case 'Altername':{vm.sourcedata[page].alter_time+=eletime;vm.sourcedata[page].alter_acc=tempAcc;break;}
+                case 'Category':{vm.sourcedata[page].Cate_time+=eletime;vm.sourcedata[page].Cate_acc=tempAcc;break;}
+                case 'Description':{vm.sourcedata[page].Desc_time+=eletime;vm.sourcedata[page].Desc_acc=tempAcc;break;}
+                case 'StartTime':{ vm.sourcedata[page].Stime+=eletime;vm.sourcedata[page].S_acc=tempAcc;break;}
+                case 'EndTime':{vm.sourcedata[page].Etime+=eletime;vm.sourcedata[page].E_acc=tempAcc;break;}
             }
         },
         storeelement(page){

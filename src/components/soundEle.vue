@@ -84,7 +84,7 @@ export default {
     props:['data','page'],//'element','itemid'
     // extends:typeelement,
     data() {return {
-            totext:'',speechresult:[],isRecord:false,timelist:[],
+            totext:'',speechresult:[],isRecord:false,timelist:[],confidence:0,
             recorditem:'',place:true,Altername:true,Category:true,Description:true,EndTime:true,StartTime:true}
         },
     methods: {
@@ -92,20 +92,20 @@ export default {
             if(this.isRecord==false){
                 vm.isRecord=true;
                 switch (ele){
-                    case 'place':{vm[ele]=false;vm.timelist.push(new Date());vm.record(ele);break;}
-                    case 'Altername':{vm[ele]=false;vm.timelist.push(new Date());vm.record(ele);break;} 
-                    case 'Category':{vm[ele]=false;vm.timelist.push(new Date());vm.record(ele);break;} 
-                    case 'Description':{vm[ele]=false;vm.timelist.push(new Date());vm.record(ele);break;} 
-                    case 'StartTime':{vm[ele]=false;vm.timelist.push(new Date());vm.record(ele);break;} 
-                    case 'EndTime':{vm[ele]=false;vm.timelist.push(new Date());vm.record(ele);break;} 
+                    case 'place':{vm.timelist.push(new Date());vm.record(ele);break;}
+                    case 'Altername':{vm.timelist.push(new Date());vm.record(ele);break;} 
+                    case 'Category':{vm.timelist.push(new Date());vm.record(ele);break;} 
+                    case 'Description':{vm.timelist.push(new Date());vm.record(ele);break;} 
+                    case 'StartTime':{vm.timelist.push(new Date());vm.record(ele);break;} 
+                    case 'EndTime':{vm.timelist.push(new Date());vm.record(ele);break;} 
                 }
                 this.recorditem=ele;
             }else
             {   this.isRecord=false;
                 if (this.recorditem!=ele){
                     recognition.stop();
-                    this[ele]=true;this[this.recorditem]=true;
                     this.speechresult=[];this.totext='';this.recorditem='';
+                    this[ele]=true;this[this.recorditem]=true;
                     alert(`Recording different items at the same time is not allowed`);
                     return
                 }else{
@@ -122,23 +122,29 @@ export default {
         record(ele,id){
             const vm=this;
             recognition.start();
+            recognition.onstart = function() {vm[ele]=false;};
             recognition.addEventListener('result', event => {
                 const text = Array.from(event.results).map(result => result[0]).map(result => result.transcript).join('')
+                let temp_con = Array.from(event.results).map(result=>result[0]).map(result=>result.confidence);
+                this.confidence=temp_con;
                 this.totext = `${text}.`;
                 this.speechresult.push(this.totext);
                 });
         },
         endrecord(ele,pageid){
             const vm=this;
-            recognition.stop();
-            this[ele]=true;
-            if (this.speechresult[this.speechresult.length-1]==undefined){
+            // recognition.stop();
+            recognition.abort();
+            recognition.onend = function() {vm[ele]=true;};
+            if (vm.speechresult[vm.speechresult.length-1]==undefined){
                 alert("Did not detect your voice, please record again");
                 return
-            }
-            let result = {page:pageid,element:ele,data:this.speechresult[this.speechresult.length-1],time:this.timelist};
-            this.$emit('catchdata',result);
-            this.speechresult=[];this.totext='';this.recorditem='';this.timelist=[];
+            };
+            let tempAcc =vm.confidence.reduce((a,b)=>{return a+b})/vm.confidence.length;
+            let result = {page:pageid,element:ele,data:vm.speechresult[vm.speechresult.length-1],time:this.timelist,acc:tempAcc};
+            vm.speechresult=[];vm.totext='';vm.recorditem='';vm.timelist=[];
+            vm.$emit('catchdata',result);
+            
             
         },
         link(element){return `${element.materialLink}`},

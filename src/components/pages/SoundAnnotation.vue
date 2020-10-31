@@ -75,35 +75,6 @@
             </div>
         </div>
     </div>
-    <!-- AlertModal --> 
-  <!-- <div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-sm">
-      <div class="modal-content">
-        <div class="ml-auto m-2">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-            <div class="container text-center" v-if='isSubmit'>
-                <p class="text-success"> <font-awesome-icon :icon="['far','check-circle']"/></p>
-                <p class='h4 mb-3'> Thanks for your contribution</p>
-                <p class="text-black-50">We are processing your data...</p>
-                <div class="d-flex justify-content-center"><div class="loader"></div></div>
-                </div>
-            <div class="container text-center" v-else>
-                <p class="text-danger"> <font-awesome-icon :icon="['far','times-circle']"/></p>
-                <p class='h4 mb-3'> Are you sure?</p>
-                <p class="text-black-50">Do you really want to discard your work? This process can not be undone.</p>   
-            </div>
-        </div>
-        <div class="modal-footer border-top-0 justify-content-center" v-if='isSubmit==false'>
-          <button type="button" class="btn btn-secondary" data-dismiss="modal"> Close</button>
-          <button type="button" class="btn btn-danger" @click.prevent='discard'>Discard</button>
-        </div>
-      </div>
-    </div>
-  </div> -->
 </div>
         
     
@@ -122,7 +93,7 @@ recognition.interimResults=true;
 export default {
     name:'SoundAnnotation',
     data(){return {contenttimelist:[],patterntimelist:[],currentpage:0,annotationdata:source.annotationdata,annotype:'',patternlist:pattern.pattern,templist:'',drawlist:[[],[],[],[],[]],isAdd:true,itemid:-1,showmodal:false,content:'',pattern:'',isSubmit:false,
-    recorditem:'',totext:'',speechcontent:'',speechresult:[],isRecord:false,patternmic:false,contentmic:false,}},
+    pat_acc:0,con_acc:0,confidence:0,recorditem:'',totext:'',speechcontent:'',speechresult:[],isRecord:false,patternmic:false,contentmic:false,}},
     components:{annoComponent,rowData,rowDisplay},
     methods:{
         ano_pageChange(dir){
@@ -194,8 +165,8 @@ export default {
             if (vm.patterntimelist.length>0){patterntime=vm.patterntimelist.map(ele=>{return vm.time_cal(ele[0],ele[1])}).reduce((acc,cur)=>{return acc+cur});}
             if (vm.contenttimelist.length>0){contenttime=vm.contenttimelist.map(ele=>{return vm.time_cal(ele[0],ele[1])}).reduce((acc,cur)=>{return acc+cur});}
             if(vm.isAdd)
-            {vm.templist.content=vm.content;vm.templist.pattern=vm.pattern;
-             vm.templist.type='speech';
+            {vm.templist.content=vm.content;vm.templist.con_acc=vm.con_acc;vm.templist.pattern=vm.pattern;vm.templist.pat_acc=vm.pat_acc;
+            vm.templist.type='speech';
             vm.templist.page_id=parseInt(vm.currentpage)+1;
             vm.templist.materialLink=vm.annotationdata[vm.currentpage];
             vm.templist.contenttime=contenttime;vm.templist.patterntime=patterntime;
@@ -203,25 +174,27 @@ export default {
             else{
                 vm.drawlist[vm.currentpage][vm.itemid].content=vm.content;
                 vm.drawlist[vm.currentpage][vm.itemid].pattern=vm.pattern;
+                vm.drawlist[vm.currentpage][vm.itemid].con_acc += vm.con_acc;
+                vm.drawlist[vm.currentpage][vm.itemid].pat_acc += vm.pat_acc;
                 vm.drawlist[vm.currentpage][vm.itemid].contenttime += contenttime;
                 vm.drawlist[vm.currentpage][vm.itemid].patterntime += patterntime;   
             } 
             vm.close();
-            vm.content=""; vm.pattern="";vm.templist='';vm.itemid=-1;vm.patterntimelist=[];vm.contenttimelist=[];
+            vm.confidence=0;vm.con_acc=0;vm.pat_acc=0;vm.content=""; vm.pattern="";vm.templist='';vm.itemid=-1;vm.patterntimelist=[];vm.contenttimelist=[];
         },
-        close(){const vm=this; vm.showmodal=false; vm.content=""; vm.pattern="";vm.templist='';vm.itemid=-1;},
+        close(){const vm=this; vm.showmodal=false; vm.confidence=0;vm.con_acc=0;vm.pat_acc=0;vm.content=""; vm.pattern="";vm.templist='';vm.itemid=-1;},
         cancel(){
             $('#alertModal').modal('show');
             this.isSubmit=false;
         },
         recordcontrol(action){
             if(this.isRecord==false){
-                this.isRecord=true;
+                this.isRecord=true;this.recorditem=action;
                 switch (action){
-                    case 'pattern':{this.patternmic=true;this.patterntimelist.push([new Date()]);this.record();break;}
-                    case 'content':{this.contentmic=true;this.contenttimelist.push([new Date()]);this.record();break;}
+                    case 'pattern':{this.patternmic=true;this.patterntimelist.push([new Date()]);recognition.continuous=false;this.record();break;}
+                    case 'content':{this.contentmic=true;this.contenttimelist.push([new Date()]);recognition.continuous=true;this.recordcontent();break;}
                 }
-                this.recorditem=action;
+                
             }else
             {   this.isRecord=false;
                 if (this.recorditem!=action){
@@ -239,16 +212,23 @@ export default {
             }
         },
         record(){
-            if (this.recorditem=='pattern'){recognition.continuous=false;}else{recognition.continuous=true;};
             recognition.start();
             recognition.addEventListener('result', event => {
                 const text = Array.from(event.results).map(result => result[0]).map(result => result.transcript).join('')
-                if(this.recorditem=='content'){this.speechcontent = `${text}.`;}
-                this.speechresult.push(text);
+                let temp_con = Array.from(event.results).map(result=>result[0]).map(result=>result.confidence);
+                this.confidence=temp_con;  this.speechresult.push(text);
                 });
         },
+        recordcontent(){
+            recognition.start();
+            recognition.addEventListener('result', event => {
+            const text = Array.from(event.results).map(result => result[0]).map(result => result.transcript).join('');
+            let temp_con = Array.from(event.results).map(result=>result[0]).map(result=>result.confidence);
+            this.confidence=temp_con;
+            this.speechcontent = `${text}.`; this.speechresult.push(text);});
+        },
         endrecordpattern(){
-            recognition.stop(); let isMatch;
+            recognition.abort(); let isMatch;
             let word=(this.speechresult[this.speechresult.length-1]);
             if (word==undefined){
                 alert("Did not detect your voice, please record again");
@@ -256,15 +236,16 @@ export default {
             }else{word = word[0].toUpperCase() + word.substring(1);
             isMatch = this.patternlist.some(ele=>ele==word);}
             if(!isMatch){alert(` We detect the word '${word}', and it doesn't match any of pattern`);
-            return}else{this.pattern= word;}
+            return}else{this.pattern= word; this.pat_acc=(this.confidence.reduce((a,b)=>{return a+b})/this.confidence.length)}
             this.speechresult=[];this.recorditem='';
         },
         endcontent(){
-            recognition.stop();
+            recognition.abort();
             if (this.speechresult[this.speechresult.length-1]==undefined){
                 alert("Did not detect your voice, please record again");
                 return}
-            this.content = this.speechresult[this.speechresult.length-1]
+            this.content = this.speechresult[this.speechresult.length-1];
+            this.con_acc=(this.confidence.reduce((a,b)=>{return a+b})/this.confidence.length);
             this.speechresult=[];this.recorditem='';},
         submit(){
             //save last element sets;
