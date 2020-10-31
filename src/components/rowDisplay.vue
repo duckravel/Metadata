@@ -4,22 +4,22 @@
         <svg class="svgitem w-100 h-100" style='left:0;z-index:600' >
             <!-- pin -->
             <text v-if="arc.annotype=='pin'"
-                :x="arc.geometry.x"
-                :y="arc.geometry.y"
+                :x="arc.x"
+                :y="arc.y"
                 :style="arc.style"
             > &#xf276</text>
             <!-- rectangle -->
             <rect v-if="arc.annotype=='rect'"
-                :x="arc.geometry.x"
-                :y="arc.geometry.y"
+                :x="arc.x"
+                :y="arc.y"
                 :width="arc.width"
                 :height="arc.height"
                 :style="arc.style"
             />     
             <!-- circle -->
             <circle v-if="arc.annotype=='circle'"
-                :cx="arc.geometry.x"
-                :cy="arc.geometry.y"
+                :cx="arc.x"
+                :cy="arc.y"
                 :r='arc.radius'
                 :style='arc.style'
             />

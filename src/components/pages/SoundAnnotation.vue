@@ -58,7 +58,7 @@
                         <div class="">
                             <p class='h5' for="content">Description</p>
                             <div class="card-body bg-light">
-                                <p class="card-text" v-if='isRecord'>{{speechcontent}}</p>
+                                <p class="card-text" v-if='contentmic'>{{speechcontent}}</p>
                                 <p class="card-text" v-else>{{content}}</p>
                                 <div class="text-right">
                                 <button href="#" class="btn btn-primary rounded-circle"  :class="{'btn-danger':contentmic}"
@@ -195,12 +195,12 @@ export default {
             if (vm.contenttimelist.length>0){contenttime=vm.contenttimelist.map(ele=>{return vm.time_cal(ele[0],ele[1])}).reduce((acc,cur)=>{return acc+cur});}
             if(vm.isAdd)
             {vm.templist.content=vm.content;vm.templist.pattern=vm.pattern;
-                vm.templist.contenttime=contenttime;vm.templist.patterntime=patterntime;
-                vm.drawlist[vm.currentpage].push(vm.templist)}
+             vm.templist.type='speech';
+            vm.templist.page_id=parseInt(vm.currentpage)+1;
+            vm.templist.materialLink=vm.annotationdata[vm.currentpage];
+            vm.templist.contenttime=contenttime;vm.templist.patterntime=patterntime;
+            vm.drawlist[vm.currentpage].push(vm.templist)}
             else{
-                vm.drawlist[vm.currentpage][vm.itemid].type='speech';
-                vm.drawlist[vm.currentpage][vm.itemid].page_id=parseInt(vm.currentpage)+1;
-                vm.drawlist[vm.currentpage][vm.itemid].materialLink=source.annotationdata[vm.currentpage];
                 vm.drawlist[vm.currentpage][vm.itemid].content=vm.content;
                 vm.drawlist[vm.currentpage][vm.itemid].pattern=vm.pattern;
                 vm.drawlist[vm.currentpage][vm.itemid].contenttime += contenttime;
@@ -271,7 +271,7 @@ export default {
             const vm=this;
             if (!this.$case.isFin){
                 this.$info.annotation = vm.drawlist;
-                console.log(this.$info);
+                // console.log(this.$info);
                 this.$case.isFin=true;
                 vm.$router.push(`/${this.$secCase}`)
             }

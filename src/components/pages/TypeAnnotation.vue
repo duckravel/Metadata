@@ -189,6 +189,7 @@ export default {
                 vm.templist.contenttime=contenttime;vm.templist.patterntime=patterntime;
                 vm.templist.type='speech';
                 vm.templist.page_id=parseInt(vm.currentpage)+1;
+                vm.templist.materialLink=vm.annotationdata[vm.currentpage];
                 vm.templist.materialLink=source.annotationdata[vm.currentpage];
                 vm.drawlist[vm.currentpage].push(vm.templist)
                 }
@@ -208,6 +209,7 @@ export default {
         },
         submit(){
             //save last element sets;
+            const vm=this;
             if (!this.$firfin){
                 this.$info.annotation = vm.drawlist;
                 console.log(this.$info);
@@ -216,8 +218,8 @@ export default {
             }
             else{
                 this.$info.annotation = vm.drawlist;
-                // this.$http.post('http://localhost:3000/restful/data',//data
-                // ).then(console.log(res));
+                this.$http.post('http://localhost:3000/restful/data',//data
+                ).then(console.log(res));
             }
         },
     }

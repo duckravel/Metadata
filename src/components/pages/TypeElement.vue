@@ -76,6 +76,7 @@ export default {
             },
         storeelement(page){
                 const vm=this;
+                vm.sourcedata[page].userid = this.$userid;
                 vm.sourcedata[page].type='type';
                 vm.sourcedata[page].page_id = parseInt(page)+1;
                 vm.sourcedata[page].place_time+=vm.place_time;
@@ -110,15 +111,15 @@ export default {
             vm.storeelement(vm.currentpage);
             if (!this.$case.isFin){
                 this.$info.element = vm.sourcedata;
-                console.log(this.$info);
+                // console.log(this.$info);
                 this.$case.isFin=!this.$case.isFin;
-                console.log(this.$case.isFin);
+                // console.log(this.$case.isFin);
                 vm.$router.push(`/${this.$secCase}`)
                 }
             else{
                 this.$info.element = vm.sourcedata;
-                // this.$http.post('http://localhost:3000/restful/data',//data
-                // ).then(console.log(res));
+                this.$http.post('http://localhost:3000/restful/data',this.$info
+                ).then(console.log(res));
             }
         },
     },
