@@ -10,7 +10,7 @@
                         <input v-model='element.place'  type="text" class="form-control" id='Place' autocomplete="off" @focus="time_in('place')" @blur="time_out('place')" required>
                     </div>
                     <div class="form-group">
-                        <label for="">Altername for place</label>
+                        <label for="">place Alias</label>
                         <input v-model='element.Altername' type="text" class="form-control" id='Altername' autocomplete="off" @focus="time_in('Altername')" @blur="time_out('Altername')">
                     </div>
                     <div class="form-group">

@@ -4,7 +4,7 @@
 <div class="no-gutters border-bottom" @click="item.selected=!item.selected; select(item.selected,item)" :class="{'bg-light':item.selected}">
     <div class='pl-2 pt-2 d-flex justify-content-between mb-0'>
         <div><p class='text-center h5 mb-0'>{{item.id}}</p>
-            <p class="badge badge-info m-0">{{item.type}}</p>
+            <p class="badge badge-info m-0">{{item.annotype}}</p>
             <p class="badge badge-warning m-0">{{item.pattern}}</p></div>
         <div>
             <button class="btn btn-outline-secondary btn-sm" @click='modify(item,key)' >edit</button>

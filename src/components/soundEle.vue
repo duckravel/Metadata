@@ -15,7 +15,7 @@
             </div>
         </div>
         <div class="card m-2">
-            <h5 class="card-header">Place Alais</h5>
+            <h5 class="card-header">place Alias</h5>
             <div class="card-body">
                 <p class="card-text" v-if="Altername">{{element.Altername}}</p>
                 <p  class="card-text" v-else >{{totext}}</p>

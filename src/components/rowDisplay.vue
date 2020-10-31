@@ -3,13 +3,13 @@
     <div v-for="(arc,key) in data[currentpage]"  :key="key">
         <svg class="svgitem w-100 h-100" style='left:0;z-index:600' >
             <!-- pin -->
-            <text v-if="arc.type=='pin'"
+            <text v-if="arc.annotype=='pin'"
                 :x="arc.geometry.x"
                 :y="arc.geometry.y"
                 :style="arc.style"
             > &#xf276</text>
             <!-- rectangle -->
-            <rect v-if="arc.type=='rect'"
+            <rect v-if="arc.annotype=='rect'"
                 :x="arc.geometry.x"
                 :y="arc.geometry.y"
                 :width="arc.width"
@@ -17,14 +17,14 @@
                 :style="arc.style"
             />     
             <!-- circle -->
-            <circle v-if="arc.type=='circle'"
+            <circle v-if="arc.annotype=='circle'"
                 :cx="arc.geometry.x"
                 :cy="arc.geometry.y"
                 :r='arc.radius'
                 :style='arc.style'
             />
             <!-- pencil -->
-            <polyline v-if="arc.type=='pencil'" 
+            <polyline v-if="arc.annotype=='pencil'" 
                 :points="arc.points"
                 :style="arc.style"                            
             />

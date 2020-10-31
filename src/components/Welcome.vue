@@ -10,8 +10,7 @@
                     <p class="mb-5 align-middle">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos maxime at fugiat ut? Laborum, sunt laboriosam corporis accusantium placeat quia repellat, neque soluta quibusdam natus odio ipsum deleniti. Similique, voluptatibus!</p>   
                     <div class='row justify-content-around d-flex'>
                         <a class="col-5 p-4 d-flex bg-primary align-items-center justify-content-center text-white"
-                        href='#' @click.prevent='startSurvey()'>
-                          {{userid}}Entet the Survey</a>
+                        href='#' @click.prevent='startSurvey()'>Entet the Survey</a>
                     </div>
                 </div>
             </div>

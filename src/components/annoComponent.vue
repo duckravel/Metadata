@@ -4,13 +4,13 @@
         <div v-for="(arc,index) in templist" :key='index'>
             <svg class="svgitem w-100 h-100" style='left:0;z-index:700'>
             <!-- pin -->
-                <text v-if="arc.type=='pin'"
+                <text v-if="arc.annotype=='pin'"
                     :x="arc.geometry.x"
                     :y="arc.geometry.y"
                     :style="arc.style"
                 > &#xf276 </text>
             <!-- rectangle -->
-                <rect v-if="arc.type=='rect'"
+                <rect v-if="arc.annotype=='rect'"
                     :x="arc.geometry.x"
                     :y="arc.geometry.y"
                     :width="arc.width"
@@ -18,14 +18,14 @@
                     :style="arc.style"
                 />     
                 <!-- circle -->
-                <circle v-if="arc.type=='circle'"
+                <circle v-if="arc.annotype=='circle'"
                     :cx="arc.geometry.x"
                     :cy="arc.geometry.y"
                     :r='arc.radius'
                     :style='arc.style'
                 />
                 <!-- pencil -->
-                <polyline v-if="arc.type=='pencil'" 
+                <polyline v-if="arc.annotype=='pencil'" 
                     :points="arc.points"
                     :style="arc.style"                            
                 />
@@ -40,7 +40,7 @@ export default {
     name:'annoComponent',
     props:['page','data','drawingtype','tempisempty'],
     data(){return {
-        templist:[{type:'pin',geometry:{x: 0, y:0},style:{fontsize:`1px`,fill:`transparent`}}],
+        templist:[{annotype:'pin',geometry:{x: 0, y:0},style:{fontsize:`1px`,fill:`transparent`}}],
         annotime:[],isdraw:false,stroke: '#ff0000',fill: '#821717',strokeWidth: 5,rotate:0
     }},
     methods:{
@@ -68,7 +68,7 @@ export default {
             const vm=this;
             vm.templist.push({
                         id:Date.now(),
-                        type:'pin',geometry:{x: event.clientX, y: event.clientY-40},
+                        annotype:'pin',geometry:{x: event.clientX, y: event.clientY-40},
                         style:{fill:`${vm.fill}`},selected:false});
                         vm.annotime.push(new Date());
                         let result={open:true,isNew:true,data:vm.templist[vm.templist.length-1],annotime:vm.annotime};
@@ -78,7 +78,7 @@ export default {
             const vm=this;           
             vm.templist.push({
                 id:Date.now(),
-                type: 'rect',selected:false,
+                annotype: 'rect',selected:false,
                 geometry:{x: event.clientX, y: event.clientY-40},width: 0, height: 0,radius: 0,rotate: 0,
                 style:`fill:${vm.fill};stroke:${vm.stroke};strokewidth:${vm.strokeWidth};opacity:0.7`,
             });
@@ -88,7 +88,7 @@ export default {
             const vm=this;           
             vm.templist.push({
                 id:Date.now(),
-                type:'circle',
+                annotype:'circle',
                 geometry:{x: event.clientX, y: event.clientY-40},radius: 0,selected:false,
                 style:`fill:${vm.fill};stroke:${vm.stroke};strokewidth:${vm.strokeWidth};opacity:0.7`,
             });
@@ -98,7 +98,7 @@ export default {
             const vm=this;
             vm.templist.push(
                 {    id:Date.now(), 
-                    type: 'pencil',
+                    annotype: 'pencil',
                     points: `${event.clientX},${event.clientY-40} `,
                     style: `stroke-width:${vm.strokeWidth};stroke:${vm.stroke};fill:none`,
                     selected:false,
@@ -153,7 +153,7 @@ export default {
     },
     watch:{
         tempisempty:function(){
-            if (this.tempisempty==''){this.templist=[{type:'pin',geometry:{x: 0, y:0},style:{fontsize:`1px`,fill:`transparent`}}]};
+            if (this.tempisempty==''){this.templist=[{annotype:'pin',geometry:{x: 0, y:0},style:{fontsize:`1px`,fill:`transparent`}}]};
         }
     }
     

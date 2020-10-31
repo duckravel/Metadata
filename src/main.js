@@ -19,6 +19,8 @@ Vue.use(VueAxios, axios)
 Vue.config.productionTip = false
 /* eslint-disable no-new */
 
+
+
 new Vue({
   el: '#app',
   router,
@@ -26,13 +28,15 @@ new Vue({
   template: '<App/>',
   created() {
   this.$http.get('http://localhost:3000/restful/user').then(res=>{
-    console.log(res.data);
     let user = res.data;
-    Vue.prototype.userid = user.userid;
+    Vue.prototype.$userid = user.userid;
     Vue.prototype.$firCase = user.firCase;
     Vue.prototype.$secCase = user.secCase;
+    Vue.prototype.$case={isFin:false};
     Vue.prototype.$info = {};
-    console.log(this.userid,this.$firCase,this.$secCase);
+    let time = new Date(); let date ={Year:time.getFullYear(),Month:time.getMonth()+1,Day:time.getDate()};
+    this.$info.user={userid:this.$userid,date:`${date.Year}/${date.Month}/${date.Day}`,scenario1:`${this.$firCase}`,scenario2:`${this.$secCase}`},
+    console.log(this.$userid,this.$firCase,this.$secCase);
   })  
   },
 })
