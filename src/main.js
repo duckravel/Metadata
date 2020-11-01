@@ -4,6 +4,7 @@ import Vue from 'vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import App from './App'
+import 'bootstrap';
 import router from './router'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faUserSecret } from '@fortawesome/free-solid-svg-icons'
@@ -36,7 +37,7 @@ new Vue({
     Vue.prototype.$info = {};
     let time = new Date(); let date ={Year:time.getFullYear(),Month:time.getMonth()+1,Day:time.getDate()};
     this.$info.user={userid:this.$userid,date:`${date.Year}/${date.Month}/${date.Day}`,scenario1:`${this.$firCase}`,scenario2:`${this.$secCase}`};
-    // console.log(this.$userid,this.$firCase,this.$secCase);
+    console.log(this.$userid,this.$firCase,this.$secCase);
   })  
   },
 })

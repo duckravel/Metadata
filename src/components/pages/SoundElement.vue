@@ -28,8 +28,7 @@
                   </nav>
                 <ul class="navbar-nav px-3">
                   <li class="nav-item text-nowrap">
-                    <button class="btn btn-sm btn-outline-warning" @click='submit'>Submit</button>
-                    <!-- v-if='currentpage==sourcedata.length-1' -->
+                    <button v-if='currentpage==sourcedata.length-1' class="btn btn-sm btn-outline-warning" @click='submit'>Submit</button>
                   </li>
                 </ul>
               </nav>
@@ -38,11 +37,32 @@
         <soundEle v-on:catchdata='store_sounddata' :data="sourcedata" :page='currentpage'
         ></soundEle>
         </div>
+         <!-- submission window -->
+        <div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="ml-auto m-2">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container text-center">
+                    <p class="text-success"> <font-awesome-icon :icon="['far','check-circle']"/></p>
+                    <p class='h4 mb-3'> Thanks for your contribution</p>
+                    <p class="text-black-50">We are processing your data...</p>
+                    <div class="d-flex justify-content-center"><div class="loader"></div></div>
+                </div>
+            </div>
+        </div>
+        </div>
+        </div>
     </div>
 </template>
 <script>
 import soundEle from '../soundEle';
 import source from '../../data/source.json'
+import $ from 'jquery';
 export default {
     data(){return {currentpage:0,sourcedata:source.data,place_time:0,alter_time:0,Cate_time:0,Cate_acc:0,Desc_time:0,Stime:0,Etime:0}},
     components:{soundEle},
@@ -110,18 +130,24 @@ export default {
                 alert('Please fill the empty field');
                 return}
             vm.storeelement(vm.currentpage);
-            if (!this.$firfin){
+            if (!this.$case.isFin){
                 this.$info.element = vm.sourcedata;
                 console.log(this.$info);
-                this.firfin=true;
+                 this.$case.isFin=true;
                 vm.$router.push(`/${this.$secCase}`)
                 }
             else{
                 this.$info.element = vm.sourcedata;
+                $('#alertModal').modal('show');
                 this.$http.post('http://localhost:3000/restful/data',this.$info
-                ).then(console.log(res));
+                ).then(res=>{console.log(res);
+                setTimeout(function(){ $('#alertModal').modal('hide');}, 1000);
+                setTimeout(function(){ vm.$router.push('/redirect') }, 2000);});
             }
         },
+    },
+    created(){
+        console.log(this.$case.isFin);
     }
 }
 </script>

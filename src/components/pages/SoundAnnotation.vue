@@ -15,7 +15,7 @@
         <ul class="navbar-nav px-3">
             <li class="nav-item text-nowrap">
             <!-- <button class="btn btn-sm btn-outline-light" @click='cancel'>Discard</button> -->
-            <button class="btn btn-sm btn-outline-warning" @click='submit'>Submit</button>
+            <button v-if='currentpage==annotationdata.length-1' class="btn btn-sm btn-outline-warning" @click='submit'>Submit</button>
             </li>
         </ul>
     </nav>
@@ -73,8 +73,30 @@
                 </div>
                 </div>
             </div>
-        </div>
     </div>
+    </div>
+    
+    <!-- submission window -->
+    <div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="ml-auto m-2">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="container text-center">
+                <p class="text-success"> <font-awesome-icon :icon="['far','check-circle']"/></p>
+                <p class='h4 mb-3'> Thanks for your contribution</p>
+                <p class="text-black-50">We are processing your data...</p>
+                <div class="d-flex justify-content-center"><div class="loader"></div></div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
         
     
@@ -85,11 +107,13 @@ import rowData from '../rowData';
 import rowDisplay from '../rowDisplay';
 import source from '../../data/source.json'
 import pattern from '../../data/variables.json'
+import $ from 'jquery';
 let SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
 let recognition = SpeechRecognition? new SpeechRecognition() : false
 recognition.lang = 'en-US';
 recognition.continuous=true;
 recognition.interimResults=true;
+
 export default {
     name:'SoundAnnotation',
     data(){return {contenttimelist:[],patterntimelist:[],currentpage:0,annotationdata:source.annotationdata,annotype:'',patternlist:pattern.pattern,templist:'',drawlist:[[],[],[],[],[]],isAdd:true,itemid:-1,showmodal:false,content:'',pattern:'',isSubmit:false,
@@ -166,7 +190,7 @@ export default {
             if (vm.contenttimelist.length>0){contenttime=vm.contenttimelist.map(ele=>{return vm.time_cal(ele[0],ele[1])}).reduce((acc,cur)=>{return acc+cur});}
             if(vm.isAdd)
             {vm.templist.content=vm.content;vm.templist.con_acc=vm.con_acc;vm.templist.pattern=vm.pattern;vm.templist.pat_acc=vm.pat_acc;
-            vm.templist.type='speech';
+            vm.templist.type='Speech';
             vm.templist.page_id=parseInt(vm.currentpage)+1;
             vm.templist.materialLink=vm.annotationdata[vm.currentpage];
             vm.templist.contenttime=contenttime;vm.templist.patterntime=patterntime;
@@ -183,10 +207,6 @@ export default {
             vm.confidence=0;vm.con_acc=0;vm.pat_acc=0;vm.content=""; vm.pattern="";vm.templist='';vm.itemid=-1;vm.patterntimelist=[];vm.contenttimelist=[];
         },
         close(){const vm=this; vm.showmodal=false; vm.confidence=0;vm.con_acc=0;vm.pat_acc=0;vm.content=""; vm.pattern="";vm.templist='';vm.itemid=-1;},
-        cancel(){
-            $('#alertModal').modal('show');
-            this.isSubmit=false;
-        },
         recordcontrol(action){
             if(this.isRecord==false){
                 this.isRecord=true;this.recorditem=action;
@@ -260,10 +280,14 @@ export default {
                 this.$info.annotation = vm.drawlist;
                 console.log(this.$info);
                 let data = this.$info;
-                this.$http.post('http://localhost:3000/restful/data',data).then(res=>{console.log(res)});
+                $('#alertModal').modal('show');
+                this.$http.post('http://localhost:3000/restful/data',data).then(
+                    res=>{ console.log(res);
+                    setTimeout(function(){ $('#alertModal').modal('hide');}, 1000);
+                    setTimeout(function(){ vm.$router.push('/redirect') }, 2000);});
             }
         },
-    },        
+    },
     created(){
         console.log(this.$case.isFin);
     }

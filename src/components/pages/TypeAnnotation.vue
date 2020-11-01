@@ -14,8 +14,8 @@
         </div>            
         <ul class="navbar-nav px-3">
             <li class="nav-item text-nowrap">
-            
-            <button class="btn btn-sm btn-outline-warning" @click='submit'>Submit</button>
+            <button v-if='currentpage==annotationdata.length-1' class="btn btn-sm btn-outline-warning" @click='submit'>Submit</button>
+            <!--  -->
             </li>
         </ul>
     </nav>
@@ -72,35 +72,26 @@
             </div>
         </div>
     </div>
-    <!-- AlertModal --> 
-  <div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-sm">
-      <div class="modal-content">
-        <div class="ml-auto m-2">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-            <div class="container text-center" v-if='isSubmit'>
-                <p class="text-success"> <font-awesome-icon :icon="['far','check-circle']"/></p>
-                <p class='h4 mb-3'> Thanks for your contribution</p>
-                <p class="text-black-50">We are processing your data...</p>
-                <div class="d-flex justify-content-center"><div class="loader"></div></div>
+    <!-- submission window -->
+    <div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="ml-auto m-2">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container text-center">
+                    <p class="text-success"> <font-awesome-icon :icon="['far','check-circle']"/></p>
+                    <p class='h4 mb-3'> Thanks for your contribution</p>
+                    <p class="text-black-50">We are processing your data...</p>
+                    <div class="d-flex justify-content-center"><div class="loader"></div></div>
                 </div>
-            <div class="container text-center" v-else>
-                <p class="text-danger"> <font-awesome-icon :icon="['far','times-circle']"/></p>
-                <p class='h4 mb-3'> Are you sure?</p>
-                <p class="text-black-50">Do you really want to discard your work? This process can not be undone.</p>   
             </div>
         </div>
-        <div class="modal-footer border-top-0 justify-content-center" v-if='isSubmit==false'>
-          <button type="button" class="btn btn-secondary" data-dismiss="modal"> Close</button>
-          <button type="button" class="btn btn-danger" @click.prevent='discard'>Discard</button>
         </div>
-      </div>
     </div>
-  </div>
 </div>
         
     </div>
@@ -111,6 +102,7 @@ import rowData from '../rowData';
 import rowDisplay from '../rowDisplay';
 import source from '../../data/source.json'
 import pattern from '../../data/variables.json'
+import $ from 'jquery';
 export default {
     name:'TypeAnnotation',
     data(){return {contenttimelist:[],patterntimelist:[],currentpage:0,annotationdata:source.annotationdata,annotype:'',patternlist:pattern.pattern,templist:'',drawlist:[[],[],[],[],[]],isAdd:true,itemid:-1,showmodal:false,content:'',pattern:'',isSubmit:false}},
@@ -187,7 +179,7 @@ export default {
             if(vm.isAdd)
             {   vm.templist.content=vm.content;vm.templist.pattern=vm.pattern;
                 vm.templist.contenttime=contenttime;vm.templist.patterntime=patterntime;
-                vm.templist.type='speech';
+                vm.templist.type='Type';
                 vm.templist.page_id=parseInt(vm.currentpage)+1;
                 vm.templist.materialLink=vm.annotationdata[vm.currentpage];
                 vm.templist.materialLink=source.annotationdata[vm.currentpage];
@@ -205,23 +197,29 @@ export default {
         close(){const vm=this; vm.showmodal=false; vm.content=""; vm.pattern="";vm.templist='';vm.itemid=-1;},
         cancel(){
             $('#alertModal').modal('show');
-            this.isSubmit=false;
+            setTimeout(function(){ $('#alertModal').modal('hide');}, 1000);
         },
         submit(){
             //save last element sets;
             const vm=this;
-            if (!this.$firfin){
+            if (!this.$case.isFin){
                 this.$info.annotation = vm.drawlist;
                 console.log(this.$info);
-                this.firfin=true;
+                 this.$case.isFin=true;
                 vm.$router.push(`/${this.$secCase}`)
             }
-            else{
+            else{                
                 this.$info.annotation = vm.drawlist;
-                this.$http.post('http://localhost:3000/restful/data',//data
-                ).then(console.log(res));
+                $('#alertModal').modal('show');
+                this.$http.post('http://localhost:3000/restful/data',this.$info
+                ).then(res=>{console.log(res);
+                setTimeout(function(){ $('#alertModal').modal('hide');}, 1000);
+                setTimeout(function(){ vm.$router.push('/redirect') }, 2000);});
             }
         },
+    },
+    created(){
+        console.log(this.$case.isFin);
     }
     
 }

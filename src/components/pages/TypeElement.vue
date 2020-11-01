@@ -28,8 +28,7 @@
                   </nav>
                 <ul class="navbar-nav px-3">
                   <li class="nav-item text-nowrap">
-                    <button class="btn btn-sm btn-outline-warning" @click='submit'>Submit</button>
-                    <!-- v-if='currentpage==sourcedata.length-1' -->
+                    <button v-if='currentpage==sourcedata.length-1' class="btn btn-sm btn-outline-warning" @click='submit'>Submit</button>
                   </li>
                 </ul>
               </nav>
@@ -37,8 +36,26 @@
         <div class="contentarea">        
             <typeEle :data='sourcedata' :page='currentpage'
             v-on:timelistener='timeresult'></typeEle></div>
-        
-        
+        <!-- submission window -->
+    <div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="ml-auto m-2">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container text-center">
+                    <p class="text-success"> <font-awesome-icon :icon="['far','check-circle']"/></p>
+                    <p class='h4 mb-3'> Thanks for your contribution</p>
+                    <p class="text-black-50">We are processing your data...</p>
+                    <div class="d-flex justify-content-center"><div class="loader"></div></div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
     </div>
 </template>
 
@@ -46,7 +63,7 @@
 // import Navbar from './Navbar';
 import typeEle from '../typeEle';
 import source from '../../data/source.json'
-
+import $ from 'jquery';
 // var sourcedata = source.data
 export default {
     name:'TypeElement',
@@ -77,7 +94,7 @@ export default {
         storeelement(page){
                 const vm=this;
                 vm.sourcedata[page].userid = this.$userid;
-                vm.sourcedata[page].type='type';
+                vm.sourcedata[page].type='Type';
                 vm.sourcedata[page].page_id = parseInt(page)+1;
                 vm.sourcedata[page].place_time+=vm.place_time;
                 vm.sourcedata[page].alter_time+=vm.alter_time;
@@ -117,11 +134,18 @@ export default {
                 vm.$router.push(`/${this.$secCase}`)
                 }
             else{
+                const vm=this;
                 this.$info.element = vm.sourcedata;
+                $('#alertModal').modal('show');
                 this.$http.post('http://localhost:3000/restful/data',this.$info
-                ).then(console.log(res));
+                ).then(res=>{console.log(res);
+                setTimeout(function(){ $('#alertModal').modal('hide');}, 1000);
+                setTimeout(function(){ vm.$router.push('/redirect') }, 2000);});
             }
         },
     },
+    created(){
+        console.log(this.$case.isFin);
+    }
 }
 </script>
