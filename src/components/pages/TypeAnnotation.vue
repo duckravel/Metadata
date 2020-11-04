@@ -105,7 +105,7 @@ import pattern from '../../data/variables.json'
 import $ from 'jquery';
 export default {
     name:'TypeAnnotation',
-    data(){return {contenttimelist:[],patterntimelist:[],currentpage:0,annotationdata:source.annotationdata,annotype:'',patternlist:pattern.pattern,templist:'',drawlist:[[],[],[],[],[]],isAdd:true,itemid:-1,showmodal:false,content:'',pattern:'',isSubmit:false}},
+    data(){return {pat_acc:0,con_acc:0,contenttimelist:[],patterntimelist:[],currentpage:0,annotationdata:source.annotationdata,annotype:'',patternlist:pattern.pattern,templist:'',drawlist:[[],[],[],[],[]],isAdd:true,itemid:-1,showmodal:false,content:'',pattern:'',isSubmit:false}},
     components:{annoComponent,rowData,rowDisplay},
     methods:{
         ano_pageChange(dir){
@@ -177,7 +177,7 @@ export default {
             if (vm.patterntimelist.length>0){patterntime=vm.patterntimelist.map(ele=>{return vm.time_cal(ele[0],ele[1])}).reduce((acc,cur)=>{return acc+cur});}
             if (vm.contenttimelist.length>0){contenttime=vm.contenttimelist.map(ele=>{return vm.time_cal(ele[0],ele[1])}).reduce((acc,cur)=>{return acc+cur});}
             if(vm.isAdd)
-            {   vm.templist.content=vm.content;vm.templist.pattern=vm.pattern;
+            {   vm.templist.content=vm.content;vm.templist.con_acc = 0; vm.templist.pattern=vm.pattern;vm.templist.pat_acc = 0;
                 vm.templist.contenttime=contenttime;vm.templist.patterntime=patterntime;
                 vm.templist.type='Type';
                 vm.templist.page_id=parseInt(vm.currentpage)+1;
@@ -211,7 +211,7 @@ export default {
             else{                
                 this.$info.annotation = vm.drawlist;
                 $('#alertModal').modal('show');
-                this.$http.post('http://localhost:3000/restful/data',this.$info
+                this.$http.post('https://safe-badlands-68606.herokuapp.com/restful/data',this.$info
                 ).then(res=>{console.log(res);
                 setTimeout(function(){ $('#alertModal').modal('hide');}, 1000);
                 setTimeout(function(){ vm.$router.push('/redirect') }, 2000);});

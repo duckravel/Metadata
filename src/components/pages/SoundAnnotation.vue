@@ -281,7 +281,7 @@ export default {
                 console.log(this.$info);
                 let data = this.$info;
                 $('#alertModal').modal('show');
-                this.$http.post('http://localhost:3000/restful/data',data).then(
+                this.$http.post('https://safe-badlands-68606.herokuapp.com/restful/data',data).then(
                     res=>{ console.log(res);
                     setTimeout(function(){ $('#alertModal').modal('hide');}, 1000);
                     setTimeout(function(){ vm.$router.push('/redirect') }, 2000);});

@@ -28,7 +28,8 @@
                   </nav>
                 <ul class="navbar-nav px-3">
                   <li class="nav-item text-nowrap">
-                    <button v-if='currentpage==sourcedata.length-1' class="btn btn-sm btn-outline-warning" @click='submit'>Submit</button>
+                    <button  class="btn btn-sm btn-outline-warning" @click='submit'>Submit</button>
+                    <!-- v-if='currentpage==sourcedata.length-1' -->
                   </li>
                 </ul>
               </nav>
@@ -139,7 +140,7 @@ export default {
             else{
                 this.$info.element = vm.sourcedata;
                 $('#alertModal').modal('show');
-                this.$http.post('http://localhost:3000/restful/data',this.$info
+                this.$http.post('https://safe-badlands-68606.herokuapp.com/restful/data',this.$info
                 ).then(res=>{console.log(res);
                 setTimeout(function(){ $('#alertModal').modal('hide');}, 1000);
                 setTimeout(function(){ vm.$router.push('/redirect') }, 2000);});

@@ -28,7 +28,7 @@ new Vue({
   components: { App },
   template: '<App/>',
   created() {
-  this.$http.get('http://localhost:3000/restful/user').then(res=>{
+  this.$http.get('https://safe-badlands-68606.herokuapp.com/restful/user').then(res=>{
     let user = res.data;
     Vue.prototype.$userid = user.userid;
     Vue.prototype.$firCase = user.firCase;
