@@ -21,7 +21,8 @@
     </nav>
     </div>
     <div class='row no-gutters contentarea bg-light' >
-    <!-- annotate -->
+    <!-- annotate --> 
+    <!-- '{ backgroundImage:`url(require(${annotationdata[currentpage]}))`}' -->
     <div class="col-md-9 custom-imgbg" :style="{backgroundImage:`url(${annotationdata[currentpage]})`}">
     <anno-component  :page='currentpage' :data='annotationdata' :drawingtype='annotype' v-on:openmodal="modal" :tempisempty='templist'
     ></anno-component></div>
@@ -105,7 +106,7 @@ import pattern from '../../data/variables.json'
 import $ from 'jquery';
 export default {
     name:'TypeAnnotation',
-    data(){return {pat_acc:0,con_acc:0,contenttimelist:[],patterntimelist:[],currentpage:0,annotationdata:source.annotationdata,annotype:'',patternlist:pattern.pattern,templist:'',drawlist:[[],[],[],[],[]],isAdd:true,itemid:-1,showmodal:false,content:'',pattern:'',isSubmit:false}},
+    data(){return {pat_acc:0,con_acc:0,contenttimelist:[],patterntimelist:[],currentpage:0,annotationdata:source.annotationdata,annotype:'',patternlist:pattern.pattern,templist:'',drawlist:[[],[],[],[],[]],isAdd:true,itemid:-1,showmodal:false,content:'',pattern:'',isSubmit:false,csspros:{}}},
     components:{annoComponent,rowData,rowDisplay},
     methods:{
         ano_pageChange(dir){
@@ -218,8 +219,12 @@ export default {
             }
         },
     },
+    computed: {
+        
+       
+    },
     created(){
-        console.log(this.$case.isFin);
+         
     }
     
 }

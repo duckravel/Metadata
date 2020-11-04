@@ -49,7 +49,7 @@
 "E_acc":0}
 ,{
 "userid":0,
-"materialLink":"https://landsat.visibleearth.nasa.gov/view.php?id=91771",
+"materialLink":"https://gfmc.online/gwfews/index-12.html",
 "type":"",
 "page_id":3,
 "place":"",
@@ -72,7 +72,7 @@
 "E_acc":0}
 ,{
 "userid":0,
-"materialLink":"https://landsat.visibleearth.nasa.gov/view.php?id=91771",
+"materialLink":"https://www.bbc.com/news/world-australia-50951043",
 "type":"",
 "page_id":4,
 "place":"",
@@ -95,7 +95,7 @@
 "E_acc":0}
 ,{
 "userid":0,
-"materialLink":"https://landsat.visibleearth.nasa.gov/view.php?id=91771",
+"materialLink":"https://www.climate.gov/news-features/event-tracker/flash-drought-engulfs-us-southeast-september-2019",
 "type":"",
 "page_id":5,
 "place":"",
@@ -118,7 +118,7 @@
 "E_acc":0}
 ,{
 "userid":0,
-"materialLink":"https://landsat.visibleearth.nasa.gov/view.php?id=91771",
+"materialLink":"https://labs.waterdata.usgs.gov/visualizations/ca_drought/index.html",
 "type":"",
 "page_id":6,
 "place":"",
@@ -141,7 +141,7 @@
 "E_acc":0}
 ,{
 "userid":0,
-"materialLink":"https://landsat.visibleearth.nasa.gov/view.php?id=91771",
+"materialLink":"https://symgeo.maps.arcgis.com/apps/opsdashboard/index.html#/a4fedece02d5464399a4263d457c1907",
 "type":"",
 "page_id":7,
 "place":"",
@@ -164,7 +164,7 @@
 "E_acc":0}
 ,{
 "userid":0,
-"materialLink":"https://landsat.visibleearth.nasa.gov/view.php?id=91771",
+"materialLink":"https://www.drought.gov/drought/news/2020-drought-update-look-drought-across-united-states-15-maps",
 "type":"",
 "page_id":8,
 "place":"",
@@ -187,7 +187,7 @@
 "E_acc":0}
 ,{
 "userid":0,
-"materialLink":"https://landsat.visibleearth.nasa.gov/view.php?id=91771",
+"materialLink":"https://map.drought.gov.au/",
 "type":"",
 "page_id":9,
 "place":"",
@@ -210,7 +210,7 @@
 "E_acc":0}
 ,{
 "userid":0,
-"materialLink":"https://landsat.visibleearth.nasa.gov/view.php?id=91771",
+"materialLink":"http://drought.ithacaweb.org/",
 "type":"",
 "page_id":10,
 "place":"",
@@ -233,9 +233,10 @@
 "E_acc":0}
 ],
 "annotationdata":
-["http://www.bom.gov.au/climate/drought/archive/20200908.drought1.lr.col.gif",
-"http://www.bom.gov.au/climate/drought/archive/20191008.drought1.lr.col.gif",
-"https://martinplaut.files.wordpress.com/2015/12/drought-horn-of-africa.jpg",
-"https://droughtmonitor.unl.edu/data/png/current/current_usdm.png",
-"https://reliefweb.int/sites/reliefweb.int/files/styles/report-large/public/resources-pdf-previews/700209-Drought%20Situation%20%20Map%20of%20Pakistan.png?itok=CRMuVu2H"
+[
+"https://raw.githubusercontent.com/duckravel/Questionnaire/master/data/mapcollections/Australia_drought.gif",
+"https://raw.githubusercontent.com/duckravel/Questionnaire/master/data/mapcollections/Australia_drought1.gif",
+"https://raw.githubusercontent.com/duckravel/Questionnaire/master/data/mapcollections/current_usdm.png",
+"https://raw.githubusercontent.com/duckravel/Questionnaire/master/data/mapcollections/Pakistan.png",
+"https://raw.githubusercontent.com/duckravel/Questionnaire/master/data/mapcollections/drought-horn-of-africa.jpg"
 ]}
