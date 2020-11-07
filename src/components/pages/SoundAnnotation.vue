@@ -107,6 +107,7 @@ import rowData from '../rowData';
 import rowDisplay from '../rowDisplay';
 import source from '../../data/source.json'
 import pattern from '../../data/variables.json'
+import simDis from '../simDis.js';
 import $ from 'jquery';
 let SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
 let recognition = SpeechRecognition? new SpeechRecognition() : false
@@ -116,6 +117,7 @@ recognition.interimResults=true;
 
 export default {
     name:'SoundAnnotation',
+    mixins:[simDis],
     data(){return {contenttimelist:[],patterntimelist:[],currentpage:0,annotationdata:source.annotationdata,annotype:'',patternlist:pattern.pattern,templist:'',drawlist:[[],[],[],[],[]],isAdd:true,itemid:-1,showmodal:false,content:'',pattern:'',isSubmit:false,
     pat_acc:0,con_acc:0,confidence:0,recorditem:'',totext:'',speechcontent:'',speechresult:[],isRecord:false,patternmic:false,contentmic:false,}},
     components:{annoComponent,rowData,rowDisplay},
@@ -254,6 +256,7 @@ export default {
                 alert("Did not detect your voice, please record again");
                 return
             }else{word = word[0].toUpperCase() + word.substring(1);
+            console.log(this.getEditDistance(this.patternlist[0],'relation'));
             isMatch = this.patternlist.some(ele=>ele==word);}
             if(!isMatch){alert(` We detect the word '${word}', and it doesn't match any of pattern`);
             return}else{this.pattern= word; this.pat_acc=(this.confidence.reduce((a,b)=>{return a+b})/this.confidence.length)}
