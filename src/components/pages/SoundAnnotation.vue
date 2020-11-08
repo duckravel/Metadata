@@ -255,11 +255,11 @@ export default {
             if (word==undefined){
                 alert("Did not detect your voice, please record again");
                 return
-            }else{word = word[0].toUpperCase() + word.substring(1);
-            console.log(this.getEditDistance(this.patternlist[0],'relation'));
-            isMatch = this.patternlist.some(ele=>ele==word);}
-            if(!isMatch){alert(` We detect the word '${word}', and it doesn't match any of pattern`);
-            return}else{this.pattern= word; this.pat_acc=(this.confidence.reduce((a,b)=>{return a+b})/this.confidence.length)}
+            }else{word = word[0].toUpperCase() + word.substring(1);}
+            let arr =this.patternlist.map(ele=>{return this.getEditDistance(ele,word)});
+            let min = Math.min(...arr);
+            this.pattern = this.patternlist[arr.indexOf(min)];
+            this.pat_acc=(this.confidence.reduce((a,b)=>{return a+b})/this.confidence.length);
             this.speechresult=[];this.recorditem='';
         },
         endcontent(){
@@ -275,25 +275,20 @@ export default {
             const vm=this;
             if (!this.$case.isFin){
                 this.$info.annotation = vm.drawlist;
-                // console.log(this.$info);
                 this.$case.isFin=true;
                 vm.$router.push(`/${this.$secCase}`)
             }
             else{
                 this.$info.annotation = vm.drawlist;
-                console.log(this.$info);
                 let data = this.$info;
                 $('#alertModal').modal('show');
                 this.$http.post('https://safe-badlands-68606.herokuapp.com/restful/data',data).then(
-                    res=>{ console.log(res);
+                    res=>{ 
                     setTimeout(function(){ $('#alertModal').modal('hide');}, 1000);
                     setTimeout(function(){ vm.$router.push('/redirect') }, 2000);});
             }
         },
     },
-    created(){
-        console.log(this.$case.isFin);
-    }
 }
     
 
