@@ -2,7 +2,7 @@
 [
 {
 "userid":0,
-"materialLink":"http://vis.ecowest.org/interactive/wildfires.php",
+"materialLink":"https://eip.ceh.ac.uk/apps/droughts/",
 "type":"",
 "page_id":1,
 "place":"",
@@ -26,7 +26,7 @@
 }
 ,{
 "userid":0,
-"materialLink":"https://landsat.visibleearth.nasa.gov/view.php?id=91771",
+"materialLink":"https://droughtmonitor.unl.edu/CurrentMap/StateDroughtMonitor.aspx?West",
 "type":"",
 "page_id":2,
 "place":"",
@@ -72,7 +72,7 @@
 "E_acc":0}
 ,{
 "userid":0,
-"materialLink":"https://www.bbc.com/news/world-australia-50951043",
+"materialLink":"https://governmentofbc.maps.arcgis.com/apps/opsdashboard/index.html#/f0ac328d88c74d07aa2ee385abe2a41b",
 "type":"",
 "page_id":4,
 "place":"",
@@ -95,7 +95,7 @@
 "E_acc":0}
 ,{
 "userid":0,
-"materialLink":"https://www.climate.gov/news-features/event-tracker/flash-drought-engulfs-us-southeast-september-2019",
+"materialLink":"https://vegdri.unl.edu/",
 "type":"",
 "page_id":5,
 "place":"",
@@ -118,7 +118,7 @@
 "E_acc":0}
 ,{
 "userid":0,
-"materialLink":"https://labs.waterdata.usgs.gov/visualizations/ca_drought/index.html",
+"materialLink":"https://droughtreporter.unl.edu/map/",
 "type":"",
 "page_id":6,
 "place":"",
@@ -141,7 +141,7 @@
 "E_acc":0}
 ,{
 "userid":0,
-"materialLink":"https://symgeo.maps.arcgis.com/apps/opsdashboard/index.html#/a4fedece02d5464399a4263d457c1907",
+"materialLink":"https://vegdri.unl.edu/Home/StateVegDRI.aspx?NM",
 "type":"",
 "page_id":7,
 "place":"",
@@ -164,7 +164,7 @@
 "E_acc":0}
 ,{
 "userid":0,
-"materialLink":"https://www.drought.gov/drought/news/2020-drought-update-look-drought-across-united-states-15-maps",
+"materialLink":"https://universityofne.maps.arcgis.com/apps/MapSeries/index.html?appid=25e1be8e6bfe4f2aa9bd3ece9beb226b",
 "type":"",
 "page_id":8,
 "place":"",
@@ -187,7 +187,7 @@
 "E_acc":0}
 ,{
 "userid":0,
-"materialLink":"https://map.drought.gov.au/",
+"materialLink":"https://quickdri.unl.edu/",
 "type":"",
 "page_id":9,
 "place":"",
@@ -210,7 +210,7 @@
 "E_acc":0}
 ,{
 "userid":0,
-"materialLink":"http://drought.ithacaweb.org/",
+"materialLink":"https://inciweb.nwcg.gov/",
 "type":"",
 "page_id":10,
 "place":"",
