@@ -234,9 +234,9 @@
 ],
 "annotationdata":
 [
-"https://raw.githubusercontent.com/duckravel/Questionnaire/master/data/mapcollections/Australia_drought.gif",
-"https://raw.githubusercontent.com/duckravel/Questionnaire/master/data/mapcollections/Australia_drought1.gif",
-"https://raw.githubusercontent.com/duckravel/Questionnaire/master/data/mapcollections/current_usdm.png",
-"https://raw.githubusercontent.com/duckravel/Questionnaire/master/data/mapcollections/Pakistan.png",
-"https://raw.githubusercontent.com/duckravel/Questionnaire/master/data/mapcollections/drought-horn-of-africa.jpg"
+"https://raw.githubusercontent.com/duckravel/Metadata/main/src/data/mapcollections/Australia_drought.gif",
+"https://raw.githubusercontent.com/duckravel/Metadata/main/src/data/mapcollections/Australia_drought1.gif",
+"https://raw.githubusercontent.com/duckravel/Metadata/main/src/data/mapcollections/current_usdm.png",
+"https://raw.githubusercontent.com/duckravel/Metadata/main/src/data/mapcollections/Pakistan.png",
+"https://raw.githubusercontent.com/duckravel/Metadata/main/src/data/mapcollections/drought-horn-of-africa.jpg"
 ]}
