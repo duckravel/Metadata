@@ -2,7 +2,7 @@
 [
 {
 "userid":0,
-"materialLink":"https://eip.ceh.ac.uk/apps/droughts/",
+"materialLink":"https://www.fireweatheravalanche.org/fire/state/arizona",
 "type":"",
 "page_id":1,
 "place":"",
@@ -26,7 +26,7 @@
 }
 ,{
 "userid":0,
-"materialLink":"https://droughtmonitor.unl.edu/CurrentMap/StateDroughtMonitor.aspx?West",
+"materialLink":"https://www.arcgis.com/apps/webappviewer/index.html?id=94b379a91e0f47cb91712da22f603d39&extent=-13632561.8405%2C4954358.0786%2C-13623867.1285%2C4960664.1334%2C102100",
 "type":"",
 "page_id":2,
 "place":"",
@@ -95,7 +95,7 @@
 "E_acc":0}
 ,{
 "userid":0,
-"materialLink":"https://vegdri.unl.edu/",
+"materialLink":"https://droughtreporter.unl.edu/map/",
 "type":"",
 "page_id":5,
 "place":"",
@@ -118,7 +118,7 @@
 "E_acc":0}
 ,{
 "userid":0,
-"materialLink":"https://droughtreporter.unl.edu/map/",
+"materialLink":"https://napsg.maps.arcgis.com/apps/webappviewer/index.html?id=6dc469279760492d802c7ba6db45ff0e",
 "type":"",
 "page_id":6,
 "place":"",
@@ -141,7 +141,7 @@
 "E_acc":0}
 ,{
 "userid":0,
-"materialLink":"https://vegdri.unl.edu/Home/StateVegDRI.aspx?NM",
+"materialLink":"https://disasterresponse.maps.arcgis.com/apps/webappviewer/index.html?id=2ff1677111ae4018ac705fcce7c3312f",
 "type":"",
 "page_id":7,
 "place":"",
@@ -187,7 +187,7 @@
 "E_acc":0}
 ,{
 "userid":0,
-"materialLink":"https://quickdri.unl.edu/",
+"materialLink":"https://symgeo.maps.arcgis.com/apps/opsdashboard/index.html#/a4fedece02d5464399a4263d457c1907",
 "type":"",
 "page_id":9,
 "place":"",
