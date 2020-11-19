@@ -1,7 +1,7 @@
 <template>
 <div>
-<div v-for='(element,itemid) in data' :key='itemid'>
-<div class='row mb-2' id='soundheight' v-if='itemid==page'>
+<div v-for='(element,pageid) in data' :key='pageid'>
+<div class='row mb-2' id='soundheight' v-if='pageid==page'>
     <div class='col-lg-4 bg-white border-right' id='data'>
         <div class="card m-2">
             <h5 class="card-header">Place</h5>
@@ -10,7 +10,7 @@
                 <p  class="card-text" v-else >{{totext}}</p>
                 <div class="text-right">
                 <a href="#" class="btn btn-primary rounded-circle"  :class="{'btn-primary':place,'btn-danger':place==false}" 
-                 @click.prevent="recordcontrol('place',itemid);">
+                 @click.prevent="recordcontrol('place',pageid);">
                 <font-awesome-icon icon="microphone-alt"/></a></div>
             </div>
         </div>
@@ -21,7 +21,7 @@
                 <p  class="card-text" v-else >{{totext}}</p>
                 <div class="text-right">
                 <a href="#" class="btn rounded-circle"  :class="{'btn-primary':Altername,'btn-danger':Altername==false}" 
-                @click.prevent="recordcontrol('Altername',itemid);"><font-awesome-icon icon="microphone-alt"/></a></div>
+                @click.prevent="recordcontrol('Altername',pageid);"><font-awesome-icon icon="microphone-alt"/></a></div>
             </div>
         </div>
         <div class="card m-2">
@@ -31,7 +31,7 @@
                 <p  class="card-text" v-else >{{totext}}</p>
                 <div class="text-right">
                 <a href="#" class="btn btn-primary rounded-circle" :class="{'btn-primary':Category,'btn-danger':Category==false}"
-                @click.prevent="recordcontrol('Category',itemid);"><font-awesome-icon icon="microphone-alt"/></a></div>
+                @click.prevent="recordcontrol('Category',pageid);"><font-awesome-icon icon="microphone-alt"/></a></div>
             </div>
         </div>
         <div class="card m-2">
@@ -42,7 +42,7 @@
                 <div class="text-right">
                     <a href="#" class="btn btn-primary rounded-circle" 
                     :class="{'btn-primary':Description,'btn-danger':Description==false}"
-                    @click.prevent="recordcontrol('Description',itemid);"><font-awesome-icon icon="microphone-alt"/></a></div>
+                    @click.prevent="recordcontrol('Description',pageid);"><font-awesome-icon icon="microphone-alt"/></a></div>
             </div>
         </div>
         <div class="card m-2">
@@ -52,7 +52,7 @@
                 <p  class="card-text" v-else >{{totext}}</p>
                 <div class="text-right">
                 <a href="#" class="btn btn-primary rounded-circle" :class="{'btn-primary':StartTime,'btn-danger':StartTime==false}"
-                @click.prevent="recordcontrol('StartTime',itemid);"><font-awesome-icon icon="microphone-alt"/></a></div>
+                @click.prevent="recordcontrol('StartTime',pageid);"><font-awesome-icon icon="microphone-alt"/></a></div>
             </div>
         </div>
         <div class="card m-2">
@@ -62,7 +62,7 @@
                 <p  class="card-text" v-else >{{totext}}</p>
                 <div class="text-right">
                 <a href="#" class="btn btn-primary rounded-circle" :class="{'btn-primary':EndTime,'btn-danger':EndTime==false}"
-                @click.prevent="recordcontrol('EndTime',itemid);"><font-awesome-icon icon="microphone-alt"/></a></div>
+                @click.prevent="recordcontrol('EndTime',pageid);"><font-awesome-icon icon="microphone-alt"/></a></div>
             </div>
         </div>
     </div>               
@@ -81,7 +81,7 @@ recognition.continuous=true;
 recognition.interimResults=true;
 export default {
     name: 'soundElement',
-    props:['data','page'],//'element','itemid'
+    props:['data','page'],//'element','pageid'
     // extends:typeelement,
     data() {return {
             totext:'',speechresult:[],isRecord:false,timelist:[],confidence:0,
@@ -89,7 +89,7 @@ export default {
         },
     methods: {
         recordcontrol(ele,pageid){const vm=this;
-            if(this.isRecord==false){
+            if(!vm.isRecord){
                 vm.isRecord=true;
                 switch (ele){
                     case 'place':{vm.timelist.push(new Date());vm.record(ele);break;}
@@ -99,14 +99,14 @@ export default {
                     case 'StartTime':{vm.timelist.push(new Date());vm.record(ele);break;} 
                     case 'EndTime':{vm.timelist.push(new Date());vm.record(ele);break;} 
                 }
-                this.recorditem=ele;
+                vm.recorditem=ele;
             }else
-            {   this.isRecord=false;
-                if (this.recorditem!=ele){
-                    recognition.stop();
-                    this.speechresult=[];this.totext='';this.recorditem='';
-                    this[ele]=true;this[this.recorditem]=true;
-                    alert(`Recording different items at the same time is not allowed`);
+            {   vm.isRecord=false;
+                if (vm.recorditem!=ele){
+                    recognition.abort();
+                    vm[vm.recorditem]=true;
+                    vm.speechresult=[];vm.totext='';vm.recorditem='';
+                    alert("Recording different items at the same time is not allowed");
                     return
                 }else{
                 switch (ele){
@@ -133,7 +133,6 @@ export default {
         },
         endrecord(ele,pageid){
             const vm=this;
-            // recognition.stop();
             recognition.abort();
             recognition.onend = function() {vm[ele]=true;};
             if (vm.speechresult[vm.speechresult.length-1]==undefined){

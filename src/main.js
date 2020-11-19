@@ -15,7 +15,6 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 library.add(faUserSecret,fab, fas, far)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
-
 Vue.use(VueAxios, axios)
 Vue.config.productionTip = false
 /* eslint-disable no-new */
@@ -28,7 +27,7 @@ new Vue({
   components: { App },
   template: '<App/>',
   created() {
-  this.$http.get('https://safe-badlands-68606.herokuapp.com/restful/user').then(res=>{
+  this.$http.get(process.env.APIGET).then(res=>{
     let user = res.data;
     Vue.prototype.$userid = user.userid;
     Vue.prototype.$firCase = user.firCase;

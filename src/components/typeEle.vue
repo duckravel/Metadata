@@ -55,9 +55,10 @@ export default {
             time_in(event){
                 this.inputs=new Date();
             },
-            time_out(event){            
-                this.inpute=new Date();
-                let timeresult=this.time_esteimator(this.inputs,this.inpute,event);
+            time_out(event){      
+                const vm = this;      
+                vm.inpute=new Date();
+                let timeresult=vm.time_esteimator(vm.inputs,vm.inpute,event);
                 this.$emit('timelistener',timeresult);
             },
             time_esteimator(t1,t2,event){
@@ -68,14 +69,8 @@ export default {
                 let hour = t2.getHours()-t1.getHours();
                 let day = t2.getDay()-t1.getDay();
                 time = (day*24*60*60)+(hour*60*60)+(min*60)+second;
-                switch(event){
-                    case 'place':{ vm.place_time+=time; return [vm.place_time,event]}
-                    case 'Altername':{ vm.alter_time+=time; return [vm.alter_time,event];}
-                    case 'Category':{ vm.Cate_time+=time;return [vm.Cate_time,event]}
-                    case 'Description':{vm.Desc_time+=time;return [vm.Desc_time,event]}
-                    case 'StartTime':{vm.Stime+=time;return [ vm.Stime,event]}
-                    case 'EndTime':{vm.Etime+=time;return [ vm.Etime,event]}
-                }
+                return [time,event]
+
             },
             link(element){return `${element.materialLink}`}
         },

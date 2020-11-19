@@ -14,8 +14,7 @@
         </div>            
         <ul class="navbar-nav px-3">
             <li class="nav-item text-nowrap">
-            <!-- <button class="btn btn-sm btn-outline-light" @click='cancel'>Discard</button> -->
-            <button v-if='currentpage==annotationdata.length-1' class="btn btn-sm btn-outline-warning" @click='submit'>Submit</button>
+            <button v-if='currentpage==annotationdata.length-1' class="btn btn-sm btn-outline-warning" @click='submit'>Next</button>
             </li>
         </ul>
     </nav>
@@ -75,28 +74,6 @@
             </div>
     </div>
     </div>
-    
-    <!-- submission window -->
-    <div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-sm">
-      <div class="modal-content">
-        <div class="ml-auto m-2">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-            <div class="container text-center">
-                <p class="text-success"> <font-awesome-icon :icon="['far','check-circle']"/></p>
-                <p class='h4 mb-3'> Thanks for your contribution</p>
-                <p class="text-black-50">We are processing your data...</p>
-                <div class="d-flex justify-content-center"><div class="loader"></div></div>
-            </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
 </div>
         
     
@@ -107,89 +84,28 @@ import rowData from '../rowData';
 import rowDisplay from '../rowDisplay';
 import source from '../../data/source.json'
 import pattern from '../../data/variables.json'
-import simDis from '../simDis.js';
+import simDis from '../../utils/simDis.js';
+import commonmixin from '../../utils/commonmixins.js';
+import annoMixin from '../../utils/annoMixins.js';
 import $ from 'jquery';
 let SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
 let recognition = SpeechRecognition? new SpeechRecognition() : false
 recognition.lang = 'en-US';
 recognition.continuous=true;
 recognition.interimResults=true;
-
 export default {
     name:'SoundAnnotation',
-    mixins:[simDis],
-    data(){return {contenttimelist:[],patterntimelist:[],currentpage:0,annotationdata:source.annotationdata,annotype:'',patternlist:pattern.pattern,templist:'',drawlist:[[],[],[],[],[]],isAdd:true,itemid:-1,showmodal:false,content:'',pattern:'',isSubmit:false,
+    mixins:[simDis,commonmixin,annoMixin],
+    data(){return {contenttimelist:[],patterntimelist:[],currentpage:0,annotationdata:source.annotationdata,annotype:'',patternlist:pattern.pattern,templist:'',drawlist:[[],[],[],[],[]],isAdd:true,itemid:-1,showmodal:false,content:'',pattern:'',
     pat_acc:0,con_acc:0,confidence:0,recorditem:'',totext:'',speechcontent:'',speechresult:[],isRecord:false,patternmic:false,contentmic:false,}},
     components:{annoComponent,rowData,rowDisplay},
     methods:{
-        ano_pageChange(dir){
-            if (dir=='next'){++this.currentpage;}
-            else{--this.currentpage;}
-        },
-        time_cal(t1,t2){
-            let second = t2.getSeconds()-t1.getSeconds();
-            let min= t2.getMinutes()-t1.getMinutes();
-            let hour = t2.getHours()-t1.getHours();
-            let day = t2.getDay()-t1.getDay();
-            let time = (day*24*60*60)+(hour*60*60)+(min*60)+second;
-            return time},
-        modal(result){
-            const vm=this; vm.isAdd=result.isNew;
-            if (result.isNew){
-                this.templist = result.data;
-                vm.templist.annotime = vm.time_cal(result.annotime[0],result.annotime[result.annotime.length-1]);}
-            else{
-                vm.content=result.content;
-                vm.pattern=result.pattern;
-                vm.itemid=result.index;
-                result={open:true,isNew:true,data:vm.templist[vm.templist.length-1]};
-            }
-            this.showmodal=result.open;
-        },
-        watch_content(action){
-            const vm=this;
-            if(action=='focus'){vm.contenttimelist.push([new Date()]);}
-            else{vm.contenttimelist[vm.contenttimelist.length-1].push(new Date());}
-        },
-        watch_pattern(action){
-            const vm=this;
-            if(action=='focus'){vm.patterntimelist.push([new Date()]);}
-            else{vm.patterntimelist[vm.patterntimelist.length-1].push(new Date());}
-        },
-        keycompare(item){
-            let newindex=-1; const vm=this;
-            vm.drawlist[vm.currentpage].forEach((ele,key)=>{
-                if(ele.id===item.id){newindex=key;}
-            });
-            return newindex;
-            },
-        selected(result){
-            const vm=this;
-            let newindex =  this.keycompare(result.data);
-            if (result.selected){
-            let stroke='#2e2d2c',fill='#e8e815',strokeWidth=5;
-            switch(vm.drawlist[vm.currentpage][newindex].annotype){
-                case 'rect': case 'circle':{ vm.drawlist[vm.currentpage][newindex].style=`fill:${fill};stroke:${stroke};strokewidth:${strokeWidth};opacity:0.7`;break};
-                case 'pencil':{ vm.drawlist[vm.currentpage][newindex].style=`stroke-width:${strokeWidth};stroke:${stroke};fill:none`;break};
-                case 'pin':{ vm.drawlist[vm.currentpage][newindex].style=`fill:${fill}`;break};
-            }}
-            else{
-                let stroke='#ff0000',fill='#821717',strokeWidth=5;
-                switch(vm.drawlist[vm.currentpage][newindex].annotype){
-                    case 'rect': case 'circle':{ vm.drawlist[vm.currentpage][newindex].style=`fill:${fill};stroke:${stroke};strokewidth:${strokeWidth};opacity:0.7`;break};
-                    case 'pencil':{ vm.drawlist[vm.currentpage][newindex].style=`stroke-width:${strokeWidth};stroke:${stroke};fill:none`;break};
-                    case 'pin':{ vm.drawlist[vm.currentpage][newindex].style=`fill:${fill}`;break};}
-        }},
-        rm(item){
-            const vm=this;
-            let newindex =  this.keycompare(item);
-            vm.drawlist[vm.currentpage].splice(newindex,1);
-        },
         save(){
             const vm=this;let patterntime=0; let contenttime=0;
             if (vm.isRecord){alert('Please stop your recording')};
             if (vm.patterntimelist.length>0){patterntime=vm.patterntimelist.map(ele=>{return vm.time_cal(ele[0],ele[1])}).reduce((acc,cur)=>{return acc+cur});}
             if (vm.contenttimelist.length>0){contenttime=vm.contenttimelist.map(ele=>{return vm.time_cal(ele[0],ele[1])}).reduce((acc,cur)=>{return acc+cur});}
+            // new 
             if(vm.isAdd)
             {vm.templist.content=vm.content;vm.templist.con_acc=vm.con_acc;vm.templist.pattern=vm.pattern;vm.templist.pat_acc=vm.pat_acc;
             vm.templist.type='Speech';
@@ -197,6 +113,7 @@ export default {
             vm.templist.materialLink=vm.annotationdata[vm.currentpage];
             vm.templist.contenttime=contenttime;vm.templist.patterntime=patterntime;
             vm.drawlist[vm.currentpage].push(vm.templist)}
+            // edit 
             else{
                 vm.drawlist[vm.currentpage][vm.itemid].content=vm.content;
                 vm.drawlist[vm.currentpage][vm.itemid].pattern=vm.pattern;
@@ -207,9 +124,8 @@ export default {
             } 
             vm.close();
             vm.confidence=0;vm.con_acc=0;vm.pat_acc=0;vm.content=""; vm.pattern="";vm.templist='';vm.itemid=-1;vm.patterntimelist=[];vm.contenttimelist=[];
-        },
-        close(){const vm=this; vm.showmodal=false; vm.confidence=0;vm.con_acc=0;vm.pat_acc=0;vm.content=""; vm.pattern="";vm.templist='';vm.itemid=-1;},
-        recordcontrol(action){
+        }
+        ,recordcontrol(action){
             if(this.isRecord==false){
                 this.isRecord=true;this.recorditem=action;
                 switch (action){
@@ -221,7 +137,7 @@ export default {
             {   this.isRecord=false;
                 if (this.recorditem!=action){
                     alert(`Recording different items at the same time is not allowed`);
-                    recognition.stop();
+                    recognition.abort();
                     this.isRecord=false;this.patternmic=false;this.contentmic=false;
                     this.speechresult=[];this.recorditem='';
                     return
@@ -232,16 +148,16 @@ export default {
                     case 'content':{this.contentmic=false;this.contenttimelist[this.contenttimelist.length-1].push(new Date());this.endcontent();break;}
                 }
             }
-        },
-        record(){
+        }
+        ,record(){
             recognition.start();
             recognition.addEventListener('result', event => {
                 const text = Array.from(event.results).map(result => result[0]).map(result => result.transcript).join('')
                 let temp_con = Array.from(event.results).map(result=>result[0]).map(result=>result.confidence);
                 this.confidence=temp_con;  this.speechresult.push(text);
                 });
-        },
-        recordcontent(){
+        }
+        ,recordcontent(){
             recognition.start();
             recognition.addEventListener('result', event => {
             const text = Array.from(event.results).map(result => result[0]).map(result => result.transcript).join('');
@@ -250,7 +166,7 @@ export default {
             this.speechcontent = `${text}.`; this.speechresult.push(text);});
         },
         endrecordpattern(){
-            recognition.abort(); let isMatch;
+            recognition.abort();
             let word=(this.speechresult[this.speechresult.length-1]);
             if (word==undefined){
                 alert("Did not detect your voice, please record again");
@@ -271,23 +187,11 @@ export default {
             this.con_acc=(this.confidence.reduce((a,b)=>{return a+b})/this.confidence.length);
             this.speechresult=[];this.recorditem='';},
         submit(){
-            //save last element sets;
             const vm=this;
-            if (!this.$case.isFin){
-                this.$info.annotation = vm.drawlist;
-                this.$case.isFin=true;
-                vm.$router.push(`/${this.$secCase}`)
-            }
-            else{
-                this.$info.annotation = vm.drawlist;
-                let data = this.$info;
-                $('#alertModal').modal('show');
-                this.$http.post('https://safe-badlands-68606.herokuapp.com/restful/data',data).then(
-                    res=>{ 
-                    setTimeout(function(){ $('#alertModal').modal('hide');}, 1000);
-                    setTimeout(function(){ vm.$router.push('/redirect') }, 2000);});
-            }
-        },
+            this.$info.annotation = vm.drawlist;
+            vm.tosurvey();
+            
+        }
     },
 }
     

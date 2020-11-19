@@ -60,7 +60,8 @@ data:function(){return {Micok:false,showMic:false,transcript:'',isRecord:false,c
     else{
       recognition.abort();
       this.showMic=true; 
-      let acc = this.confidence.reduce((a,b)=>{return a+b})/this.confidence.length;
+      let acc = this.confidence[this.confidence.length-1];
+      console.log(acc);
       if (acc>0.8){this.Micok=true} else{ this.Micok=false};
     }
   }

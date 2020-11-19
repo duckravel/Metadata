@@ -1,25 +1,16 @@
 export default {
     methods: {
-        submit(){
-            //save last element sets;
-            const vm =this;
-            let element=vm.sourcedata[vm.currentpage];
-            let check = vm.checkelement(element.place,element.Altername,element.Category,element.StartTime,element.EndTime,element.Description);
-            if (check==false){
-                alert('Please fill the empty field');
-                return}
-            vm.storeelement(vm.currentpage);
-            if (!this.$firfin){
-                this.$info.element = vm.sourcedata;
-                console.log(this.$info);
-                this.firfin=true;
-                vm.$router.push(`/${this.$secCase}`)
-                }
-            else{
-                this.$info.element = vm.sourcedata;
-                // this.$http.post('http://localhost:3000/restful/data',//data
-                // ).then(console.log(res));
-            }
+        //use by all
+        tosurvey(){
+            const vm=this;
+            vm.$router.push('/survey');
         },
+        time_cal(t1,t2){
+            let second = t2.getSeconds()-t1.getSeconds();
+            let min= t2.getMinutes()-t1.getMinutes();
+            let hour = t2.getHours()-t1.getHours();
+            let day = t2.getDay()-t1.getDay();
+            let time = (day*24*60*60)+(hour*60*60)+(min*60)+second;
+            return time},
     }
 }

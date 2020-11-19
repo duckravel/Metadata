@@ -1,0 +1,51 @@
+export default {
+    methods: {
+        ano_pageChange(dir){
+            if (dir=='next'){++this.currentpage;}
+            else{--this.currentpage;}
+        },
+        keycompare(item){
+            let newindex=-1; const vm=this;
+            vm.drawlist[vm.currentpage].forEach((ele,key)=>{
+                if(ele.id===item.id){newindex=key;}
+            });
+            return newindex;
+            },
+        selected(result){
+            const vm=this;
+            let newindex =  this.keycompare(result.data);
+            if (result.selected){
+            let stroke='#2e2d2c',fill='#e8e815',strokeWidth=5;
+            switch(vm.drawlist[vm.currentpage][newindex].annotype){
+                case 'rect': case 'circle':{ vm.drawlist[vm.currentpage][newindex].style=`fill:${fill};stroke:${stroke};strokewidth:${strokeWidth};opacity:0.7`;break};
+                case 'pencil':{ vm.drawlist[vm.currentpage][newindex].style=`stroke-width:${strokeWidth};stroke:${stroke};fill:none`;break};
+                case 'pin':{ vm.drawlist[vm.currentpage][newindex].style=`fill:${fill}`;break};
+            }}
+            else{
+                let stroke='#ff0000',fill='#821717',strokeWidth=5;
+                switch(vm.drawlist[vm.currentpage][newindex].annotype){
+                    case 'rect': case 'circle':{ vm.drawlist[vm.currentpage][newindex].style=`fill:${fill};stroke:${stroke};strokewidth:${strokeWidth};opacity:0.7`;break};
+                    case 'pencil':{ vm.drawlist[vm.currentpage][newindex].style=`stroke-width:${strokeWidth};stroke:${stroke};fill:none`;break};
+                    case 'pin':{ vm.drawlist[vm.currentpage][newindex].style=`fill:${fill}`;break};}
+        }},
+        rm(item){
+            const vm=this;
+            let newindex =  this.keycompare(item);
+            vm.drawlist[vm.currentpage].splice(newindex,1);
+        },
+        modal(result){
+            const vm=this; vm.isAdd=result.isNew;
+            if (result.isNew){
+                this.templist = result.data;
+                vm.templist.annotime = vm.time_cal(result.annotime[0],result.annotime[result.annotime.length-1]);}
+            else{
+                vm.content=result.content;
+                vm.pattern=result.pattern;
+                vm.itemid=result.index;
+                result={open:true,isNew:true,data:vm.templist[vm.templist.length-1]};
+            }
+            this.showmodal=result.open;
+        },
+        close(){const vm=this; vm.showmodal=false; vm.confidence=0;vm.con_acc=0;vm.pat_acc=0;vm.content=""; vm.pattern="";vm.templist='';vm.itemid=-1;}
+    }
+}

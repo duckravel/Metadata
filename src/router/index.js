@@ -2,16 +2,19 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Welcome from '@/components/Welcome'
 import TypeElement from '@/components/pages/TypeElement'
-import SoundElement from '@/components/pages/SoundElement'
+import speechElement from '@/components/pages/speechElement'
 import TypeAnnotation from '@/components/pages/TypeAnnotation'
-import SoundAnnotation from '@/components/pages/SoundAnnotation'
+import speechAnnotation from '@/components/pages/speechAnnotation'
 import Redirect from '@/components/pages/Redirect.vue'
+import QUE from '@/components/pages/QUE.vue'
 Vue.use(Router)
 
 export default new Router({
   routes: [
+    {path:'*',
+    redirect:'welcome'},
     {
-      path: '/',
+      path: '/welcome',
       name: 'welcome',
       component: Welcome
     },
@@ -21,9 +24,9 @@ export default new Router({
       component: TypeElement
     },
     {
-      path: '/sound_element',
-      name: 'sound_element',
-      component: SoundElement
+      path: '/speech_element',
+      name: 'speech_element',
+      component: speechElement
     },
     {
       path: '/type_annotation',
@@ -31,14 +34,19 @@ export default new Router({
       component: TypeAnnotation
     },
     {
-      path: '/sound_annotation',
-      name: 'sound_annotation',
-      component: SoundAnnotation
+      path: '/speech_annotation',
+      name: 'speech_annotation',
+      component: speechAnnotation
     },
     {
       path: '/redirect',
       name: 'Redirect',
       component: Redirect
+    },
+    {
+      path: '/survey',
+      name: 'survey',
+      component: QUE,
     },
   ]
 })

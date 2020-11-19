@@ -1,0 +1,202 @@
+<template>
+    <div>
+        <nav class="navbar navbar-dark bg-dark flex-md-nowrap p-0 shadow">
+            <a class="navbar-brand col-sm-3 col-md-2 mr-0 disabled"  href="#">User Experience Satisfication</a>
+            <span class="text-white mb-0">UserID:</span>           
+            <!-- {{$userid}} -->
+            <ul class="navbar-nav px-3">
+            <li><button class="btn btn-sm btn-outline-warning " @click.prevent='submit'>Submit</button></li></ul>
+        </nav>
+    <div class="row d-flex justify-content-center m-2">
+        <div class="col-lg-8" >
+        <h4 class="text-center"> Please make your evaluation for the taks you just finished </h4>
+        <p>For the assessment of the product, please fill out the following questionnaire.  The questionnaire consists of pairs of contrasting attributes that may apply to the product. The circles between the attributes represent gradations between the opposites. You can express your agreement with the attributes by ticking the circle that most closely reflects your impression. </p>
+        </div>
+    </div>
+    <!-- Questionnaire -->
+    <div class="row d-flex justify-content-center m-2">
+        <div class="col-lg-8">
+            <div class="row align-items-end my-2">
+                <div class="col-3 text-right"> <span class="text-danger">*</span> Obstructive</div>
+                <div class="col-6 d-flex justify-content-between">
+                    <div class="form-check form-check-inline" v-for="item in 7" :key='item'>
+                        <input class="form-check-input" type="radio" v-model='Que.support' :name="`radio${item}`" :id="`radio${item}`" :value='item'>
+                        <label class="form-check-label" :for="`radio${item}`">{{item}}</label>
+                    </div>
+                </div>
+                <div class="col-3 text-left">Supportive</div>
+            </div>
+        </div>
+        <div class="col-lg-8">
+            <div class="row align-items-end my-2">
+                <div class="col-3 text-right"><span class="text-danger">*</span> Complicated </div>
+                <div class="col-6 d-flex justify-content-between">
+                    <div class="form-check form-check-inline" v-for="item in 7" :key='item'>
+                        <input class="form-check-input" type="radio" v-model='Que.easy' :name="`radio${item+7}`" :id="`radio${item+7}`" :value='item'>
+                        <label class="form-check-label" :for="`radio${item+7}`">{{item}}</label>
+                    </div>
+                </div>
+                <div class="col-3 text-left">Easy</div>
+            </div>
+        </div>
+        <div class="col-lg-8">
+            <div class="row align-items-end my-2">
+                <div class="col-3 text-right"><span class="text-danger">*</span> Inefficient</div>
+                <div class="col-6 d-flex justify-content-between">
+                    <div class="form-check form-check-inline" v-for="item in 7" :key='item+14'>
+                        <input class="form-check-input" type="radio" v-model='Que.efficient' :name="`radio${item+14}`" :id="`radio${item+14}`" :value='item'>
+                        <label class="form-check-label" :for="`radio${item+14}`">{{item}}</label>
+                    </div>
+                </div>
+                <div class="col-3 text-left">Efficient </div>
+            </div>
+        </div>
+            <div class="col-lg-8">
+            <div class="row align-items-end my-2">
+                <div class="col-3 text-right"><span class="text-danger">*</span> Confusing</div>
+                <div class="col-6 d-flex justify-content-between">
+                    <div class="form-check form-check-inline" v-for="item in 7" :key='item+21'>
+                        <input class="form-check-input" type="radio" v-model='Que.clear' :name="`radio${item+21}`" :id="`radio${item+21}`" :value='item'>
+                        <label class="form-check-label" :for="`radio${item+21}`">{{item}}</label>
+                    </div>
+                </div>
+                <div class="col-3 text-left">Clear </div>
+            </div>
+        </div>
+            <div class="col-lg-8">
+            <div class="row align-items-end my-2">
+                <div class="col-3 text-right"><span class="text-danger">*</span> Boring</div>
+                <div class="col-6 d-flex justify-content-between">
+                    <div class="form-check form-check-inline" v-for="item in 7" :key='item'>
+                        <input class="form-check-input" type="radio" v-model='Que.exciting' :name="`radio${item+28}`" :id="`radio${item+28}`" :value='item'>
+                        <label class="form-check-label" :for="`radio${item+28}`">{{item}}</label>
+                    </div>
+                </div>
+                <div class="col-3 text-left">Exciting</div>
+            </div>
+        </div>
+            <div class="col-lg-8">
+            <div class="row align-items-end my-2">
+                <div class="col-3 text-right"><span class="text-danger">*</span> Not interesting</div>
+                <div class="col-6 d-flex justify-content-between">
+                    <div class="form-check form-check-inline" v-for="item in 7" :key='item'>
+                        <input class="form-check-input" type="radio" v-model='Que.interesting' :name="`radio${item+35}`" :id="`radio${item+35}`" :value='item'>
+                        <label class="form-check-label" :for="`radio${item+35}`">{{item}}</label>
+                    </div>
+                </div>
+                <div class="col-3 text-left">Interesting</div>
+            </div>
+        </div>
+        <div class="col-lg-8">
+            <div class="row align-items-end my-2">
+                <div class="col-3 text-right"><span class="text-danger">*</span> Conventional </div>
+                <div class="col-6 d-flex justify-content-between">
+                    <div class="form-check form-check-inline" v-for="item in 7" :key='item'>
+                        <input class="form-check-input" type="radio" v-model='Que.conventional' :name="`radio${item+42}`" :id="`radio${item+42}`" :value='item'>
+                        <label class="form-check-label" :for="`radio${item+42}`">{{item}}</label>
+                    </div>
+                </div>
+                <div class="col-3 text-left">Inventive  </div>
+            </div>
+        </div>
+                <div class="col-lg-8">
+            <div class="row align-items-end my-2">
+                <div class="col-3 text-right"><span class="text-danger">*</span> Usual</div>
+                <div class="col-6 d-flex justify-content-between">
+                    <div class="form-check form-check-inline" v-for="item in 7" :key='item'>
+                        <input class="form-check-input" type="radio" v-model='Que.usual' :name="`radio${item+49}`" :id="`radio${item+49}`" :value='item'>
+                        <label class="form-check-label" :for="`radio${item+49}`">{{item}}</label>
+                    </div>
+                </div>
+                <div class="col-3 text-left">Leading edge </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- submission window -->
+    <div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="ml-auto m-2">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="container text-center">
+                <p class="text-success"> <font-awesome-icon :icon="['far','check-circle']"/></p>
+                <p class='h4 mb-3'> Thanks for your contribution</p>
+                <p class="text-black-50">We are processing your data...</p>
+                <div class="d-flex justify-content-center"><div class="loader"></div></div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    </div>    
+</template>
+<script>
+import $ from 'jquery';
+export default {
+    data(){return {Que:{type:'',userID:'',support:0,easy:0,efficient:0,clear:0,exciting:0,interesting:0,conventional:0,usual:0}
+    }},
+    methods: {
+        submit(){
+            //store value => check value => nextact (next task or submit)
+            const vm=this;
+            vm.storeQue();
+            if (!vm.check()){
+                alert('Please fill the empty field');
+                return
+            }
+            vm.toNextAct();
+        },
+        check(){
+            const vm = this;
+            //Que to array and take off type/userID
+            let queValue = Object.values(vm.Que).slice(2);
+            //Lenght of all value greater than 1 => all fields filled => return true
+            return queValue.every(function(ele){return ele>0})
+        },
+        storeQue(){
+            const vm=this;
+            vm.Que.userID = this.$userid;
+            if(!this.$case.isFin){
+                vm.Que.type = this.$firCase.split('_')[0];
+                this.$info.queFir = vm.Que;
+            }else{
+                vm.Que.type = this.$secCase.split('_')[0];
+                this.$info.queSec = vm.Que;
+            }
+
+        },
+        toNextAct(){
+            //clean the data 
+            const vm=this;
+            vm.Que={type:'',userID:'',support:0,easy:0,efficient:0,clear:0,exciting:0,interesting:0,conventional:0,usual:0};
+            let data = this.$info;
+            if (!this.$case.isFin){
+                this.$case.isFin=true;
+                vm.$router.push(`/${this.$secCase}`)
+            }
+            else{
+                let data = this.$info;
+                $('#alertModal').modal('show');
+                this.$http.post(process.env.APIDATA,data).then(
+                    res=>{ 
+                    setTimeout(function(){ $('#alertModal').modal('hide');}, 1000);
+                    setTimeout(function(){ vm.$router.push('/redirect') }, 2000);});
+            }
+        }
+    },
+
+}
+</script>
+
+<style scoped>
+    .custom_i{
+        width:100%;
+        height:100vh;
+
+    }
+</style>
