@@ -12,5 +12,15 @@ export default {
             let day = t2.getDay()-t1.getDay();
             let time = (day*24*60*60)+(hour*60*60)+(min*60)+second;
             return time},
+        saveload(data){
+            if(!this.$case.isFin){
+                data.type = this.$firCase.split('_')[0];
+                this.$info.loadFir = data;
+
+            }else{
+                data.type = this.$secCase.split('_')[0];
+                this.$info.loadSec = data;
+            }
+        }
     }
 }

@@ -31,10 +31,10 @@
     <div class="side-data col-md-3 bg-white overflow-auto" id='data'>      
         <nav>
         <ul class="pagination mb-2 justify-content-end" >                                 
-            <li class="page-item" :class='{disabled:currentpage==0}'><a class="page-link" href="#" @click.prevent="ano_pageChange('pre')"><span aria-hidden="true">&laquo;</span></a></li>
+            <li class="page-item" :class='{disabled:currentpage==0}'><a class="page-link" href="#" @click.prevent="surveyModal('pre')"><span aria-hidden="true">&laquo;</span></a></li>
             <li class="page-item" v-for="(page,index) in annotationdata.length" :key='index' :page='page' :class='{active:currentpage===page-1}'>
                 <span class="custom-link">{{page}}</span></li>
-            <li class="page-item" :class='{disabled:currentpage==annotationdata.length-1}'><a class="page-link" href="#" @click.prevent="ano_pageChange('next')"> <span aria-hidden="true">&raquo;</span></a></li>
+            <li class="page-item" :class='{disabled:currentpage==annotationdata.length-1}'><a class="page-link" href="#" @click.prevent="surveyModal('next')"> <span aria-hidden="true">&raquo;</span></a></li>
         </ul></nav>  
         <!-- datalist -->
         <row-data :data='drawlist' :currentpage='currentpage'
@@ -73,6 +73,38 @@
             </div>
         </div>
     </div>
+<!-- Modal -->
+    <div class="modal fade" id="surveyModal" tabindex="-1" role="dialog" aria-labelledby="surveyModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="surveyModalLabel">How difficult is the task?</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="row align-items-end my-2">
+                <div class="col-3 text-right"><span class="text-danger">*</span> Difficult</div>
+                <div class="col-7 d-flex justify-content-between">
+                    <div class="form-check form-check-inline" v-for="item in 7" :key='item'>
+                        <input class="form-check-input" type="radio" v-model='load' :name="`radio${item}`" :id="`radio${item}`" :value='item'>
+                        <label class="form-check-label" :for="`radio${item}`">{{item}}</label>
+                    </div>
+                </div>
+                <div class="col-2 text-left">Easy</div>
+            </div>
+        </div>
+        <div class="alert alert-danger mb-0 round-0" v-if='isFilled'>
+            Please select a value
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" @click.prevent="saveModal">Save changes</button>
+        </div>
+        </div>
+    </div>
+    </div> 
 </div>
         
     </div>
@@ -88,7 +120,7 @@ import annoMixin from '../../utils/annoMixins.js';
 import $ from 'jquery';
 export default {
     name:'TypeAnnotation',
-    data(){return {pat_acc:0,con_acc:0,contenttimelist:[],patterntimelist:[],currentpage:0,annotationdata:source.annotationdata,annotype:'',patternlist:pattern.pattern,templist:'',drawlist:[[],[],[],[],[]],isAdd:true,itemid:-1,showmodal:false,content:'',pattern:''}},
+    data(){return {pat_acc:0,con_acc:0,contenttimelist:[],patterntimelist:[],currentpage:0,annotationdata:source.annotationdata,annotype:'',patternlist:pattern.pattern,templist:'',drawlist:[[],[],[],[],[]],isAdd:true,itemid:-1,showmodal:false,content:'',pattern:'',congnition:{},load:0,isFilled:false,dir:''}},
     components:{annoComponent,rowData,rowDisplay},
     mixins:[commonmixin,annoMixin],
     methods:{
@@ -127,6 +159,7 @@ export default {
         submit(){
             const vm=this;vm.tosurvey();
             this.$info.annotation = vm.drawlist;
+            vm.saveload(vm.congnition);vm.congnition={};
             vm.tosurvey();
         },
     },    

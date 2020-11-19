@@ -1,8 +1,26 @@
-export default {
+import $ from 'jquery';
+export default {    
     methods: {
         ano_pageChange(dir){
             if (dir=='next'){++this.currentpage;}
             else{--this.currentpage;}
+        },
+        surveyModal(dir){
+            const vm =this;
+            vm.dir=dir;
+            $('#surveyModal').modal('show');
+
+        },
+        saveModal(){
+            const vm=this;
+            if (vm.load<=0){
+                vm.isFilled=true;
+                setTimeout(function(){vm.isFilled=false;}, 3000);
+            }else{
+                vm.congnition[`${vm.currentpage+1}`]=vm.load;
+                $('#surveyModal').modal('hide');
+                vm.load=0;
+                vm.ano_pageChange(vm.dir);}
         },
         keycompare(item){
             let newindex=-1; const vm=this;

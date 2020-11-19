@@ -38,6 +38,38 @@
         <soundEle v-on:catchdata='store_sounddata' :data="sourcedata" :page='currentpage'
         ></soundEle>
         </div>
+    <!-- Modal -->
+    <div class="modal fade" id="surveyModal" tabindex="-1" role="dialog" aria-labelledby="surveyModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="surveyModalLabel">How difficult is the task?</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="row align-items-end my-2">
+                <div class="col-3 text-right"><span class="text-danger">*</span> Difficult</div>
+                <div class="col-7 d-flex justify-content-between">
+                    <div class="form-check form-check-inline" v-for="item in 7" :key='item'>
+                        <input class="form-check-input" type="radio" v-model='load' :name="`radio${item}`" :id="`radio${item}`" :value='item'>
+                        <label class="form-check-label" :for="`radio${item}`">{{item}}</label>
+                    </div>
+                </div>
+                <div class="col-2 text-left">Easy</div>
+            </div>
+        </div>
+        <div class="alert alert-danger mb-0 round-0" v-if='isFilled'>
+            Please select a value
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" @click.prevent="saveModal">Save changes</button>
+        </div>
+        </div>
+    </div>
+    </div>
     </div>
 </template>
 <script>
@@ -47,7 +79,7 @@ import commonmixin from '../../utils/commonmixins.js';
 import elementmixins from '../../utils/elementmixins.js';
 import $ from 'jquery';
 export default {
-    data(){return {currentpage:0,sourcedata:source.data,place_time:0,alter_time:0,Cate_time:0,Cate_acc:0,Desc_time:0,Stime:0,Etime:0}},
+    data(){return {currentpage:0,sourcedata:source.data,place_time:0,alter_time:0,Cate_time:0,Cate_acc:0,Desc_time:0,Stime:0,Etime:0,congnition:{},load:0,isFilled:false}},
     components:{soundEle},
     mixins:[commonmixin,elementmixins],
     methods:{
@@ -71,7 +103,8 @@ export default {
                 return}
             vm.storeelement(vm.currentpage,'Speech');
             this.$info.element = vm.sourcedata;
-            this.tosurvey();
+            vm.saveload(vm.congnition);vm.congnition={};
+            vm.tosurvey();
         },
     },
 }
