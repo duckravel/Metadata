@@ -31,7 +31,7 @@
     <div class="side-data col-md-3 bg-white overflow-auto" id='data'>      
         <nav>
         <ul class="pagination mb-2 justify-content-end" >                                 
-            <li class="page-item" :class='{disabled:currentpage==0}'><a class="page-link" href="#" @click.prevent="surveyModal('pre')"><span aria-hidden="true">&laquo;</span></a></li>
+            <li class="page-item" :class='{disabled:currentpage==0}'><a class="page-link" href="#" @click.prevent="ano_pageChange('pre')"><span aria-hidden="true">&laquo;</span></a></li>
             <li class="page-item" v-for="(page,index) in annotationdata.length" :key='index' :page='page' :class='{active:currentpage===page-1}'>
                 <span class="custom-link">{{page}}</span></li>
             <li class="page-item" :class='{disabled:currentpage==annotationdata.length-1}'><a class="page-link" href="#" @click.prevent="surveyModal('next')"> <span aria-hidden="true">&raquo;</span></a></li>
