@@ -1,20 +1,22 @@
 <template>
     <div>
         <nav class="navbar navbar-dark bg-dark flex-md-nowrap p-0 shadow">
-            <a class="navbar-brand col-sm-3 col-md-2 mr-0 disabled"  href="#">User Experience Satisfication</a>
-            <span class="text-white mb-0">UserID:</span>           
-            <!-- {{$userid}} -->
-            <ul class="navbar-nav px-3">
-            <li><button class="btn btn-sm btn-outline-warning " @click.prevent='submit'>Submit</button></li></ul>
+            <a class="navbar-brand col-sm-3 col-md-2 mr-0 disabled">User Experience Survey</a>
+            <ul class="navbar m-0 px-3">
+            <li class="list-unstyled"><span class="text-white mr-3">UserID:{{$userid}}</span></li>
+            <li v-if='!this.$case.isFin' class="list-unstyled"><button class="btn btn-sm btn-outline-warning "  @click.prevent='submit'>Next</button></li>
+            <li v-else class="list-unstyled"><button class="btn btn-sm btn-outline-warning "  @click.prevent='submit'>Submit</button>Submit</li>
+            </ul>
+            
+            
         </nav>
-    <div class="row d-flex justify-content-center m-2">
+    <div class="row d-flex justify-content-center m-4">
         <div class="col-lg-8" >
-        <h4 class="text-center"> Please make your evaluation for the taks you just finished </h4>
-        <p>For the assessment of the product, please fill out the following questionnaire.  The questionnaire consists of pairs of contrasting attributes that may apply to the product. The circles between the attributes represent gradations between the opposites. You can express your agreement with the attributes by ticking the circle that most closely reflects your impression. </p>
+        <h5 class="text-center"> Tell us about your feedback on  <span class="text-primary">{{task}} </span> metadata creation</h5>
         </div>
     </div>
     <!-- Questionnaire -->
-    <div class="row d-flex justify-content-center m-2">
+    <div class="row d-flex justify-content-center mx-2 my-4">
         <div class="col-lg-8">
             <div class="row align-items-end my-2">
                 <div class="col-3 text-right"> <span class="text-danger">*</span> Obstructive</div>
@@ -138,7 +140,7 @@
 <script>
 import $ from 'jquery';
 export default {
-    data(){return {Que:{type:'',userID:'',support:0,easy:0,efficient:0,clear:0,exciting:0,interesting:0,conventional:0,usual:0}
+    data(){return {task:'',Que:{type:'',userID:'',support:0,easy:0,efficient:0,clear:0,exciting:0,interesting:0,conventional:0,usual:0}
     }},
     methods: {
         submit(){
@@ -158,14 +160,24 @@ export default {
             //Lenght of all value greater than 1 => all fields filled => return true
             return queValue.every(function(ele){return ele>0})
         },
-        storeQue(){
+        case(){
+            let result = '';
+            if(!this.$case.isFin){
+                result = this.$firCase.split('_');
+            }else{
+                result = this.$secCase.split('_');
+            }
+            return result
+        }
+        ,storeQue(){
             const vm=this;
             vm.Que.userID = this.$userid;
+            let result = vm.case();
             if(!this.$case.isFin){
-                vm.Que.type = this.$firCase.split('_')[0];
+                vm.Que.type = result[0];
                 this.$info.queFir = vm.Que;
             }else{
-                vm.Que.type = this.$secCase.split('_')[0];
+                vm.Que.type = result[0];
                 this.$info.queSec = vm.Que;
             }
 
@@ -187,8 +199,18 @@ export default {
                     setTimeout(function(){ $('#alertModal').modal('hide');}, 1000);
                     setTimeout(function(){ vm.$router.push('/redirect') }, 2000);});
             }
+            
+        },
+        toUpper(word,num){
+            return word.charAt(num).toUpperCase()+word.slice(1);
         }
     },
+    created(){
+        const vm = this;
+        let result = vm.case();
+        vm.task = 
+        `${vm.toUpper(result[0],0)} ${vm.toUpper(result[1],0)}`
+    }
 
 }
 </script>

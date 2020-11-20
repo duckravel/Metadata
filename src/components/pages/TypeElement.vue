@@ -2,10 +2,7 @@
     <div>
         <div id='menu'>
             <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-                <a class="navbar-brand col-sm-3 col-md-2 mr-0 disabled"  href="#">Map Metadata
-                    <span class="text-white h6 ml-1" v-if='$userid'>UserID:{{$userid}}</span>    
-                    </a>           
-                
+                <a class="navbar-brand col-sm-3 col-md-2 mr-0 disabled">Map Metadata Element</a>           
                 <nav class="d-flex justify-content-end">
                     <ul class="pagination mb-0" >                                 
                         <li class="page-item">
@@ -26,9 +23,10 @@
                         </li>
                     </ul>
                   </nav>
-                <ul class="navbar-nav px-3">
-                  <li class="nav-item text-nowrap">
-                    <button v-if='currentpage==sourcedata.length-1' class="btn btn-sm btn-outline-warning" @click='submit'>Submit</button>
+                <ul class="navbar m-0 px-3">
+                  <li class="list-unstyled"><span class="text-white mr-3">UserID:{{$userid}}</span></li>
+                  <li class="nav-item text-nowrap list-unstyled">
+                    <button v-if='currentpage==sourcedata.length-1' class="btn btn-sm btn-outline-warning" @click='submit'>Next</button>
                   </li>
                 </ul>
               </nav>

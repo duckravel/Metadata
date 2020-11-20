@@ -2,9 +2,8 @@
     <div>
     <div id='menu'>
     <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-        <a class="navbar-brand col-sm-3 col-md-2 mr-0 disabled"  href="#">Map Annotation
+        <a class="navbar-brand col-sm-3 col-md-2 mr-0 disabled">Map Annotation
         </a>
-        <span class="text-white mr-2 mb-0">UserID:{{$userid}}</span>
         <div class="btn-group mr-auto" role="group"  > 
             <span class="text-white-50 nav-link">Tools:  </span>  
             <button type="button" class="btn btn-dark rounded-0" @click.prevent="annotype='rect'"   > <font-awesome-icon :icon="['far', 'square']"/></button>
@@ -12,8 +11,9 @@
             <button type="button" class="btn btn-dark  rounded-0" @click.prevent="annotype='pencil'"  > <font-awesome-icon :icon="['fas', 'pencil-alt']"/></button>
             <button type="button" class="btn btn-dark  rounded-0" @click.prevent="annotype='pin'" > <font-awesome-icon :icon="['fas', 'map-pin']"/> </button>
         </div>            
-        <ul class="navbar-nav px-3">
-            <li class="nav-item text-nowrap">
+        <ul class="navbar m-0">
+            <li class="list-unstyled"><span class="text-white mr-3">UserID:{{$userid}}</span></li>
+            <li class="list-unstyled nav-item text-nowrap">
             <button v-if='currentpage==annotationdata.length-1' class="btn btn-sm btn-outline-warning" @click='submit'>Next</button>
             </li>
         </ul>
