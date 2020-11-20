@@ -5,14 +5,14 @@
             <ul class="navbar m-0 px-3">
             <li class="list-unstyled"><span class="text-white mr-3">UserID:{{$userid}}</span></li>
             <li v-if='!this.$case.isFin' class="list-unstyled"><button class="btn btn-sm btn-outline-warning "  @click.prevent='submit'>Next</button></li>
-            <li v-else class="list-unstyled"><button class="btn btn-sm btn-outline-warning "  @click.prevent='submit'>Submit</button>Submit</li>
+            <li v-else class="list-unstyled"><button class="btn btn-sm btn-outline-warning "  @click.prevent='submit'>Submit</button></li>
             </ul>
             
             
         </nav>
     <div class="row d-flex justify-content-center m-4">
         <div class="col-lg-8" >
-        <h5 class="text-center"> Tell us about your feedback on  <span class="text-primary">{{task}} </span> metadata creation</h5>
+        <h5 class="text-center"> Share your feedback on  <span class="text-primary">{{task}} </span> metadata creation</h5>
         </div>
     </div>
     <!-- Questionnaire -->
