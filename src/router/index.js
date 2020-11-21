@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Welcome from '@/components/Welcome'
+import mictest from '@/components/mictest'
 import TypeElement from '@/components/pages/TypeElement'
 import speechElement from '@/components/pages/speechElement'
 import TypeAnnotation from '@/components/pages/TypeAnnotation'
@@ -17,6 +18,11 @@ export default new Router({
       path: '/welcome',
       name: 'welcome',
       component: Welcome
+    },
+    {
+      path: '/mictest',
+      name: 'mictest',
+      component: mictest
     },
     {
       path: '/type_element',
