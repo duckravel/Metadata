@@ -33,9 +33,9 @@
             <li>Universidade Nova de Lisboa (UNL)</li>
           </ul>
         </div>
-        <img src="../data/wwu.png" alt="wwu" class="custom_img">
-        <img src="../data/uji.png" alt="uji" class="custom_img2">
-        <img src="../data/nova.png" alt="nova" class="custom_img2">
+        <img src="https://raw.githubusercontent.com/duckravel/Metadata/main/src/data/WWU.png" alt="wwu" class="custom_img">
+        <img src="https://raw.githubusercontent.com/duckravel/Metadata/main/src/data/uji.png" alt="uji" class="custom_img2">
+        <img src="https://raw.githubusercontent.com/duckravel/Metadata/main/src/data/nova.png" alt="nova" class="custom_img2">
         </div>
       </div>
     </footer>
