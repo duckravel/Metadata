@@ -14,7 +14,7 @@
     <div class="container row my-5 justify-content-center">
       <div class="col-10">
         <h4>Introduction</h4>
-        <p class="mb-3">Welcome to metadata creation experiment, this is a research project involving 3 European universities: NOVA IMS (Lisbon Portugal), UJI (Castellon, Spain), and WWU (Muenster, Germany). Geospatial metadata is essential for data discoverability, and the experiment is to understand the impact of different metadata creation approach.
+        <p class="mb-3">Welcome to metadata creation experiment, this is a research project involving 3 European universities: NOVA IMS (Lisbon Portugal), UJI (Castellon, Spain), and WWU (Muenster, Germany). Geospatial metadata is essential for data discoverability, and the experiment is to understand the impact of the use of speech recognition in metadata creation process.
         The whole survey takes 40 minutes on average to complete, and your contribution will be crucial for future actions related to the topic.</p>
         <h4>Consent</h4>
         <p class="mb-3">I have understood during the experiment, some of my personal data will be collected (education, age, gender, nationality, email) and operation data will be recorded as a video for the observation use, and have had any questions answered satisfactorily, and I willingly consent to participate in this study. I understand that if I should have any questions about my rights as a research subject, I can contact the experiment designer Pei-Chun Lai by her email (al396421@uji.es)</p>
