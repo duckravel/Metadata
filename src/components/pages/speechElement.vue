@@ -20,14 +20,14 @@
                           <span class="custom-link">{{sourcedata.length}}</span>
                         </li>
                         <li class="page-item">
-                            <a class="page-link" href="#" @click.prevent="pageChange('next','Speech')" v-if='currentpage!=sourcedata.length-1'>Next</a>
+                            <a class="page-link" href="#" @click.prevent="next('next','Speech')" v-if='currentpage!=sourcedata.length-1'>Next</a>
                         </li>
                     </ul>
                   </nav>
                 <ul class="navbar m-0">
                     <li class="list-unstyled nav-item"><span class="text-white mr-3">UserID:{{$userid}}</span></li>
                     <li class="list-unstyled nav-item text-nowrap">
-                        <button  v-if='currentpage==sourcedata.length-1' class="btn btn-sm btn-outline-warning" @click='submit'>Next</button>
+                        <button  v-if='currentpage==sourcedata.length-1' class="btn btn-sm btn-outline-warning" @click.prevent="next('next','Speech')">Next</button>
                     </li>
                 </ul>
               </nav>
@@ -38,7 +38,7 @@
         </div>
     <!-- Modal -->
     <div class="modal fade" id="surveyModal" tabindex="-1" role="dialog" aria-labelledby="surveyModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
         <div class="modal-header">
             <h5 class="modal-title" id="surveyModalLabel">How difficult is the task?</h5>
@@ -48,14 +48,14 @@
         </div>
         <div class="modal-body">
             <div class="row align-items-end my-2">
-                <div class="col-3 text-right"><span class="text-danger">*</span> Difficult</div>
+                <div class="col-3  text-center"><span class="text-danger">*</span> Very Difficult</div>
                 <div class="col-7 d-flex justify-content-between">
                     <div class="form-check form-check-inline" v-for="item in 7" :key='item'>
                         <input class="form-check-input" type="radio" v-model='load' :name="`radio${item}`" :id="`radio${item}`" :value='item'>
                         <label class="form-check-label" :for="`radio${item}`">{{item}}</label>
                     </div>
                 </div>
-                <div class="col-2 text-left">Easy</div>
+                <div class="col-2  text-center">Very Easy</div>
             </div>
         </div>
         <div class="alert alert-danger mb-0 round-0" v-if='isFilled'>

@@ -38,7 +38,16 @@ export default {
             }else{
                 vm.congnition[`${vm.currentpage+1}`]=vm.load;
                 $('#surveyModal').modal('hide');
-                vm.load=0; vm.pageChange();}   
+                vm.load=0; 
+                    if (vm.currentpage<9){vm.pageChange();}
+                    else{
+                        this.$info.element = vm.sourcedata;
+                        vm.saveload(vm.congnition);
+                        vm.congnition={'1':0,'2':0,'3':0,'4':0,'5':0,'6':0,'7':0,'8':0,'9':0,'10':0,type:'',userID:'',order:0};
+                        vm.tosurvey();
+                        
+                    }
+                }   
         },
         resetelement(){
             const vm=this;

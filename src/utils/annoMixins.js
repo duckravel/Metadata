@@ -20,7 +20,15 @@ export default {
                 vm.congnition[`${vm.currentpage+1}`]=vm.load;
                 $('#surveyModal').modal('hide');
                 vm.load=0;
+                this.$info.annotation = vm.drawlist;
+                vm.saveload(vm.congnition);
+                if (vm.currentpage < 4){
                 vm.ano_pageChange(vm.dir);}
+                else{
+                    vm.congnition={'1':0,'2':0,'3':0,'4':0,'5':0,'6':0,'7':0,'8':0,'9':0,'10':0,type:'',userID:'',order:0};
+                    vm.tosurvey();
+                }
+            }
         },
         keycompare(item){
             let newindex=-1; const vm=this;
@@ -54,13 +62,13 @@ export default {
         modal(result){
             const vm=this; vm.isAdd=result.isNew;
             if (result.isNew){
-                this.templist = result.data;
+                vm.templist = result.data;
                 vm.templist.annotime = vm.time_cal(result.annotime[0],result.annotime[result.annotime.length-1]);}
             else{
                 vm.content=result.content;
                 vm.pattern=result.pattern;
                 vm.itemid=result.index;
-                result={open:true,isNew:true,data:vm.templist[vm.templist.length-1]};
+               // result={open:true,isNew:true,data:vm.templist[vm.templist.length-1]};
             }
             this.showmodal=result.open;
         },

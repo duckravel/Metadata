@@ -26,7 +26,7 @@
                 <ul class="navbar m-0 px-3">
                   <li class="list-unstyled"><span class="text-white mr-3">UserID:{{$userid}}</span></li>
                   <li class="nav-item text-nowrap list-unstyled">
-                    <button v-if='currentpage==sourcedata.length-1' class="btn btn-sm btn-outline-warning" @click='submit'>Next</button>
+                    <button  v-if='currentpage==sourcedata.length-1' class="btn btn-sm btn-outline-warning" @click.prevent="next('next','Type')">Next</button>
                   </li>
                 </ul>
               </nav>
@@ -35,14 +35,10 @@
             <typeEle :data='sourcedata' :page='currentpage'
             v-on:timelistener='timeresult'></typeEle></div>
         <!-- modal -->
-        <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#surveyModal">
-  Launch demo modal
-</button>
 
 <!-- Modal -->
     <div class="modal fade" id="surveyModal" tabindex="-1" role="dialog" aria-labelledby="surveyModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
         <div class="modal-header">
             <h5 class="modal-title" id="surveyModalLabel">How difficult is the task?</h5>
@@ -52,14 +48,14 @@
         </div>
         <div class="modal-body">
             <div class="row align-items-end my-2">
-                <div class="col-3 text-right"><span class="text-danger">*</span> Difficult</div>
+                <div class="col-3  text-center"><span class="text-danger">*</span>Very  Difficult</div>
                 <div class="col-7 d-flex justify-content-between">
                     <div class="form-check form-check-inline" v-for="item in 7" :key='item'>
                         <input class="form-check-input" type="radio" v-model='load' :name="`radio${item}`" :id="`radio${item}`" :value='item'>
                         <label class="form-check-label" :for="`radio${item}`">{{item}}</label>
                     </div>
                 </div>
-                <div class="col-2 text-left">Easy</div>
+                <div class="col-2  text-center">Very Easy</div>
             </div>
         </div>
         <div class="alert alert-danger mb-0 round-0" v-if='isFilled'>
@@ -102,19 +98,6 @@ export default {
                     case 'EndTime':{vm.Etime=time;break;}
                 }
             },
-        submit(){
-            //save last element sets;
-            const vm =this;
-            let element=vm.sourcedata[vm.currentpage];
-            let check = vm.checkelement(element.place,element.Altername,element.Category,element.StartTime,element.EndTime,element.Description);
-            if (check==false){
-                alert('Please fill the empty field');
-                return}
-            vm.storeelement(vm.currentpage,'Type');
-            this.$info.element = vm.sourcedata;
-            vm.saveload(vm.congnition);vm.congnition={};
-            vm.tosurvey();
-        },
     },
 }
 </script>

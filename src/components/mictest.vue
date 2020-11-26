@@ -24,7 +24,7 @@
               <a class="col-5 p-4 d-flex bg-primary align-items-center justify-content-center text-white"
               href='#' @click.prevent='startSurvey()'>Ready to Go ! Entet the Survey</a>
           </div>
-          <div v-else> <p class="alert text-center"> Can't detect your voice clearly, <br> please check your microphone and record</p></div>
+          <div v-else> <p class="alert text-center"> Can't detect your voice clearly, <br> please check your microphone and record again</p></div>
         </div>
       </div>
     </div>   

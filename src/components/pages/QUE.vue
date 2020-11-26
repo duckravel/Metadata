@@ -140,7 +140,7 @@
 <script>
 import $ from 'jquery';
 export default {
-    data(){return {task:'',Que:{type:'',userID:'',support:0,easy:0,efficient:0,clear:0,exciting:0,interesting:0,conventional:0,usual:0}
+    data(){return {task:'',Que:{type:'',order:0,userID:'',support:0,easy:0,efficient:0,clear:0,exciting:0,interesting:0,conventional:0,usual:0}
     }},
     methods: {
         submit(){
@@ -175,9 +175,11 @@ export default {
             let result = vm.case();
             if(!this.$case.isFin){
                 vm.Que.type = result[0];
+                vm.Que.order=1;
                 this.$info.queFir = vm.Que;
             }else{
                 vm.Que.type = result[0];
+                vm.Que.order=2;
                 this.$info.queSec = vm.Que;
             }
 
@@ -192,7 +194,7 @@ export default {
                 vm.$router.push(`/${this.$secCase}`)
             }
             else{
-                let data = this.$info;
+                console.log(data);
                 $('#alertModal').modal('show');
                 this.$http.post(process.env.APIDATA,data).then(
                     res=>{ 

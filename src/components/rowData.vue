@@ -7,8 +7,8 @@
             <p class="badge badge-info m-0">{{item.annotype}}</p>
             <p class="badge badge-warning m-0">{{item.pattern}}</p></div>
         <div>
-            <button class="btn btn-outline-secondary btn-sm" @click='modify(item,key)' >edit</button>
-            <button class="btn btn-outline-danger btn-sm" @click="rm(item)">Delete</button>
+            <button class="btn btn-outline-secondary btn-sm ztop" @click.stop='modify(item,key)' >edit</button>
+            <button class="btn btn-outline-danger btn-sm ztop" @click.stop="rm(item)">Delete</button>
         </div>
     </div>
     <div class='pl-2  mt-1'>
@@ -36,3 +36,7 @@ export default {
         },
 }
 </script>
+<style scoped>
+.ztop{z-index: 900;}
+
+</style>

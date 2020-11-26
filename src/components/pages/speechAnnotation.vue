@@ -14,7 +14,7 @@
         <ul class="navbar m-0">
             <li class="list-unstyled"><span class="text-white mr-3">UserID:{{$userid}}</span></li>
             <li class="list-unstyled nav-item text-nowrap">
-            <button v-if='currentpage==annotationdata.length-1' class="btn btn-sm btn-outline-warning" @click='submit'>Next</button>
+            <button  v-if='currentpage==annotationdata.length-1' class="btn btn-sm btn-outline-warning"  @click.prevent="surveyModal('next')">Next</button>
             </li>
         </ul>
     </nav>
@@ -75,7 +75,7 @@
     </div>
 <!-- Modal -->
     <div class="modal fade" id="surveyModal" tabindex="-1" role="dialog" aria-labelledby="surveyModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
         <div class="modal-header">
             <h5 class="modal-title" id="surveyModalLabel">How difficult is the task?</h5>
@@ -85,14 +85,14 @@
         </div>
         <div class="modal-body">
             <div class="row align-items-end my-2">
-                <div class="col-3 text-right"><span class="text-danger">*</span> Difficult</div>
+                <div class="col-3  text-center"><span class="text-danger">*</span> Very Difficult</div>
                 <div class="col-7 d-flex justify-content-between">
                     <div class="form-check form-check-inline" v-for="item in 7" :key='item'>
                         <input class="form-check-input" type="radio" v-model='load' :name="`radio${item}`" :id="`radio${item}`" :value='item'>
                         <label class="form-check-label" :for="`radio${item}`">{{item}}</label>
                     </div>
                 </div>
-                <div class="col-2 text-left">Easy</div>
+                <div class="col-2  text-center">Very Easy</div>
             </div>
         </div>
         <div class="alert alert-danger mb-0 round-0" v-if='isFilled'>
@@ -130,7 +130,8 @@ export default {
     name:'SoundAnnotation',
     mixins:[simDis,commonmixin,annoMixin],
     data(){return {contenttimelist:[],patterntimelist:[],currentpage:0,annotationdata:source.annotationdata,annotype:'',patternlist:pattern.pattern,templist:'',drawlist:[[],[],[],[],[]],isAdd:true,itemid:-1,showmodal:false,content:'',pattern:'',
-    pat_acc:0,con_acc:0,confidence:0,recorditem:'',totext:'',speechcontent:'',speechresult:[],isRecord:false,patternmic:false,contentmic:false,congnition:{},load:0,isFilled:false}},
+    pat_acc:0,con_acc:0,confidence:0,recorditem:'',totext:'',speechcontent:'',speechresult:[],isRecord:false,patternmic:false,contentmic:false,load:0,isFilled:false
+    ,congnition:{'1':0,'2':0,'3':0,'4':0,'5':0,'6':0,'7':0,'8':0,'9':0,'10':0,type:'',userID:'',order:0}}},
     components:{annoComponent,rowData,rowDisplay},
     methods:{
         save(){
@@ -139,13 +140,15 @@ export default {
             if (vm.patterntimelist.length>0){patterntime=vm.patterntimelist.map(ele=>{return vm.time_cal(ele[0],ele[1])}).reduce((acc,cur)=>{return acc+cur});}
             if (vm.contenttimelist.length>0){contenttime=vm.contenttimelist.map(ele=>{return vm.time_cal(ele[0],ele[1])}).reduce((acc,cur)=>{return acc+cur});}
             // new 
+            console.log('isadd');
             if(vm.isAdd)
             {vm.templist.content=vm.content;vm.templist.con_acc=vm.con_acc;vm.templist.pattern=vm.pattern;vm.templist.pat_acc=vm.pat_acc;
             vm.templist.type='Speech';
             vm.templist.page_id=parseInt(vm.currentpage)+1;
             vm.templist.materialLink=vm.annotationdata[vm.currentpage];
             vm.templist.contenttime=contenttime;vm.templist.patterntime=patterntime;
-            vm.drawlist[vm.currentpage].push(vm.templist)}
+            vm.drawlist[vm.currentpage].push(vm.templist);
+            }
             // edit 
             else{
                 vm.drawlist[vm.currentpage][vm.itemid].content=vm.content;
@@ -153,7 +156,8 @@ export default {
                 vm.drawlist[vm.currentpage][vm.itemid].con_acc += vm.con_acc;
                 vm.drawlist[vm.currentpage][vm.itemid].pat_acc += vm.pat_acc;
                 vm.drawlist[vm.currentpage][vm.itemid].contenttime += contenttime;
-                vm.drawlist[vm.currentpage][vm.itemid].patterntime += patterntime;   
+                vm.drawlist[vm.currentpage][vm.itemid].patterntime += patterntime;  
+                console.log(vm.drawlist[vm.currentpage][vm.itemid]);
             } 
             vm.close();
             vm.confidence=0;vm.con_acc=0;vm.pat_acc=0;vm.content=""; vm.pattern="";vm.templist='';vm.itemid=-1;vm.patterntimelist=[];vm.contenttimelist=[];
@@ -218,14 +222,7 @@ export default {
                 return}
             this.content = this.speechresult[this.speechresult.length-1];
             this.con_acc=(this.confidence.reduce((a,b)=>{return a+b})/this.confidence.length);
-            this.speechresult=[];this.recorditem='';},
-        submit(){
-            const vm=this;
-            this.$info.annotation = vm.drawlist;
-            vm.saveload(vm.congnition);vm.congnition={};
-            vm.tosurvey();
-            
-        }
+            this.speechresult=[];this.recorditem='';this.speechcontent='';},
     },
 }
     

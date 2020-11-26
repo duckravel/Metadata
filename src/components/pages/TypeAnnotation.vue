@@ -13,7 +13,7 @@
         <ul class="navbar m-0">
             <li class="list-unstyled"><span class="text-white mr-3">UserID:{{$userid}}</span></li>
             <li class="nav-item list-unstyled text-nowrap">
-                <button v-if='currentpage==annotationdata.length-1' class="btn btn-sm btn-outline-warning" @click='submit'>Next</button>
+                <button v-if='currentpage==annotationdata.length-1' class="btn btn-sm btn-outline-warning" @click.prevent="surveyModal('next')">Next</button>
             </li>
             
         </ul>
@@ -21,7 +21,6 @@
     </div>
     <div class='row no-gutters contentarea bg-light' >
     <!-- annotate --> 
-    <!-- '{ backgroundImage:`url(require(${annotationdata[currentpage]}))`}' -->
     <div class="col-md-9 custom-imgbg" :style="{backgroundImage:`url(${annotationdata[currentpage]})`}">
     <anno-component  :page='currentpage' :data='annotationdata' :drawingtype='annotype' v-on:openmodal="modal" :tempisempty='templist'
     ></anno-component></div>
@@ -73,8 +72,8 @@
         </div>
     </div>
 <!-- Modal -->
-    <div class="modal fade" id="surveyModal" tabindex="-1" role="dialog" aria-labelledby="surveyModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal fade " id="surveyModal" tabindex="-1" role="dialog" aria-labelledby="surveyModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
         <div class="modal-header">
             <h5 class="modal-title" id="surveyModalLabel">How difficult is the task?</h5>
@@ -84,14 +83,14 @@
         </div>
         <div class="modal-body">
             <div class="row align-items-end my-2">
-                <div class="col-3 text-right"><span class="text-danger">*</span> Difficult</div>
+                <div class="col-3 text-center"><span class="text-danger">*</span> Very Difficult</div>
                 <div class="col-7 d-flex justify-content-between">
                     <div class="form-check form-check-inline" v-for="item in 7" :key='item'>
                         <input class="form-check-input" type="radio" v-model='load' :name="`radio${item}`" :id="`radio${item}`" :value='item'>
                         <label class="form-check-label" :for="`radio${item}`">{{item}}</label>
                     </div>
                 </div>
-                <div class="col-2 text-left">Easy</div>
+                <div class="col-2  text-center">Very Easy</div>
             </div>
         </div>
         <div class="alert alert-danger mb-0 round-0" v-if='isFilled'>
@@ -119,7 +118,9 @@ import annoMixin from '../../utils/annoMixins.js';
 import $ from 'jquery';
 export default {
     name:'TypeAnnotation',
-    data(){return {pat_acc:0,con_acc:0,contenttimelist:[],patterntimelist:[],currentpage:0,annotationdata:source.annotationdata,annotype:'',patternlist:pattern.pattern,templist:'',drawlist:[[],[],[],[],[]],isAdd:true,itemid:-1,showmodal:false,content:'',pattern:'',congnition:{},load:0,isFilled:false,dir:''}},
+    data(){return {pat_acc:0,con_acc:0,contenttimelist:[],patterntimelist:[],currentpage:0,annotationdata:source.annotationdata,annotype:'',patternlist:pattern.pattern,templist:'',drawlist:[[],[],[],[],[]],isAdd:true,itemid:-1,showmodal:false,content:'',pattern:'',load:0,isFilled:false,dir:''
+    ,congnition:{'1':0,'2':0,'3':0,'4':0,'5':0,'6':0,'7':0,'8':0,'9':0,'10':0,}
+    }},
     components:{annoComponent,rowData,rowDisplay},
     mixins:[commonmixin,annoMixin],
     methods:{
@@ -135,6 +136,7 @@ export default {
         },
         save(){
             const vm=this;let patterntime=0; let contenttime=0;
+            console.log(vm.content);
             if (vm.patterntimelist.length>0){patterntime=vm.patterntimelist.map(ele=>{return vm.time_cal(ele[0],ele[1])}).reduce((acc,cur)=>{return acc+cur});}
             if (vm.contenttimelist.length>0){contenttime=vm.contenttimelist.map(ele=>{return vm.time_cal(ele[0],ele[1])}).reduce((acc,cur)=>{return acc+cur});}
             if(vm.isAdd)
@@ -147,10 +149,11 @@ export default {
                 vm.drawlist[vm.currentpage].push(vm.templist)
                 }
             else{
-                vm.drawlist[vm.currentpage][vm.itemid].content=vm.content;
+                // vm.drawlist[vm.currentpage][vm.itemid].content=vm.content;
                 vm.drawlist[vm.currentpage][vm.itemid].pattern=vm.pattern;
                 vm.drawlist[vm.currentpage][vm.itemid].contenttime += contenttime;
-                vm.drawlist[vm.currentpage][vm.itemid].patterntime += patterntime;   
+                vm.drawlist[vm.currentpage][vm.itemid].patterntime += patterntime;
+                this.$set(vm.drawlist[vm.currentpage][vm.itemid], content, vm.content);
             } 
             vm.close();
             vm.content=""; vm.pattern="";vm.templist='';vm.itemid=-1;vm.patterntimelist=[];vm.contenttimelist=[];

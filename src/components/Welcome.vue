@@ -16,6 +16,10 @@
         <h4>Introduction</h4>
         <p class="mb-3">Welcome to metadata creation experiment, this is a research project involving 3 European universities: NOVA IMS (Lisbon Portugal), UJI (Castellon, Spain), and WWU (Muenster, Germany). Geospatial metadata is essential for data discoverability, and the experiment is to understand the impact of the use of speech recognition in metadata creation process.
         The whole survey takes 40 minutes on average to complete, and your contribution will be crucial for future actions related to the topic.</p>
+        <h4>Procedure</h4>
+        <p class="mb-3">Before the experiment, we will conduct a background survey. During the experiment, you will take 2 tasks. For annotation task, you will ask you to provide your observation and make annotation based on what you see on the map. The element creation task will ask you to contribute the metadata element (such as the location, altername, category  of the maps). You would contribute your metadata through typping or speaking.
+          Amid the tasks, we will ask you some questions to understand your feedback toward tasks. After the experiment, we will have a short user interview.
+        </p>   
         <h4>Consent</h4>
         <p class="mb-3">I have understood during the experiment, some of my personal data will be collected (education, age, gender, nationality, email) and operation data will be recorded as a video for the observation use, and have had any questions answered satisfactorily, and I willingly consent to participate in this study. I understand that if I should have any questions about my rights as a research subject, I can contact the experiment designer Pei-Chun Lai by her email (al396421@uji.es)</p>
         <p class="mb-3">If volunteer to participate the experiment, please share your screen and we will start the video recording.</p>

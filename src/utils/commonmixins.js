@@ -14,11 +14,15 @@ export default {
             return time},
         saveload(data){
             if(!this.$case.isFin){
-                data.type = this.$firCase.split('_')[0];
+                data.type = this.$firCase;
+                data.userID = this.$userid;
+                data.order = 1;
                 this.$info.loadFir = data;
 
             }else{
-                data.type = this.$secCase.split('_')[0];
+                data.type = this.$secCase;
+                data.userID = this.$userid;
+                data.order = 2;
                 this.$info.loadSec = data;
             }
         }
