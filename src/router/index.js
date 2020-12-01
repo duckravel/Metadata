@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Welcome from '@/components/Welcome'
+import Welcome from '@/components/pages/Welcome'
 import mictest from '@/components/mictest'
 import TypeElement from '@/components/pages/TypeElement'
 import speechElement from '@/components/pages/speechElement'
@@ -8,6 +8,7 @@ import TypeAnnotation from '@/components/pages/TypeAnnotation'
 import speechAnnotation from '@/components/pages/speechAnnotation'
 import Redirect from '@/components/pages/Redirect.vue'
 import QUE from '@/components/pages/QUE.vue'
+import help from '@/components/pages/help.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -23,6 +24,11 @@ export default new Router({
       path: '/mictest',
       name: 'mictest',
       component: mictest
+    },
+    {
+      path: '/help',
+      name: 'help',
+      component: help
     },
     {
       path: '/type_element',
