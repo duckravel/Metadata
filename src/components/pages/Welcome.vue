@@ -12,7 +12,7 @@
     </nav>
     <div class="d-flex flex-column custombg">
     <div class="container row my-5 justify-content-center">
-      <div class="col-10">
+      <div class="col-11">
         <h4>Introduction</h4>
         <p class="mb-3">Welcome to metadata creation experiment, this is a research project involving 3 European universities: NOVA IMS (Lisbon Portugal), UJI (Castellon, Spain), and WWU (Muenster, Germany). Geospatial metadata is essential for data discoverability, and the experiment is to understand the impact of the use of speech recognition in metadata creation process.
         The whole survey takes 40 minutes on average to complete, and your contribution will be crucial for future actions related to the topic.</p>

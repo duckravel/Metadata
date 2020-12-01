@@ -12,6 +12,8 @@
             <button type="button" class="btn btn-dark  rounded-0" @click.prevent="annotype='pin'" > <font-awesome-icon :icon="['fas', 'map-pin']"/> </button>
         </div>            
         <ul class="navbar m-0">
+            <router-link target="_blank" :to="{path:'/help'}"><li class="list-unstyled"><span class="text-white mr-3">
+                <font-awesome-icon icon="question-circle"/></span></li></router-link>
             <li class="list-unstyled"><span class="text-white mr-3">UserID:{{$userid}}</span></li>
             <li class="list-unstyled nav-item text-nowrap">
             <button  v-if='currentpage==annotationdata.length-1' class="btn btn-sm btn-outline-warning"  @click.prevent="surveyModal('next')">Next</button>

@@ -25,6 +25,8 @@
                     </ul>
                   </nav>
                 <ul class="navbar m-0">
+                    <router-link target="_blank" :to="{path:'/help'}"><li class="list-unstyled"><span class="text-white mr-3">
+                        <font-awesome-icon icon="question-circle"/></span></li></router-link>
                     <li class="list-unstyled nav-item"><span class="text-white mr-3">UserID:{{$userid}}</span></li>
                     <li class="list-unstyled nav-item text-nowrap">
                         <button  v-if='currentpage==sourcedata.length-1' class="btn btn-sm btn-outline-warning" @click.prevent="next('next','Speech')">Next</button>
