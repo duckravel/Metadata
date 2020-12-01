@@ -45,18 +45,18 @@
                 <ul class="p-0">
                     <ol class="p-0"><h5><span class="badge badge-secondary">1</span> <span class="h6">Observe geovisualization in the map</span></h5></ol>
                     <ol class="p-0"><h5><span class="badge badge-secondary">2</span> <span class="h6">Use drawing tools to annotate the pattern you observe</span></h5></ol> 
-                    <ol class="p-0"><h5><span class="badge badge-secondary">3</span> <span class="h6">Select the pattern</span></h5>
+                    <ol class="p-0"><h5><span class="badge badge-secondary">3</span> <span class="h6">Select a classification of pattern, there are 7 options:</span></h5>
                     <ul>
                         <li class="m-1">Cluster: Group of items</li>
                         <li class="m-1">Outlier: Any data item that differs significantly from other observations</li>
                         <li class="m-1">Correlation: Relationship between some data dimensions</li>
                         <li class="m-1">Trend: The data distribution has a general tendency</li>
-                        <li class="m-1">Frequency: Some data elements appear number of times</li>
-                        <li class="m-1">Distribution: Items on may spread out with a specific manner.</li>
-                        <li class="m-1">Observation: Does't belong to any category, but worth recording that stands out to you personally</li>
+                        <li class="m-1">Frequency: Some data elements appear several times</li>
+                        <li class="m-1">Distribution: Items on maps spread out in a specific manner</li>
+                        <li class="m-1">Observation: What you see is not belonging to any category, but worth recording in your view</li>
                     </ul>
                     </ol> 
-                    <ol class="p-0"><h5><span class="badge badge-secondary">4</span> <span class="h6">Give more details of the pattern</span></h5></ol> 
+                    <ol class="p-0"><h5><span class="badge badge-secondary">4</span> <span class="h6">Write down what you observe from maps.</span></h5></ol> 
                 </ul>
             </div>
          </div>
