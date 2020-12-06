@@ -142,7 +142,6 @@ export default {
             if (vm.patterntimelist.length>0){patterntime=vm.patterntimelist.map(ele=>{return vm.time_cal(ele[0],ele[1])}).reduce((acc,cur)=>{return acc+cur});}
             if (vm.contenttimelist.length>0){contenttime=vm.contenttimelist.map(ele=>{return vm.time_cal(ele[0],ele[1])}).reduce((acc,cur)=>{return acc+cur});}
             // new 
-            console.log('isadd');
             if(vm.isAdd)
             {vm.templist.content=vm.content;vm.templist.con_acc=vm.con_acc;vm.templist.pattern=vm.pattern;vm.templist.pat_acc=vm.pat_acc;
             vm.templist.type='Speech';
@@ -153,13 +152,15 @@ export default {
             }
             // edit 
             else{
+                
                 vm.drawlist[vm.currentpage][vm.itemid].content=vm.content;
                 vm.drawlist[vm.currentpage][vm.itemid].pattern=vm.pattern;
-                vm.drawlist[vm.currentpage][vm.itemid].con_acc += vm.con_acc;
-                vm.drawlist[vm.currentpage][vm.itemid].pat_acc += vm.pat_acc;
+                vm.drawlist[vm.currentpage][vm.itemid].con_acc = vm.con_acc;
+                vm.drawlist[vm.currentpage][vm.itemid].pat_acc = vm.pat_acc;
                 vm.drawlist[vm.currentpage][vm.itemid].contenttime += contenttime;
                 vm.drawlist[vm.currentpage][vm.itemid].patterntime += patterntime;  
-                console.log(vm.drawlist[vm.currentpage][vm.itemid]);
+                this.$set(vm.drawlist[vm.currentpage][vm.itemid], pattern, vm.pattern);  
+                
             } 
             vm.close();
             vm.confidence=0;vm.con_acc=0;vm.pat_acc=0;vm.content=""; vm.pattern="";vm.templist='';vm.itemid=-1;vm.patterntimelist=[];vm.contenttimelist=[];

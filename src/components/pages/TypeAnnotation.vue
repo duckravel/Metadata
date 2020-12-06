@@ -138,7 +138,7 @@ export default {
         },
         save(){
             const vm=this;let patterntime=0; let contenttime=0;
-            console.log(vm.content);
+            
             if (vm.patterntimelist.length>0){patterntime=vm.patterntimelist.map(ele=>{return vm.time_cal(ele[0],ele[1])}).reduce((acc,cur)=>{return acc+cur});}
             if (vm.contenttimelist.length>0){contenttime=vm.contenttimelist.map(ele=>{return vm.time_cal(ele[0],ele[1])}).reduce((acc,cur)=>{return acc+cur});}
             if(vm.isAdd)
@@ -151,11 +151,12 @@ export default {
                 vm.drawlist[vm.currentpage].push(vm.templist)
                 }
             else{
-                // vm.drawlist[vm.currentpage][vm.itemid].content=vm.content;
+                vm.drawlist[vm.currentpage][vm.itemid].content=vm.content;
                 vm.drawlist[vm.currentpage][vm.itemid].pattern=vm.pattern;
                 vm.drawlist[vm.currentpage][vm.itemid].contenttime += contenttime;
-                vm.drawlist[vm.currentpage][vm.itemid].patterntime += patterntime;
+                vm.drawlist[vm.currentpage][vm.itemid].patterntime += patterntime;  
                 this.$set(vm.drawlist[vm.currentpage][vm.itemid], content, vm.content);
+                this.$set(vm.drawlist[vm.currentpage][vm.itemid], pattern, vm.pattern);
             } 
             vm.close();
             vm.content=""; vm.pattern="";vm.templist='';vm.itemid=-1;vm.patterntimelist=[];vm.contenttimelist=[];
