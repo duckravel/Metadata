@@ -15,7 +15,7 @@
           <a href="#" class="btn btn-primary circle-icon d-flex align-items-center justify-content-center" :class="{'circle-icon-record':isRecord}"
           @click.prevent="recordcontrol()"> <font-awesome-icon icon="microphone-alt" size="2x"  /></a>
         </div>
-          <h5 class="text-center my-3">Click button and speak </h5>
+          <h5 class="text-center my-3">Click microphone and speak a sentence, and click again to stop speech recording. </h5>
           <p class="my-2 text-black-50 text-center">{{transcript}}</p>
         
         <!-- Pass mic test -->
