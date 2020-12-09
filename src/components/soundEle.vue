@@ -4,7 +4,7 @@
 <div class='row mb-2' id='soundheight' v-if='pageid==page'>
     <div class='col-lg-4 bg-white border-right' id='data'>
         <div class="card m-2">
-            <h5 class="card-header">Place</h5>
+            <h5 class="card-header">Placename</h5>
             <div class="card-body">
                 <p  class="card-text" v-if="place">{{element.place}}</p>
                 <p  class="card-text" v-else >{{totext}}</p>
@@ -15,7 +15,7 @@
             </div>
         </div>
         <div class="card m-2">
-            <h5 class="card-header">place Alias</h5>
+            <h5 class="card-header">Alternative placename</h5>
             <div class="card-body">
                 <p class="card-text" v-if="Altername">{{element.Altername}}</p>
                 <p  class="card-text" v-else >{{totext}}</p>
@@ -25,7 +25,7 @@
             </div>
         </div>
         <div class="card m-2">
-            <h5 class="card-header">Category </h5>
+            <h5 class="card-header">Topic </h5>
             <div class="card-body">
                 <p  class="card-text" v-if="Category">{{element.Category}}</p>
                 <p  class="card-text" v-else >{{totext}}</p>

@@ -78,7 +78,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title" id="surveyModalLabel">This task was</h5>
+            <h5 class="modal-title" id="surveyModalLabel">Overall, putting annotations on the map was</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
             </button>
@@ -121,7 +121,7 @@ import $ from 'jquery';
 export default {
     name:'TypeAnnotation',
     data(){return {pat_acc:0,con_acc:0,contenttimelist:[],patterntimelist:[],currentpage:0,annotationdata:source.annotationdata,annotype:'',patternlist:pattern.pattern,templist:'',drawlist:[[],[],[],[],[]],isAdd:true,itemid:-1,showmodal:false,content:'',pattern:'',load:0,isFilled:false,dir:''
-    ,congnition:{'1':0,'2':0,'3':0,'4':0,'5':0,'6':0,'7':0,'8':0,'9':0,'10':0,}
+    ,congnition:{'1':0,'2':0,'3':0,'4':0,'5':0},contentslip:0,patternslip:0,
     }},
     components:{annoComponent,rowData,rowDisplay},
     mixins:[commonmixin,annoMixin],
@@ -129,16 +129,15 @@ export default {
         watch_content(action){
             const vm=this;
             if(action=='focus'){vm.contenttimelist.push([new Date()]);}
-            else{vm.contenttimelist[vm.contenttimelist.length-1].push(new Date());}
+            else{vm.contenttimelist[vm.contenttimelist.length-1].push(new Date());vm.contentslip+=1;}
         },
         watch_pattern(action){
             const vm=this;
             if(action=='focus'){vm.patterntimelist.push([new Date()]);}
-            else{vm.patterntimelist[vm.patterntimelist.length-1].push(new Date());}
+            else{vm.patterntimelist[vm.patterntimelist.length-1].push(new Date());vm.patternslip+=1;}
         },
         save(){
-            const vm=this;let patterntime=0; let contenttime=0;
-            
+            const vm=this;let patterntime=0; let contenttime=0; 
             if (vm.patterntimelist.length>0){patterntime=vm.patterntimelist.map(ele=>{return vm.time_cal(ele[0],ele[1])}).reduce((acc,cur)=>{return acc+cur});}
             if (vm.contenttimelist.length>0){contenttime=vm.contenttimelist.map(ele=>{return vm.time_cal(ele[0],ele[1])}).reduce((acc,cur)=>{return acc+cur});}
             if(vm.isAdd)
@@ -146,20 +145,25 @@ export default {
                 vm.templist.contenttime=contenttime;vm.templist.patterntime=patterntime;
                 vm.templist.type='Type';
                 vm.templist.page_id=parseInt(vm.currentpage)+1;
+                vm.templist.patternslip=vm.patternslip;
+                vm.templist.contentslip=vm.contentslip;
                 vm.templist.materialLink=vm.annotationdata[vm.currentpage];
-                vm.templist.materialLink=source.annotationdata[vm.currentpage];
                 vm.drawlist[vm.currentpage].push(vm.templist)
                 }
             else{
-                vm.drawlist[vm.currentpage][vm.itemid].content=vm.content;
-                vm.drawlist[vm.currentpage][vm.itemid].pattern=vm.pattern;
-                vm.drawlist[vm.currentpage][vm.itemid].contenttime += contenttime;
-                vm.drawlist[vm.currentpage][vm.itemid].patterntime += patterntime;  
-                this.$set(vm.drawlist[vm.currentpage][vm.itemid], content, vm.content);
-                this.$set(vm.drawlist[vm.currentpage][vm.itemid], pattern, vm.pattern);
-            } 
+                vm.templist = vm.drawlist[vm.currentpage][vm.itemid];
+                vm.templist.content = vm.content;
+                vm.templist.pattern = vm.pattern;
+                vm.templist.patternslip +=vm.patternslip;
+                vm.templist.contentslip +=vm.contentslip;
+                vm.templist.contenttime+=contenttime;
+                vm.templist.patterntime += patterntime;
+                let len = vm.drawlist[vm.currentpage][vm.itemid].length-1
+                vm.$set(vm.drawlist[vm.currentpage][vm.itemid], len, vm.templist);
+            }
             vm.close();
             vm.content=""; vm.pattern="";vm.templist='';vm.itemid=-1;vm.patterntimelist=[];vm.contenttimelist=[];
+            vm.contentslip=0,vm.patternslip=0;
         },
         submit(){
             const vm=this;vm.tosurvey();
@@ -168,5 +172,11 @@ export default {
             vm.tosurvey();
         },
     },    
+    created(){
+        this.$timelog.push(new Date());
+    },
+    watch:{
+        drawlist:function detect(){console.log('change')}
+    }
 }
 </script>

@@ -33,9 +33,10 @@ new Vue({
     Vue.prototype.$firCase = user.firCase;
     Vue.prototype.$secCase = user.secCase;
     Vue.prototype.$case={isFin:false};
+    Vue.prototype.$timelog=[];
     Vue.prototype.$info = {};
     let time = new Date(); let date ={Year:time.getFullYear(),Month:time.getMonth()+1,Day:time.getDate()};
-    this.$info.user={userid:this.$userid,date:`${date.Year}/${date.Month}/${date.Day}`,scenario1:`${this.$firCase}`,scenario2:`${this.$secCase}`};
+    this.$info.user={userid:this.$userid,date:`${date.Year}/${date.Month}/${date.Day}`,scenario1:`${this.$firCase}`,scenario2:`${this.$secCase}`,s1Time:0,s2Time:0};
   })  
   },
 })

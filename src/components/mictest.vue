@@ -54,12 +54,10 @@ data:function(){return {Micok:false,showMic:false,transcript:'',isRecord:false,c
         let temp_con = Array.from(event.results).map(result=>result[0]).map(result=>result.confidence);
         this.confidence=temp_con; 
         this.transcript = `${text}.`;
-        console.log(this.transcript);
       });
     }
     else{
       recognition.abort();
-      console.log('stop');
       this.showMic=true; 
       let acc = this.confidence[this.confidence.length-1];
       if (acc>0.8){this.Micok=true} else{ this.Micok=false;};

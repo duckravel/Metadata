@@ -80,7 +80,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title" id="surveyModalLabel">This task was:</h5>
+            <h5 class="modal-title" id="surveyModalLabel">Overall, putting annotations on the map was:</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
             </button>
@@ -132,8 +132,8 @@ export default {
     name:'SoundAnnotation',
     mixins:[simDis,commonmixin,annoMixin],
     data(){return {contenttimelist:[],patterntimelist:[],currentpage:0,annotationdata:source.annotationdata,annotype:'',patternlist:pattern.pattern,templist:'',drawlist:[[],[],[],[],[]],isAdd:true,itemid:-1,showmodal:false,content:'',pattern:'',
-    pat_acc:0,con_acc:0,confidence:0,recorditem:'',totext:'',speechcontent:'',speechresult:[],isRecord:false,patternmic:false,contentmic:false,load:0,isFilled:false
-    ,congnition:{'1':0,'2':0,'3':0,'4':0,'5':0,'6':0,'7':0,'8':0,'9':0,'10':0,type:'',userID:'',order:0}}},
+    pat_acc:0,con_acc:0,confidence:0,recorditem:'',totext:'',speechcontent:'',speechresult:[],isRecord:false,patternmic:false,contentmic:false,load:0,isFilled:false,patternslip:0,contentslip:0
+    ,congnition:{'1':0,'2':0,'3':0,'4':0,'5':0,type:'',userID:'',order:0}}},
     components:{annoComponent,rowData,rowDisplay},
     methods:{
         save(){
@@ -147,20 +147,23 @@ export default {
             vm.templist.type='Speech';
             vm.templist.page_id=parseInt(vm.currentpage)+1;
             vm.templist.materialLink=vm.annotationdata[vm.currentpage];
-            vm.templist.contenttime=contenttime;vm.templist.patterntime=patterntime;
+            vm.templist.contenttime=contenttime;
+            vm.templist.patterntime=patterntime;
+            vm.templist.patternslip=vm.patternslip;
+            vm.templist.contentslip=vm.contentslip;
             vm.drawlist[vm.currentpage].push(vm.templist);
             }
             // edit 
             else{
-                
-                vm.drawlist[vm.currentpage][vm.itemid].content=vm.content;
-                vm.drawlist[vm.currentpage][vm.itemid].pattern=vm.pattern;
-                vm.drawlist[vm.currentpage][vm.itemid].con_acc = vm.con_acc;
-                vm.drawlist[vm.currentpage][vm.itemid].pat_acc = vm.pat_acc;
-                vm.drawlist[vm.currentpage][vm.itemid].contenttime += contenttime;
-                vm.drawlist[vm.currentpage][vm.itemid].patterntime += patterntime;  
-                this.$set(vm.drawlist[vm.currentpage][vm.itemid], pattern, vm.pattern);  
-                
+                vm.templist = vm.drawlist[vm.currentpage][vm.itemid];
+                vm.templist.content = vm.content;
+                vm.templist.pattern = vm.pattern;
+                vm.templist.patternslip +=vm.patternslip;
+                vm.templist.contentslip +=vm.contentslip;
+                vm.templist.contenttime+= contenttime;
+                vm.templist.patterntime += patterntime;
+                let len = vm.drawlist[vm.currentpage][vm.itemid].length-1;
+                vm.$set(vm.drawlist[vm.currentpage][vm.itemid], len, vm.templist);
             } 
             vm.close();
             vm.confidence=0;vm.con_acc=0;vm.pat_acc=0;vm.content=""; vm.pattern="";vm.templist='';vm.itemid=-1;vm.patterntimelist=[];vm.contenttimelist=[];
@@ -169,8 +172,8 @@ export default {
             if(this.isRecord==false){
                 this.isRecord=true;this.recorditem=action;
                 switch (action){
-                    case 'pattern':{this.patternmic=true;this.patterntimelist.push([new Date()]);recognition.continuous=false;this.record();break;}
-                    case 'content':{this.contentmic=true;this.contenttimelist.push([new Date()]);recognition.continuous=true;this.recordcontent();break;}
+                    case 'pattern':{this.patternmic=true;this.patterntimelist.push([new Date()]);this.patternslip += 1;recognition.continuous=false;this.record();break;}
+                    case 'content':{this.contentmic=true;this.contenttimelist.push([new Date()]);this.contentslip += 1;recognition.continuous=true;this.recordcontent();break;}
                 }
                 
             }else
@@ -227,6 +230,9 @@ export default {
             this.con_acc=(this.confidence.reduce((a,b)=>{return a+b})/this.confidence.length);
             this.speechresult=[];this.recorditem='';this.speechcontent='';},
     },
+    created(){
+        this.$timelog.push(new Date());
+    }
 }
     
 

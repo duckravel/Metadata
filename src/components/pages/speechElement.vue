@@ -43,7 +43,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title" id="surveyModalLabel">This task was:</h5>
+            <h5 class="modal-title" id="surveyModalLabel">Overall, summarizing maps with elements was:</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
             </button>
@@ -79,7 +79,7 @@ import commonmixin from '../../utils/commonmixins.js';
 import elementmixins from '../../utils/elementmixins.js';
 import $ from 'jquery';
 export default {
-    data(){return {currentpage:0,sourcedata:source.data,place_time:0,alter_time:0,Cate_time:0,Cate_acc:0,Desc_time:0,Stime:0,Etime:0,congnition:{},load:0,isFilled:false}},
+    data(){return {currentpage:0,sourcedata:source.data,place_time:0,alter_time:0,Cate_time:0,Cate_acc:0,Desc_time:0,Stime:0,Etime:0,congnition:{},load:0,isFilled:false,place_slip:0,alter_slip:0,Cate_slip:0,Desc_slip:0,S_slip:0,E_slip:0,}},
     components:{soundEle},
     mixins:[commonmixin,elementmixins],
     methods:{
@@ -88,12 +88,12 @@ export default {
             let page=result.page,element=result.element,data=result.data,eletime=vm.time_cal(result.time[0],result.time[1]),tempAcc = result.acc;
             vm.sourcedata[page][element] = data;
             switch(element){
-                case 'place':{vm.sourcedata[page].place_time+=eletime; vm.sourcedata[page].place_acc=tempAcc;break;}
-                case 'Altername':{vm.sourcedata[page].alter_time+=eletime;vm.sourcedata[page].alter_acc=tempAcc;break;}
-                case 'Category':{vm.sourcedata[page].Cate_time+=eletime;vm.sourcedata[page].Cate_acc=tempAcc;break;}
-                case 'Description':{vm.sourcedata[page].Desc_time+=eletime;vm.sourcedata[page].Desc_acc=tempAcc;break;}
-                case 'StartTime':{ vm.sourcedata[page].Stime+=eletime;vm.sourcedata[page].S_acc=tempAcc;break;}
-                case 'EndTime':{vm.sourcedata[page].Etime+=eletime;vm.sourcedata[page].E_acc=tempAcc;break;}
+                case 'place':{vm.sourcedata[page].place_time+=eletime; vm.place_slip+=1; vm.sourcedata[page].place_acc=tempAcc;break;}
+                case 'Altername':{vm.sourcedata[page].alter_time+=eletime;vm.alter_slip+=1;vm.sourcedata[page].alter_acc=tempAcc;break;}
+                case 'Category':{vm.sourcedata[page].Cate_time+=eletime;vm.Cate_slip+=1;vm.sourcedata[page].Cate_acc=tempAcc;break;}
+                case 'Description':{vm.sourcedata[page].Desc_time+=eletime;vm.Desc_slip+=1;vm.sourcedata[page].Desc_acc=tempAcc;break;}
+                case 'StartTime':{ vm.sourcedata[page].Stime+=eletime;vm.S_slip+=1;vm.sourcedata[page].S_acc=tempAcc;break;}
+                case 'EndTime':{vm.sourcedata[page].Etime+=eletime;vm.E_slip+=1;vm.sourcedata[page].E_acc=tempAcc;break;}
             }
         },
         submit(){
@@ -107,5 +107,8 @@ export default {
             vm.tosurvey();
         },
     },
+    created(){
+        this.$timelog.push(new Date());
+    }
 }
 </script>

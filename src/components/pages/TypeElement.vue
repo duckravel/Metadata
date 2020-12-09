@@ -9,14 +9,7 @@
                             <a class="page-link" href="#" @click.prevent="pageChange" v-if='currentpage!=0'>Pre</a>
                         </li>
                         <li class="page-item" v-for="(page,index) in sourcedata.length" :key='index' :class='{active:currentpage===page-1}'>
-                            <span class="custom-link" v-if="page<=2" >{{page}} </span>
-                        </li>
-                        <span class="custom-link" href="#">...</span>
-                        <li class="page-item" v-for="(page,index) in sourcedata.length" :key='index+10' :class='{active:currentpage===page-1}'>
-                            <span v-if="page>2 && page<10 && currentpage===page-1" class="custom-link" >{{page}}</span>
-                        </li>
-                        <li class="page-item" :class='{active:currentpage===sourcedata.length}'>
-                          <span class="custom-link">{{sourcedata.length}}</span>
+                            <span class="custom-link">{{page}} </span>
                         </li>
                         <li class="page-item">
                             <a class="page-link" href="#" @click.prevent="next('next','Type')" v-if='currentpage!=sourcedata.length-1'>Next</a>
@@ -34,7 +27,7 @@
               </nav>
         </div>
         <div class="contentarea">        
-            <typeEle :data='sourcedata' :page='currentpage'
+            <typeEle :data='sourcedata' :page='currentpage' :stime ='Slist' :etime='Elist'
             v-on:timelistener='timeresult'></typeEle></div>
         <!-- modal -->
 
@@ -43,7 +36,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title" id="surveyModalLabel">This task was:</h5>
+            <h5 class="modal-title" id="surveyModalLabel">Overall, summarizing maps with elements was:</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
             </button>
@@ -84,7 +77,8 @@ import $ from 'jquery';
 export default {
     name:'TypeElement',
     props:['user'],
-    data(){return{currentpage:0,sourcedata:source.data.map(ele=>{return ele}),place_time:0,alter_time:0,Cate_time:0,Cate_acc:0,Desc_time:0,Stime:0,Etime:0,congnition:{},load:0,isFilled:false}},
+    data(){return{currentpage:0,sourcedata:source.data.map(ele=>{return ele}),place_time:0,alter_time:0,Cate_time:0,Cate_acc:0,Desc_time:0,Stime:0,Etime:0,place_slip:0,alter_slip:0,Cate_slip:0,Desc_slip:0,S_slip:0,E_slip:0,
+    congnition:{},load:0,isFilled:false,Elist:[false,false,false,false,false],Slist:[false,false,false,false,false]}},
     components:{typeEle},
     mixins:[commonmixin,elementmixins],
     methods:{
@@ -92,14 +86,17 @@ export default {
                 const vm=this;
                 let time=result[0]; let field =result[1];
                 switch(field){
-                    case 'place':{vm.place_time=time;break;}
-                    case 'Altername':{vm.alter_time=time;break;}
-                    case 'Category':{vm.Cate_time=time;break;}
-                    case 'Description':{vm.Desc_time=time;break;}
-                    case 'StartTime':{vm.Stime=time;break;}
-                    case 'EndTime':{vm.Etime=time;break;}
+                    case 'place':{vm.place_time+=time;vm.place_slip+=1;break;}
+                    case 'Altername':{vm.alter_time+=time;vm.alter_slip+=1;break;}
+                    case 'Category':{vm.Cate_time+=time;vm.Cate_slip+=1;break;}
+                    case 'Description':{vm.Desc_time+=time;vm.Desc_slip+=1;break;}
+                    case 'StartTime':{vm.Stime+=time;vm.S_slip+=1;break;}
+                    case 'EndTime':{vm.Etime+=time;vm.E_slip+=1;break;}
                 }
             },
     },
+    created(){
+        this.$timelog.push(new Date());
+    }
 }
 </script>

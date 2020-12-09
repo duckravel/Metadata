@@ -138,10 +138,12 @@
     </div>    
 </template>
 <script>
+import commonmixin from '../../utils/commonmixins.js';
 import $ from 'jquery';
 export default {
     data(){return {task:'',Que:{type:'',order:0,userID:'',support:0,easy:0,efficient:0,clear:0,exciting:0,interesting:0,conventional:0,usual:0}
     }},
+    mixins:[commonmixin],
     methods: {
         submit(){
             //store value => check value => nextact (next task or submit)
@@ -184,16 +186,29 @@ export default {
             }
 
         },
-        toNextAct(){
-            //clean the data 
+        reset(){
             const vm=this;
             vm.Que={type:'',userID:'',support:0,easy:0,efficient:0,clear:0,exciting:0,interesting:0,conventional:0,usual:0};
-            let data = this.$info;
+
+        },
+        uitimelog(){
+            const vm=this;
+            this.$info.user.s1Time = vm.time_cal(this.$timelog[0],this.$timelog[1]);
+            this.$info.user.s2Time = vm.time_cal(this.$timelog[2],this.$timelog[3]);
+        },
+        toNextAct(){
+            const vm=this;
+            //clean the data 
+            console.log(this.$timelog);
+            vm.reset();
             if (!this.$case.isFin){
                 this.$case.isFin=true;
                 vm.$router.push(`/${this.$secCase}`)
             }
             else{
+                //calcuate the time;
+                vm.uitimelog();
+                let data = this.$info;
                 console.log(data);
                 $('#alertModal').modal('show');
                 this.$http.post(process.env.APIDATA,data).then(
@@ -210,8 +225,11 @@ export default {
     created(){
         const vm = this;
         let result = vm.case();
-        vm.task = 
-        `${vm.toUpper(result[0],0)} ${vm.toUpper(result[1],0)}`
+        //the name of task
+        vm.task = `${vm.toUpper(result[0],0)} ${vm.toUpper(result[1],0)}`
+        //record the time of study finished
+        this.$timelog.push(new Date());
+        vm.time_cal(this.$timelog[0],this.$timelog[1]);
     }
 
 }

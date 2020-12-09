@@ -6,29 +6,37 @@
             <div class="col-md-4 bg-white mt-2 border-right">
                 <form action="" class="p-2">
                     <div class="form-group">
-                        <label for="">Place </label>
+                        <label for="">Placename </label>
                         <input v-model='element.place'  type="text" class="form-control" id='Place' autocomplete="off" @focus="time_in('place')" @blur="time_out('place')" required>
                     </div>
                     <div class="form-group">
-                        <label for="">Altername for place</label>
+                        <label for="">Alternative placename</label>
                         <input v-model='element.Altername' type="text" class="form-control" id='Altername' autocomplete="off" @focus="time_in('Altername')" @blur="time_out('Altername')">
                     </div>
                     <div class="form-group">
-                        <label for="">Category</label>
+                        <label for="">Topic</label>
                         <input v-model='element.Category' type="text" class="form-control" id='Category' autocomplete="off" @focus="time_in('Category')" @blur="time_out('Category')">
                     </div>
                     <div class="form-group">
                         <label for="">Description</label>
                         <input v-model='element.Description' type="text" class="form-control" id='Description' autocomplete="off" @focus="time_in('Description')" @blur="time_out('Description')">
                     </div>
-                    <div class="row form-group">
-                        <div class="col-lg-6 ">
-                            <label for="" >Start time</label>
-                            <input v-model='element.StartTime' type="date" class="form-control" id='StartTime' @focus="time_in('StartTime')" @blur="time_out('StartTime')">
-                        </div>
-                        <div class="col-lg-6 ">
+                    <div class="form-group">
+                            <label for="StartTime" >Start time</label>
+                            <input v-model='element.StartTime' type="date" class="form-control " id='StartTime' @focus="time_in('StartTime')" @blur="time_out('StartTime')"
+                            :disabled="stime[page]">
+                            <div class="form-group form-check">
+                                <input type="checkbox" class="form-check-input" id='Stime_unknown' v-model='stime[page]' @focus="time_in('StartTime')" @blur="time_out('StartTime')">
+                                <label class="form-check-label" for="Stime_unknown">Unknown</label>                                
+                            </div>
+                    </div>
+                    <div class="form-group">
                         <label for="" >End time</label>
-                        <input v-model='element.EndTime' type="date" class="form-control" id='EndTime' @focus="time_in('EndTime')" @blur="time_out('EndTime')">
+                        <input v-model='element.EndTime' type="date" class="form-control" id='EndTime' @focus="time_in('EndTime')" @blur="time_out('EndTime')"
+                        :disabled="etime[page]">
+                        <div class="form-group form-check">
+                                <input type="checkbox" class="form-check-input" id='Etime_unknown' v-model='etime[page]' @focus="time_in('EndTime')" @blur="time_out('EndTime')">
+                                <label class="form-check-label" for="Etime_unknown">Unknown</label>                                
                         </div>
                     </div>
                 </form>
@@ -47,9 +55,9 @@
 <script>
 export default {
     name:'typeEle',
-    props:['element','data','page'],
+    props:['element','data','page','stime','etime'],
     data:function(){
-            return {inputs:'',inpute:'',place_time:0,alter_time:0,Cate_time:0,Cate_acc:0,Desc_time:0,Stime:0,Etime:0,pages:10,currentpage:0,}
+            return {inputs:'',inpute:'',place_time:0,alter_time:0,Cate_time:0,Cate_acc:0,Desc_time:0,Stime:0,Etime:0,pages:10,currentpage:0}
         },
         methods:{
             time_in(event){

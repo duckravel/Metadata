@@ -1,18 +1,24 @@
-import { Modal } from "bootstrap";
 import $ from 'jquery';
 export default {
     methods: {
-        checkelement(place,Altername,Category,StartTime,EndTime,Description){
+        checkelement(place,Altername,Category,Description){
             //using length to check if each element is filled
-            let list = [place,Altername,Category,StartTime,EndTime,Description];  
+            let list = [place,Altername,Category,Description];  
             return list.every(ele=>ele.length>0);
             },
-        next(dir,type){
+        timeprocess(){
+            const vm =this;
+            for (let i=0; i<vm.Elist.length; i++){
+                if (vm.Elist[i]==true){vm.sourcedata[i].EndTime='';}}
+            for (let i=0; i<vm.Slist.length; i++){
+                if (vm.Slist[i]==true){vm.sourcedata[i].StartTime='';}}
+        }
+        ,next(dir,type){
                 //pageChange contains three seperate works: store data, check data, add survey, and change page
                 const vm=this;
+                vm.storeelement(vm.currentpage,type); 
                 let element=vm.sourcedata[vm.currentpage];
-                vm.storeelement(vm.currentpage,type);
-                let check = vm.checkelement(element.place,element.Altername,element.Category,element.StartTime,element.EndTime,element.Description);
+                let check = vm.checkelement(element.place,element.Altername,element.Category,element.Description);
                 if (dir=='next' && !check){                    
                         alert('Please fill the empty field');
                         return
@@ -39,19 +45,21 @@ export default {
                 vm.congnition[`${vm.currentpage+1}`]=vm.load;
                 $('#surveyModal').modal('hide');
                 vm.load=0; 
-                    if (vm.currentpage<9){vm.pageChange();}
+                    if (vm.currentpage< 4){vm.pageChange();}
                     else{
                         this.$info.element = vm.sourcedata;
                         vm.saveload(vm.congnition);
-                        vm.congnition={'1':0,'2':0,'3':0,'4':0,'5':0,'6':0,'7':0,'8':0,'9':0,'10':0,type:'',userID:'',order:0};
-                        vm.tosurvey();
-                        
+                        vm.congnition={'1':0,'2':0,'3':0,'4':0,'5':0,type:'',userID:'',order:0};
+                        vm.timeprocess();
+                        console.log(vm.sourcedata);
+                        vm.tosurvey();  
                     }
                 }   
         },
         resetelement(){
             const vm=this;
             vm.place_time=0;vm.alter_time=0;vm.Cate_time=0;vm.Desc_time=0;vm.Stime=0;vm.Etime=0,vm.loading=0;
+            vm.place_slip=0;vm.alter_slip=0;vm.Cate_slip=0,vm.Desc_slip=0,vm.S_slip=0,vm.E_slip=0;
         }
         ,storeelement(page,type){
             const vm=this;
@@ -63,7 +71,13 @@ export default {
             vm.sourcedata[page].Cate_time+=vm.Cate_time;
             vm.sourcedata[page].Desc_time+=vm.Desc_time;
             vm.sourcedata[page].Stime+=vm.Stime;
-            vm.sourcedata[page].Etime+=vm.Etime;
+            vm.sourcedata[page].Etime+=vm.Etime;       
+            vm.sourcedata[page].place_slip += vm.place_slip;
+            vm.sourcedata[page].alter_slip +=vm.alter_slip;
+            vm.sourcedata[page].Cate_slip +=vm.Cate_slip;
+            vm.sourcedata[page].Desc_slip += vm.Desc_slip;
+            vm.sourcedata[page].S_slip += vm.S_slip;
+            vm.sourcedata[page].E_slip += vm.E_slip;
             },
     },
 }

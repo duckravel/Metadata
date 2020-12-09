@@ -25,7 +25,7 @@ export default {
                 if (vm.currentpage < 4){
                 vm.ano_pageChange(vm.dir);}
                 else{
-                    vm.congnition={'1':0,'2':0,'3':0,'4':0,'5':0,'6':0,'7':0,'8':0,'9':0,'10':0,type:'',userID:'',order:0};
+                    vm.congnition={'1':0,'2':0,'3':0,'4':0,'5':0,type:'',userID:'',order:0};
                     vm.tosurvey();
                 }
             }
@@ -68,7 +68,6 @@ export default {
                 vm.content=result.content;
                 vm.pattern=result.pattern;
                 vm.itemid=result.index;
-               // result={open:true,isNew:true,data:vm.templist[vm.templist.length-1]};
             }
             this.showmodal=result.open;
         },
