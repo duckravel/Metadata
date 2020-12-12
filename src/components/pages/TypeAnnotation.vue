@@ -174,9 +174,6 @@ export default {
     },    
     created(){
         this.$timelog.push(new Date());
-    },
-    watch:{
-        drawlist:function detect(){console.log('change')}
     }
 }
 </script>

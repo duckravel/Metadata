@@ -79,7 +79,8 @@ import commonmixin from '../../utils/commonmixins.js';
 import elementmixins from '../../utils/elementmixins.js';
 import $ from 'jquery';
 export default {
-    data(){return {currentpage:0,sourcedata:source.data,place_time:0,alter_time:0,Cate_time:0,Cate_acc:0,Desc_time:0,Stime:0,Etime:0,congnition:{},load:0,isFilled:false,place_slip:0,alter_slip:0,Cate_slip:0,Desc_slip:0,S_slip:0,E_slip:0,}},
+    data(){return {currentpage:0,sourcedata:source.data,place_time:0,alter_time:0,Cate_time:0,Cate_acc:0,Desc_time:0,Stime:0,Etime:0,congnition:{},load:0,isFilled:false,place_slip:0,alter_slip:0,Cate_slip:0,Desc_slip:0,S_slip:0,E_slip:0,
+    Elist:[false,false,false,false,false],Slist:[false,false,false,false,false]}},
     components:{soundEle},
     mixins:[commonmixin,elementmixins],
     methods:{

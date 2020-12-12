@@ -51,7 +51,7 @@ export default {
                         vm.saveload(vm.congnition);
                         vm.congnition={'1':0,'2':0,'3':0,'4':0,'5':0,type:'',userID:'',order:0};
                         vm.timeprocess();
-                        console.log(vm.sourcedata);
+                        // console.log(vm.sourcedata);
                         vm.tosurvey();  
                     }
                 }   
