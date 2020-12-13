@@ -121,7 +121,7 @@ import $ from 'jquery';
 export default {
     name:'TypeAnnotation',
     data(){return {pat_acc:0,con_acc:0,contenttimelist:[],patterntimelist:[],currentpage:0,annotationdata:source.annotationdata,annotype:'',patternlist:pattern.pattern,templist:'',drawlist:[[],[],[],[],[]],isAdd:true,itemid:-1,showmodal:false,content:'',pattern:'',load:0,isFilled:false,dir:''
-    ,congnition:{'1':0,'2':0,'3':0,'4':0,'5':0},contentslip:0,patternslip:0,
+    ,congnition:{'1':0,'2':0,'3':0,'4':0,'5':0},contentslip:0,patternslip:0,meta:{content:[],pattern:[]},
     }},
     components:{annoComponent,rowData,rowDisplay},
     mixins:[commonmixin,annoMixin],
@@ -148,8 +148,11 @@ export default {
                 vm.templist.patternslip=vm.patternslip;
                 vm.templist.contentslip=vm.contentslip;
                 vm.templist.materialLink=vm.annotationdata[vm.currentpage];
-                vm.drawlist[vm.currentpage].push(vm.templist)
+                vm.drawlist[vm.currentpage].push(vm.templist);
+                vm.meta.pattern.push(vm.templist.pattern);
+                vm.meta.content.push(vm.templist.content);
                 }
+            //edit
             else{
                 vm.templist = vm.drawlist[vm.currentpage][vm.itemid];
                 vm.templist.content = vm.content;
@@ -158,8 +161,9 @@ export default {
                 vm.templist.contentslip +=vm.contentslip;
                 vm.templist.contenttime+=contenttime;
                 vm.templist.patterntime += patterntime;
-                let len = vm.drawlist[vm.currentpage][vm.itemid].length-1
-                vm.$set(vm.drawlist[vm.currentpage][vm.itemid], len, vm.templist);
+                vm.$set(vm.drawlist[vm.currentpage], vm.itemid, vm.templist);
+                vm.meta.pattern[vm.itemid]=vm.pattern;
+                vm.meta.content[vm.itemid]=vm.content;
             }
             vm.close();
             vm.content=""; vm.pattern="";vm.templist='';vm.itemid=-1;vm.patterntimelist=[];vm.contenttimelist=[];
@@ -174,6 +178,6 @@ export default {
     },    
     created(){
         this.$timelog.push(new Date());
-    }
+    },
 }
 </script>

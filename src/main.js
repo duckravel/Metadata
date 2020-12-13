@@ -37,6 +37,7 @@ new Vue({
     Vue.prototype.$info = {};
     let time = new Date(); let date ={Year:time.getFullYear(),Month:time.getMonth()+1,Day:time.getDate()};
     this.$info.user={userid:this.$userid,date:`${date.Year}/${date.Month}/${date.Day}`,scenario1:`${this.$firCase}`,scenario2:`${this.$secCase}`,s1Time:0,s2Time:0};
+    this.$info.meta={userid:this.$userid,anno_1:'',anno_2:'',anno_3:'',anno_4:'',anno_5:'',ele_1:'',ele_2:'',ele_3:'',ele_4:'',ele_5:''};
   })  
   },
 })

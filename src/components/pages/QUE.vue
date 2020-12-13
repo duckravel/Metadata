@@ -199,7 +199,7 @@ export default {
         toNextAct(){
             const vm=this;
             //clean the data 
-            //console.log(this.$timelog);
+            console.log(this.$info);
             vm.reset();
             if (!this.$case.isFin){
                 this.$case.isFin=true;

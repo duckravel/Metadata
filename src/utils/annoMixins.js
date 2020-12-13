@@ -22,6 +22,7 @@ export default {
                 vm.load=0;
                 this.$info.annotation = vm.drawlist;
                 vm.saveload(vm.congnition);
+                vm.annometa(vm.meta,vm.currentpage); vm.meta.content=[];vm.meta.pattern=[];
                 if (vm.currentpage < 4){
                 vm.ano_pageChange(vm.dir);}
                 else{
@@ -72,5 +73,23 @@ export default {
             this.showmodal=result.open;
         },
         close(){const vm=this; vm.showmodal=false; vm.confidence=0;vm.con_acc=0;vm.pat_acc=0;vm.content=""; vm.pattern="";vm.templist='';vm.itemid=-1;}
+        ,annometa(item,page){
+        let result=[];
+        let len = Math.max(item.pattern.length,item.content.length);
+        for (let i=0;i<len;i++){
+            if(item.pattern[i]==undefined){item.pattern[i]=""};
+            if(item.content[i]==undefined){item.content[i]=""};
+            result.push({"termCode":item.pattern[i],"caption":item.content[i]});
+        };
+        let ele ={
+            "@context": "http://schema.org",
+            "@type": "Map",
+            "@caption":result,
+        };
+        let data = `anno_${page+1}`;
+        // console.log(data);console.log(JSON.stringify(ele));
+        this.$info.meta[data] = JSON.stringify(ele);
+        return 
+        }
     }
 }

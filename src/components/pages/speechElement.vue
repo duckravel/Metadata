@@ -10,14 +10,7 @@
                             <a class="page-link" href="#" @click.prevent="pageChange('pre','Speech')" v-if='currentpage!=0'>Pre</a>
                         </li>
                         <li class="page-item" v-for="(page,index) in sourcedata.length" :key='index' :class='{active:currentpage===page-1}'>
-                            <span class="custom-link" v-if="page<=2" >{{page}} </span>
-                        </li>
-                        <span class="custom-link" href="#">...</span>
-                        <li class="page-item" v-for="(page,index) in sourcedata.length" :key='index+10' :class='{active:currentpage===page-1}'>
-                            <span v-if="page>2 && page<10 && currentpage===page-1" class="custom-link" >{{page}}</span>
-                        </li>
-                        <li class="page-item" :class='{active:currentpage===sourcedata.length}'>
-                          <span class="custom-link">{{sourcedata.length}}</span>
+                            <span class="custom-link" >{{page}} </span>
                         </li>
                         <li class="page-item">
                             <a class="page-link" href="#" @click.prevent="next('next','Speech')" v-if='currentpage!=sourcedata.length-1'>Next</a>
@@ -97,16 +90,16 @@ export default {
                 case 'EndTime':{vm.sourcedata[page].Etime+=eletime;vm.E_slip+=1;vm.sourcedata[page].E_acc=tempAcc;break;}
             }
         },
-        submit(){
-            const vm =this; let element=vm.sourcedata[vm.currentpage]; let check = vm.checkelement(element.place,element.Altername,element.Category,element.StartTime,element.EndTime,element.Description);
-            if (check==false){
-                alert('Please fill the empty field');
-                return}
-            vm.storeelement(vm.currentpage,'Speech');
-            this.$info.element = vm.sourcedata;
-            vm.saveload(vm.congnition);vm.congnition={};
-            vm.tosurvey();
-        },
+        // submit(){
+        //     const vm =this; let element=vm.sourcedata[vm.currentpage]; let check = vm.checkelement(element.place,element.Altername,element.Category,element.StartTime,element.EndTime,element.Description);
+        //     if (check==false){
+        //         alert('Please fill the empty field');
+        //         return}
+        //     vm.storeelement(vm.currentpage,'Speech');
+        //     this.$info.element = vm.sourcedata;
+        //     vm.saveload(vm.congnition);vm.congnition={};
+        //     vm.tosurvey();
+        // },
     },
     created(){
         this.$timelog.push(new Date());

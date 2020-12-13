@@ -132,8 +132,8 @@ export default {
     name:'SoundAnnotation',
     mixins:[simDis,commonmixin,annoMixin],
     data(){return {contenttimelist:[],patterntimelist:[],currentpage:0,annotationdata:source.annotationdata,annotype:'',patternlist:pattern.pattern,templist:'',drawlist:[[],[],[],[],[]],isAdd:true,itemid:-1,showmodal:false,content:'',pattern:'',
-    pat_acc:0,con_acc:0,confidence:0,recorditem:'',totext:'',speechcontent:'',speechresult:[],isRecord:false,patternmic:false,contentmic:false,load:0,isFilled:false,patternslip:0,contentslip:0
-    ,congnition:{'1':0,'2':0,'3':0,'4':0,'5':0,type:'',userID:'',order:0}}},
+    pat_acc:0,con_acc:0,confidence:0,recorditem:'',totext:'',speechcontent:'',speechresult:[],isRecord:false,patternmic:false,contentmic:false,load:0,isFilled:false,patternslip:0,contentslip:0,meta:{content:[],pattern:[]},
+    congnition:{'1':0,'2':0,'3':0,'4':0,'5':0,type:'',userID:'',order:0}}},
     components:{annoComponent,rowData,rowDisplay},
     methods:{
         save(){
@@ -152,6 +152,8 @@ export default {
             vm.templist.patternslip=vm.patternslip;
             vm.templist.contentslip=vm.contentslip;
             vm.drawlist[vm.currentpage].push(vm.templist);
+            vm.meta.pattern.push(vm.templist.pattern);
+            vm.meta.content.push(vm.templist.content);
             }
             // edit 
             else{
@@ -162,8 +164,9 @@ export default {
                 vm.templist.contentslip +=vm.contentslip;
                 vm.templist.contenttime+= contenttime;
                 vm.templist.patterntime += patterntime;
-                let len = vm.drawlist[vm.currentpage][vm.itemid].length-1;
-                vm.$set(vm.drawlist[vm.currentpage][vm.itemid], len, vm.templist);
+                vm.$set(vm.drawlist[vm.currentpage], vm.itemid, vm.templist);
+                vm.meta.pattern[vm.itemid]=vm.pattern;
+                vm.meta.content[vm.itemid]=vm.content;
             } 
             vm.close();
             vm.confidence=0;vm.con_acc=0;vm.pat_acc=0;vm.content=""; vm.pattern="";vm.templist='';vm.itemid=-1;vm.patterntimelist=[];vm.contenttimelist=[];

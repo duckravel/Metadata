@@ -12,6 +12,7 @@ export default {
                 if (vm.Elist[i]==true){vm.sourcedata[i].EndTime='';}}
             for (let i=0; i<vm.Slist.length; i++){
                 if (vm.Slist[i]==true){vm.sourcedata[i].StartTime='';}}
+            
         }
         ,next(dir,type){
                 //pageChange contains three seperate works: store data, check data, add survey, and change page
@@ -52,6 +53,7 @@ export default {
                         vm.congnition={'1':0,'2':0,'3':0,'4':0,'5':0,type:'',userID:'',order:0};
                         vm.timeprocess();
                         // console.log(vm.sourcedata);
+                        vm.eleMeta();
                         vm.tosurvey();  
                     }
                 }   
@@ -78,6 +80,23 @@ export default {
             vm.sourcedata[page].Desc_slip += vm.Desc_slip;
             vm.sourcedata[page].S_slip += vm.S_slip;
             vm.sourcedata[page].E_slip += vm.E_slip;
-            },
+        },
+        eleMeta(){
+        let page=0;
+        const vm=this;
+        vm.sourcedata.forEach(item => {
+        let ele ={
+                "@context": "http://schema.org",
+                "@type": "Map",
+                "@spatialCoverage":item.place,
+                "@alternateName":item.Altername,
+                "@genre":item.Category,
+                "@description":item.Description,
+                "@TemporalReference":`${item.StartTime}/${item.EndTime}`};
+            page+=1;
+            let data = `ele_${page}`;
+            this.$info.meta[data] = JSON.stringify(ele);
+        });
+        }
     },
 }
