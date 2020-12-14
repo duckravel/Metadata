@@ -132,7 +132,7 @@ export default {
     name:'SoundAnnotation',
     mixins:[simDis,commonmixin,annoMixin],
     data(){return {contenttimelist:[],patterntimelist:[],currentpage:0,annotationdata:source.annotationdata,annotype:'',patternlist:pattern.pattern,templist:'',drawlist:[[],[],[],[],[]],isAdd:true,itemid:-1,showmodal:false,content:'',pattern:'',
-    pat_acc:0,con_acc:0,confidence:0,recorditem:'',totext:'',speechcontent:'',speechresult:[],isRecord:false,patternmic:false,contentmic:false,load:0,isFilled:false,patternslip:0,contentslip:0,meta:{content:[],pattern:[]},
+    pat_acc:0,con_acc:0,confidence:0,recorditem:'',totext:'',speechcontent:'',speechresult:[],isRecord:false,patternmic:false,contentmic:false,load:0,isFilled:false,patternslip:0,contentslip:0,meta:{content:[],pattern:[],date:[]},
     congnition:{'1':0,'2':0,'3':0,'4':0,'5':0,type:'',userID:'',order:0}}},
     components:{annoComponent,rowData,rowDisplay},
     methods:{
@@ -154,6 +154,7 @@ export default {
             vm.drawlist[vm.currentpage].push(vm.templist);
             vm.meta.pattern.push(vm.templist.pattern);
             vm.meta.content.push(vm.templist.content);
+            vm.meta.date.push(vm.templist.id);
             }
             // edit 
             else{

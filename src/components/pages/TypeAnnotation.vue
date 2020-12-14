@@ -121,7 +121,7 @@ import $ from 'jquery';
 export default {
     name:'TypeAnnotation',
     data(){return {pat_acc:0,con_acc:0,contenttimelist:[],patterntimelist:[],currentpage:0,annotationdata:source.annotationdata,annotype:'',patternlist:pattern.pattern,templist:'',drawlist:[[],[],[],[],[]],isAdd:true,itemid:-1,showmodal:false,content:'',pattern:'',load:0,isFilled:false,dir:''
-    ,congnition:{'1':0,'2':0,'3':0,'4':0,'5':0},contentslip:0,patternslip:0,meta:{content:[],pattern:[]},
+    ,congnition:{'1':0,'2':0,'3':0,'4':0,'5':0},contentslip:0,patternslip:0,meta:{content:[],pattern:[],date:[]},
     }},
     components:{annoComponent,rowData,rowDisplay},
     mixins:[commonmixin,annoMixin],
@@ -151,6 +151,7 @@ export default {
                 vm.drawlist[vm.currentpage].push(vm.templist);
                 vm.meta.pattern.push(vm.templist.pattern);
                 vm.meta.content.push(vm.templist.content);
+                vm.meta.date.push(vm.templist.id);
                 }
             //edit
             else{

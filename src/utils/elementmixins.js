@@ -86,13 +86,13 @@ export default {
         const vm=this;
         vm.sourcedata.forEach(item => {
         let ele ={
-                "@context": "http://schema.org",
+                "@context": "https://schema.org",
                 "@type": "Map",
-                "@spatialCoverage":item.place,
-                "@alternateName":item.Altername,
-                "@genre":item.Category,
-                "@description":item.Description,
-                "@TemporalReference":`${item.StartTime}/${item.EndTime}`};
+                "spatialCoverage":item.place,
+                "alternateName":item.Altername,
+                "keywords":item.Category,
+                "description":item.Description,
+                "temporalCoverage":`${item.StartTime}/${item.EndTime}`};
             page+=1;
             let data = `ele_${page}`;
             this.$info.meta[data] = JSON.stringify(ele);
