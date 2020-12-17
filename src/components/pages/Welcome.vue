@@ -20,9 +20,6 @@
         <p class="mb-3">Before the experiment, we will conduct a background survey. During the experiment, you will take 2 tasks. The element creation task will ask you to contribute the metadata element (such as the location, alternate name, category of the maps). For annotation task, you will be asked to read maps and make annotation based on what you observe from the map. You will contribute your information through typing or speaking. After the experiment, we will have a short user interview.
         </p>   
         <help></help>
-        <h4>Consent</h4>
-        <p class="mb-3">I have understood during the experiment, some of my personal data will be collected (education, age, gender, nationality, email) and operation data will be recorded as a video for the observational use, and have had any questions answered satisfactorily, and I willingly consent to participate in this study. I understand that if I should have any questions about my rights as a research subject, I can contact the experiment designer Pei-Chun Lai by her email (al396421@uji.es)</p>
-        <p class="mb-3">If you volunteer to participate the experiment, please share your screen and we will start the video recording.</p>
       </div>
     </div>
     <footer class="border-top mt-auto ">
