@@ -68,7 +68,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal" @click.stop="close()">Close</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" @click.stop="cancel()">Cancel</button>
                         <button type="button" class="btn btn-primary" @click.stop="save">Save changes</button>
                     </div>
                 </div>
@@ -131,14 +131,14 @@ recognition.interimResults=true;
 export default {
     name:'SoundAnnotation',
     mixins:[simDis,commonmixin,annoMixin],
-    data(){return {contenttimelist:[],patterntimelist:[],currentpage:0,annotationdata:source.annotationdata,annotype:'',patternlist:pattern.pattern,templist:'',drawlist:[[],[],[],[],[]],isAdd:true,itemid:-1,showmodal:false,content:'',pattern:'',
+    data(){return {contenttimelist:[],patterntimelist:[],currentpage:0,annotationdata:source.annotationdata,annotype:'',patternlist:pattern.pattern,templist:{},drawlist:[[],[],[],[],[]],isAdd:true,itemid:-1,showmodal:false,content:'',pattern:'',
     pat_acc:0,con_acc:0,confidence:0,recorditem:'',totext:'',speechcontent:'',speechresult:[],isRecord:false,patternmic:false,contentmic:false,load:0,isFilled:false,patternslip:0,contentslip:0,meta:{content:[],pattern:[],date:[]},
     congnition:{'1':0,'2':0,'3':0,'4':0,'5':0,type:'',userID:'',order:0}}},
     components:{annoComponent,rowData,rowDisplay},
     methods:{
         save(){
             const vm=this;let patterntime=0; let contenttime=0;
-            if (vm.isRecord){alert('Please stop your recording')};
+            if (vm.isRecord){alert('Please stop your recording before you save changes'); return};
             if (vm.patterntimelist.length>0){patterntime=vm.patterntimelist.map(ele=>{return vm.time_cal(ele[0],ele[1])}).reduce((acc,cur)=>{return acc+cur});}
             if (vm.contenttimelist.length>0){contenttime=vm.contenttimelist.map(ele=>{return vm.time_cal(ele[0],ele[1])}).reduce((acc,cur)=>{return acc+cur});}
             // new 
@@ -170,7 +170,15 @@ export default {
                 vm.meta.content[vm.itemid]=vm.content;
             } 
             vm.close();
-            vm.confidence=0;vm.con_acc=0;vm.pat_acc=0;vm.content=""; vm.pattern="";vm.templist='';vm.itemid=-1;vm.patterntimelist=[];vm.contenttimelist=[];
+            vm.confidence=0;vm.con_acc=0;vm.pat_acc=0;vm.content=""; vm.pattern="";vm.templist={};vm.itemid=-1;vm.patterntimelist=[];vm.contenttimelist=[];
+        },
+        cancel(){
+            const vm=this;
+            recognition.stop();
+            this.isRecord=false;this.patternmic=false;this.contentmic=false;
+            this.speechresult=[];this.recorditem='';this.patterntimelist=[];this.contenttimelist=[];
+            vm.close();
+            return
         }
         ,recordcontrol(action){
             if(this.isRecord==false){
@@ -184,15 +192,19 @@ export default {
             {   this.isRecord=false;
                 if (this.recorditem!=action){
                     alert(`Recording different items at the same time is not allowed`);
-                    recognition.abort();
+                    recognition.stop();
                     this.isRecord=false;this.patternmic=false;this.contentmic=false;
                     this.speechresult=[];this.recorditem='';
                     return
                 }
                 switch (action){
-                    case 'pattern':{this.patternmic=false;this.patterntimelist[this.patterntimelist.length-1].push(new Date());
+                    case 'pattern':{this.patternmic=false;
+                    if ( this.patterntimelist.length>0){
+                    this.patterntimelist[this.patterntimelist.length-1].push(new Date());}
                         this.endrecordpattern();break;}
-                    case 'content':{this.contentmic=false;this.contenttimelist[this.contenttimelist.length-1].push(new Date());this.endcontent();break;}
+                    case 'content':{this.contentmic=false;
+                    if ( this.contenttimelist.length>0){
+                    this.contenttimelist[this.contenttimelist.length-1].push(new Date());this.endcontent();break;}}
                 }
             }
         }
@@ -222,7 +234,8 @@ export default {
             let arr =this.patternlist.map(ele=>{return this.getEditDistance(ele,word)});
             let min = Math.min(...arr);
             this.pattern = this.patternlist[arr.indexOf(min)];
-            this.pat_acc=(this.confidence.reduce((a,b)=>{return a+b})/this.confidence.length);
+            if (this.confidence !== 'undefined'){
+            this.pat_acc=(this.confidence.reduce((a,b)=>{return a+b})/this.confidence.length);}
             this.speechresult=[];this.recorditem='';
         },
         endcontent(){
@@ -231,7 +244,8 @@ export default {
                 alert("Did not detect your voice, please record again");
                 return}
             this.content = this.speechresult[this.speechresult.length-1];
-            this.con_acc=(this.confidence.reduce((a,b)=>{return a+b})/this.confidence.length);
+            if (this.confidence !== 'undefined'){
+            this.con_acc=(this.confidence.reduce((a,b)=>{return a+b})/this.confidence.length);}
             this.speechresult=[];this.recorditem='';this.speechcontent='';},
     },
     created(){
