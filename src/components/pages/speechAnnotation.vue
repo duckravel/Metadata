@@ -131,7 +131,7 @@ recognition.interimResults=true;
 export default {
     name:'SoundAnnotation',
     mixins:[simDis,commonmixin,annoMixin],
-    data(){return {contenttimelist:[],patterntimelist:[],currentpage:0,annotationdata:source.annotationdata,annotype:'',patternlist:pattern.pattern,templist:{},drawlist:[[],[],[],[],[]],isAdd:true,itemid:-1,showmodal:false,content:'',pattern:'',
+    data(){return {contenttimelist:[],patterntimelist:[],currentpage:0,annotationdata:source.annotationdata,annotype:'',patternlist:pattern.pattern,templist:'',drawlist:[[],[],[],[],[]],isAdd:true,itemid:-1,showmodal:false,content:'',pattern:'',
     pat_acc:0,con_acc:0,confidence:0,recorditem:'',totext:'',speechcontent:'',speechresult:[],isRecord:false,patternmic:false,contentmic:false,load:0,isFilled:false,patternslip:0,contentslip:0,meta:{content:[],pattern:[],date:[]},
     congnition:{'1':0,'2':0,'3':0,'4':0,'5':0,type:'',userID:'',order:0}}},
     components:{annoComponent,rowData,rowDisplay},
@@ -170,14 +170,16 @@ export default {
                 vm.meta.content[vm.itemid]=vm.content;
             } 
             vm.close();
-            vm.confidence=0;vm.con_acc=0;vm.pat_acc=0;vm.content=""; vm.pattern="";vm.templist={};vm.itemid=-1;vm.patterntimelist=[];vm.contenttimelist=[];
+            // vm.confidence=0;vm.con_acc=0;vm.pat_acc=0;vm.content=""; vm.pattern="";vm.templist='';vm.itemid=-1;vm.patterntimelist=[];vm.contenttimelist=[];
+            // vm.patternslip=0;vm.contentslip=0;
         },
         cancel(){
             const vm=this;
             recognition.stop();
             this.isRecord=false;this.patternmic=false;this.contentmic=false;
-            this.speechresult=[];this.recorditem='';this.patterntimelist=[];this.contenttimelist=[];
+            this.speechresult=[];this.recorditem='';this.patterntimelist=[];this.contenttimelist=[];this.speechcontent='';
             vm.close();
+            
             return
         }
         ,recordcontrol(action){
@@ -236,7 +238,8 @@ export default {
             this.pattern = this.patternlist[arr.indexOf(min)];
             if (this.confidence !== 'undefined'){
             this.pat_acc=(this.confidence.reduce((a,b)=>{return a+b})/this.confidence.length);}
-            this.speechresult=[];this.recorditem='';
+            else{this.pat_acc=0;}
+            this.speechresult=[];this.recorditem='';this.speechcontent='';
         },
         endcontent(){
             recognition.abort();
@@ -246,6 +249,7 @@ export default {
             this.content = this.speechresult[this.speechresult.length-1];
             if (this.confidence !== 'undefined'){
             this.con_acc=(this.confidence.reduce((a,b)=>{return a+b})/this.confidence.length);}
+            else{this.con_acc=0;}
             this.speechresult=[];this.recorditem='';this.speechcontent='';},
     },
     created(){

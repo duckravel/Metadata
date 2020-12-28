@@ -72,7 +72,10 @@ export default {
             }
             this.showmodal=result.open;
         },
-        close(){const vm=this; vm.showmodal=false; vm.confidence=0;vm.con_acc=0;vm.pat_acc=0;vm.content=""; vm.pattern="";vm.templist='';vm.itemid=-1;}
+        close(){const vm=this; vm.showmodal=false; 
+            vm.confidence=0;vm.con_acc=0;vm.pat_acc=0;vm.content=""; vm.pattern="";vm.templist='';vm.itemid=-1;vm.patterntimelist=[];vm.contenttimelist=[];
+            vm.patternslip=0;vm.contentslip=0;        
+        }
         ,timeconvert(data){
             let t = new Date(data); 
             console.log(t,data);
