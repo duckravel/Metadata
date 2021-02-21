@@ -1,6 +1,6 @@
 # metadata
 
-> A project for voice metadata creation
+> A project for voice metadata creation. Metadata creation is always considered as a tedious work, as the speech recognition has applied in use in many industries, we found it's potential use in metadata creation. We used the Mozilla's speech recognition API to texualize voice and transform the text into metadata schema in the JSON-LD format. The codes contain the part of user study and prototype. Thus, if you are interested in how we do the voice to text, you can refer the [page] (https://github.com/duckravel/Metadata/blob/main/src/components/mictest.vue). 
 
 ## Build Setup
 
