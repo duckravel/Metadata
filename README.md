@@ -1,3 +1,3 @@
-# Speech-based metadata conversion
+# Speech-based metadata editor and user study
 
 A project for voice metadata creation. Metadata creation is always considered as a tedious work, as the speech recognition has applied in use in many industries, we found it's potential use in metadata creation. We used the Mozilla's speech recognition API to texualize voice and transform the text into metadata schema in the JSON-LD format. The codes contain the part of user study and prototype, and we use Vue framework to warp up the complex user interactions. If you are interested in how we do the voice to text, you can refer the [page](https://github.com/duckravel/Metadata/blob/main/src/components/mictest.vue). The deployment of the work can be found on [heroku](https://enigmatic-basin-78677.herokuapp.com/). 
