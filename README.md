@@ -4,3 +4,6 @@ A project for voice-based metadata creation. Metadata creation is a desirable bu
 
 For more details on this project, please refer to the following publication: <br/>
 _Lai, P.-C. and Degbelo, A. (2021) ‘A comparative study of typing and speech for map metadata creation’, 24th AGILE International Conference on Geographic Information Science (AGILE 2021)._
+
+[![DOI](https://zenodo.org/badge/364811982.svg)](https://zenodo.org/badge/latestdoi/364811982)
+
